@@ -1,0 +1,49 @@
+* {
+    font-family: sans-serif;
+}
+
+.media:hover {
+    background-color: #f0f0f0;
+    text-decoration: none;
+    cursor: pointer;
+}
+.form-control {
+    color: #858796;
+}
+.form-control::-webkit-input-placeholder {
+    color: #cccdd4;
+}
+
+.watermark {
+    position: fixed;
+    top: -1000px;
+    left: 500px;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5; /* Sesuaikan tingkat kecerahan sesuai kebutuhan. */
+    /* font-size: 1.5rem; */
+    transform: rotate(30deg);
+    color: rgba(0, 0, 0, 0.4); /* Warna dan kecerahan teks. */
+    pointer-events: none; /* Mencegah teks dari menerima interaksi pengguna. */
+    z-index: 9999; /* Pastikan teks berada di atas konten lain. */
+}
+
+.bullet-none {
+    list-style: none; /* Hilangkan bullets bawaan */
+}
+
+.costume-bullet {
+    background-image: url("../../_assets/icons/bullet01.png"); /* Set gambar kustom sebagai bullet */
+    background-repeat: no-repeat; /* Menghindari pengulangan gambar */
+    padding-left: 20px; /* Atur jarak antara teks dan gambar bullet */
+}
+
+/* MENU RUANG KERJA */
+.main-menu {
+    transition: 0.2s;
+}
+.main-menu:hover {
+    scale: 1.1;
+    text-decoration: none;
+}
+/* END MENU RUANG KERJA */
