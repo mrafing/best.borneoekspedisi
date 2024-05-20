@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tb_outlet', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->string('id_mitra');
+            $table->uuid('id')->primary();
+            $table->foreignUuid('id_mitra');
             $table->string('nama_agen')->unique();
-            $table->enum('tipe', ['mitra j', 'mitra a', 'mitra b', 'mitra c']);
+            $table->enum('tipe', ['mitra gw', 'mitra j', 'mitra a', 'mitra b', 'mitra c']);
             $table->string('id_kecamatan');
             $table->text('alamat')->nullable()->default(null);
             $table->string('nama_cs')->nullable()->default(null);

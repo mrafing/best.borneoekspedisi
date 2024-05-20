@@ -26,48 +26,61 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         User::create([
-            'id_outlet' => 'OT1',
+            'id_outlet' => '0',
             'nama' => 'Aidil Fitra',
-            'nomor_kontak' => '080890978766',
+            'nomor_hp' => '0',
             'username' => 'aidil',
-            'password' => bcrypt('gm'),
+            'password' => bcrypt('12345'),
+            'email' => 'aidil@gmail.com',
             'role' => 'gm',
         ]);
         User::create([
-            'id_outlet' => 'OT3',
-            'nama' => 'Muhammad Rafi',
-            'nomor_kontak' => '085346037205',
-            'username' => 'rafi',
-            'password' => bcrypt('admin'),
+            'id_outlet' => '0',
+            'nama' => 'ellen',
+            'nomor_hp' => '0',
+            'username' => 'ellen',
+            'password' => bcrypt('12345'),
+            'email' => 'ellen@gmail.com',
             'role' => 'admin',
         ]);
 
         Outlet::create([
-            'id' => 'OT1',
-            'id_mitra' => 'MT1',
-            'nama_agen' => 'PNK001P',
-            'tipe' => 'mitra j',
+            'id_mitra' => '0',
+            'nama_agen' => 'PNK89',
+            'tipe' => 'mitra gw',
             'id_kecamatan' => '61.71.05',
-            'alamat' => 'Jl. Pak Bencang Gg. Morodadi 5 Jalur 1 No. 17',
+            'alamat' => NULL,
             'nama_cs' => NULL,
-            'nomor_kontak' => '0813-4783-2837',
-            'link_alamat' => 'https://goo.gl/maps/RgX9bhToMN55uwBL9',
+            'nomor_kontak' => NULL,
+            'link_alamat' => NULL,
             'lokasi' => NULL,
             'status_bangunan' => NULL,
             'jenis_bangunan' => NULL,
             'status' => 'active'
         ]);
-
         Outlet::create([
-            'id' => 'OT3',
-            'id_mitra' => 'MT1',
+            'id_mitra' => '0',
+            'nama_agen' => 'PNK001P',
+            'tipe' => 'mitra j',
+            'id_kecamatan' => '61.71.05',
+            'alamat' => NULL,
+            'nama_cs' => NULL,
+            'nomor_kontak' => NULL,
+            'link_alamat' => NULL,
+            'lokasi' => NULL,
+            'status_bangunan' => NULL,
+            'jenis_bangunan' => NULL,
+            'status' => 'active'
+        ]);
+        Outlet::create([
+            'id_mitra' => '0',
             'nama_agen' => 'PNK001A',
             'tipe' => 'mitra a',
             'id_kecamatan' => '61.71.05',
-            'alamat' => 'Jl. Pangeran Natakusuma (Seberang Indomaret PNK)',
-            'nama_cs' => 'rizky',
-            'nomor_kontak' => '0813-4783-2837',
-            'link_alamat' => 'https://goo.gl/maps/AP2m8djNetQe4PYE9',
+            'alamat' => NULL,
+            'nama_cs' => NULL,
+            'nomor_kontak' => NULL,
+            'link_alamat' => NULL,
             'lokasi' => NULL,
             'status_bangunan' => NULL,
             'jenis_bangunan' => NULL,
@@ -75,7 +88,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Mitra::create([
-            'id' => 'MT1',
             'tipe' => 'perusahaan',
             'status' => 'accepted',
             'nama_pendaftar' => 'aidil fitra',
@@ -83,8 +95,8 @@ class DatabaseSeeder extends Seeder
             'alamat_pendaftar' => NULL,
             'nama_perusahaan' => 'pt. borneo citra express',
             'nama_pemimpin_perusahaan' => 'aidil fitra',
-            'alamat_perusahaan' => 'Jl. Pak Bencang Gg. Morodadi 5 Jalur 1 No. 17',
-            'kategori_perusahaan' => 'Logistics & Transportation',
+            'alamat_perusahaan' => NULL,
+            'kategori_perusahaan' => NULL,
             'nama_toko' => NULL,
             'jenis_produk_toko' => NULL,
             'alamat_toko' => NULL

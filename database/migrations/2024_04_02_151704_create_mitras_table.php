@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('tb_mitra', function (Blueprint $table) {
-            $table->string('id')->primary();
+            $table->uuid('id')->primary();
             $table->enum('tipe', ['perusahaan', 'perorangan', 'customer priority']);
             $table->enum('status', ['accepted', 'rejected', 'waiting']);
             $table->string('nama_pendaftar')->nullable()->default(null);
