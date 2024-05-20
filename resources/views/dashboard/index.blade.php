@@ -15,7 +15,7 @@
         <div class="col-auto">
             <div class="d-flex align-items-end">
                 <img src="{{ asset('img/img7.png') }}" style="width: 500px;">
-                <a href="{{ URL::to('dashboard/ruangkerja') }}" class="btn btn-primary" style="width: 140px">
+                <a href="{{ URL::to('dashboard/mainmenu') }}" class="btn btn-primary" style="width: 140px">
                     <small class="mb-0">MASUK KE RUANG KERJA</small>
                 </a>
             </div>

@@ -15,12 +15,12 @@ class DashboardController extends Controller
         return view('dashboard.index', $param);
     }
 
-    public function ruangkerja () {
+    public function mainmenu () {
         $param = [
-            'title' => 'Ruang Kerja',
-            'active' => 'ruangkerja'
+            'title' => 'Main Menu',
+            'active' => 'mainmenu'
         ];
 
-        return view('dashboard.ruangkerja', $param);
+        return view('dashboard.mainmenu', $param);
     }
 }
