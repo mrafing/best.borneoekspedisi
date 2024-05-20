@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\Mutator\GenUid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Outlet extends Model
 {
-    use HasFactory;
+    use HasFactory, GenUid;
     protected $table = 'tb_outlet';
+    protected $guarded = ['id'];
 
     public function user() {
         return $this->hasMany(User::class, 'id_outlet', 'id');
