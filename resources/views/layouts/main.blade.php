@@ -15,8 +15,8 @@
         <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet" />
 
         {{-- Datatables link --}}
-        {{-- <link href="{{ asset('css/DataTables-1.13.4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
-        <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css" rel="stylesheet" /> --}}
+        <link href="{{ asset('dataTables/DataTables-1.13.4/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
+        <link href="{{ asset('dataTables/Buttons-2.3.6/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" />
 
         {{-- Select2 link --}}
         {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
@@ -80,8 +80,8 @@
         <script src="https://kit.fontawesome.com/88e6f231cb.js" crossorigin="anonymous"></script>
 
         {{-- Datatables scripts --}}
-        {{-- <script src="{{ asset('js/DataTables-1.13.4/js/jquery.dataTables.min.js') }}"></script>
-        <script src="{{ asset('js/DataTables-1.13.4/js/dataTables.bootstrap4.min.js') }}"></script> --}}
+        <script src="{{ asset('dataTables/DataTables-1.13.4/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('dataTables/DataTables-1.13.4/js/dataTables.bootstrap4.min.js') }}"></script>
 
         {{-- Select2 Script --}}
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
