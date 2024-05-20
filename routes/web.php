@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\IntegrasisystemController;
+use App\Http\Controllers\MitraController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
@@ -18,18 +19,38 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-})->middleware('guest')->name('login');
-Route::post('/login', [LoginController::class, 'authenticate']);
+Route::middleware(['guest'])->group(function() {
+    Route::get('/', [LoginController::class, 'index'])->name('login');
+    Route::post('/', [LoginController::class, 'authenticate']);
+});
 Route::post('/logout', [LoginController::class, 'logout']);
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth')->name('home');
-Route::get('/dashboard/ruangkerja', [DashboardController::class, 'ruangkerja'])->middleware('auth');
 
-Route::get('/integrasisystem', [IntegrasisystemController::class, 'index']);
-Route::get('/integrasisystem/mitra', [IntegrasisystemController::class, 'mitra']);
-Route::get('/integrasisystem/mitra/tambahmitra', [IntegrasisystemController::class, 'tambahmitra']);
-Route::get('/integrasisystem/mitra/resulttipe', [IntegrasisystemController::class, 'resulttipe'])->name('resulttipe');
-Route::post('/integrasisystem/mitra/store', [IntegrasisystemController::class, 'store']);
+Route::middleware(('auth'))->group(function () {
+    Route::get('/home', function() {
+        return redirect('/dashboard');
+    });
+
+    Route::controller(DashboardController::class)->group(function() {
+        Route::get('/dashboard', 'index');
+        Route::get('/dashboard/mainmenu', 'mainmenu');
+    });
+
+    Route::controller(IntegrasisystemController::class)->group(function() {
+        Route::middleware('hakAkses:gm')->group(function () {
+            Route::get('/integrasisystem', 'index');
+        });
+    });
+
+    Route::controller(MitraController::class)->group(function() {
+        Route::middleware('hakAkses:gm')->group(function() {
+            Route::get('integrasisystem/mitra', 'index');
+            Route::get('integrasisystem/mitra/show/{id}', 'show');
+            Route::get('integrasisystem/mitra/tambah', 'tambah');
+            Route::post('integrasisystem/mitra/save', 'save');
+            Route::delete('integrasisystem/mitra/hapus', 'hapus');
+            Route::get('integrasisystem/mitra/resulttipe', 'resulttipe')->name('resulttipe');
+        });
+    });
+});
 
