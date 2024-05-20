@@ -1,7 +1,7 @@
 <!-- SIDEBAR -->
 <ul class="navbar-nav sidebar accordion" id="accordionSidebar" style="background-color: #DEDEDE;">
     <!-- SIDEBAR BRAND -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ URL::to('dashboard/ruangkerja') }}">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ URL::to('dashboard/mainmenu') }}">
         <div class="sidebar-brand-icon">
             <img src="{{ asset('img/logo2.png') }}" width="100">
         </div>
@@ -37,9 +37,9 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" href="{{ URL::to('dashboard/ruangkerja') }}">
+        <a class="nav-link text-dark" href="{{ URL::to('dashboard/mainmenu') }}">
             <i class="fa-solid fa-right-to-bracket"></i>
-            <span>Ruang Kerja</span>
+            <span>Main Menu</span>
         </a>
     </li>
 

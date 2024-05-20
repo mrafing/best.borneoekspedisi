@@ -23,12 +23,14 @@
                 @endfor
             </div>
             {{-- CONTENT --}}
-                <h6 class="mb-3"><b>Tambah Mitra</b></h6>
+                <h6 class="mb-3"><b>Tambah Mitra Baru</b></h6>
                 <hr>
-                <form action="{{ URL::to('integrasisystem/mitra/store') }}" method="post">
+                <form action="{{ URL::to('integrasisystem/mitra/save') }}" method="post">
                     @csrf
-                    <div class="container row">
-                        <div class="col-6">
+                    <div style="max-width: 500px">
+                        <div>
+                            <h4 class="text-primary"># Data Pendaftar</h4>
+                            <hr>
                             <div class="form-group">
                                 <label for="tipe">Tipe</label>
                                 <select class="form-control" id="tipe" name="tipe" required>
@@ -40,21 +42,31 @@
                             </div>
                             <div class="form-group">
                                 <label for="nama_pendaftar">Nama Pendaftar</label>
-                                <input type="text" class="form-control" id="nama_pendaftar" name="nama_pendaftar" required placeholder="Cth: Budi Setiawan">
+                                <input type="text" class="form-control @error('nama_pendaftar') is-invalid @enderror" id="nama_pendaftar" name="nama_pendaftar" value="{{ old('nama_pendaftar') }}" required placeholder="Cth: Budi Setiawan">
+                                @error('nama_pendaftar')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="nomor_kontak">Nomor Kontak</label>
-                                <input type="number" class="form-control" id="nomor_kontak" name="nomor_kontak" required placeholder="Cth: 0895xxxxxxxx">
+                                <input type="number" class="form-control @error('nomor_kontak') is-invalid @enderror" id="nomor_kontak" name="nomor_kontak" value="{{ old('nomor_kontak') }}" required placeholder="Cth: 0895xxxxxxxx">
+                                @error('nomor_kontak')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                             <div class="form-group">
                                 <label for="alamat_pendaftar">Alamat Pendaftar</label>
-                                <input type="text" class="form-control" id="alamat_pendaftar" name="alamat_pendaftar" required placeholder="Cth: Jl. Prof. M. Yamin Gg. Amanah No.12">
+                                <input type="text" class="form-control" id="alamat_pendaftar" name="alamat_pendaftar" value="{{ old('alamat_pendaftar') }}" required placeholder="Cth: Jl. Prof. M. Yamin Gg. Amanah No.12">
                             </div>
                         </div>
-                        <div class="col-6" id="resulttipe">
+                        <div id="resulttipe" class="mt-5">
                         </div>
                     </div>
-                    <button class="btn btn-primary" type="submit">OKE</button>
+                    <button class="btn btn-primary btn-sm" type="submit">+ Tambahkan</button>
                 </form>
             {{-- END CONTENT --}}
         </div>
