@@ -90,22 +90,26 @@
         <img src="{{ asset('img/logo4.png') }}" alt="" width="500px">
     </div>
     <div class="col-md-6 mb-3 login-box">
-        @if (session()->has('loginError'))
-        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
-            {{ session('loginError') }}
-        </div>
-        @endif
-
-        <form class="form-signin bg-white px-5 py-4 text-center" method="post" action="{{ URL::to('login') }}">
-            @csrf
+        <form class="form-signin bg-white px-5 py-4 text-center" method="post" action="">
             <img class="mb-4" src="{{ asset('img/logo.png') }}" alt="" width="200" />
+            @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    @foreach ($errors->all() as $item)
+                        <span class="mb-0">{{ $item }}</span>
+                    @endforeach
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            @endif
+            @csrf
             <div class="user-box">
-                <input type="text" name="username" required autofocus>
+                <input type="text" name="username" autofocus>
                 <label style="color: #858796;"><i class="fa-solid fa-user"></i> Username</label>
             </div>
     
             <div class="user-box">
-                <input type="password" name="password" required>
+                <input type="password" name="password">
                 <label style="color: #858796;"><i class="fa-solid fa-lock"></i> Password</label>
             </div>
 
