@@ -2,85 +2,68 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Mitra;
-use App\Http\Requests\StoreMitraRequest;
-use App\Http\Requests\UpdateMitraRequest;
+use Illuminate\Http\Request;
+use App\Models\Mitra; 
+use App\Models\Outlet; 
 
 class MitraController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    public function index ()
     {
-        //
+        $param = [
+            'title' => 'Mitra',
+            'active' => 'mitra',
+            'listmitra' => Mitra::all(),
+        ];
+
+        return view('integrasisystem.mitra.index', $param);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function show ($id)
     {
-        //
+        $param = [
+            'title' => 'Detail Mitra',
+            'active' => 'detailmitra',
+            'data' => Mitra::find($id),
+            'listoutlet' => Outlet::where('id_mitra', $id)->get()
+        ];
+
+        return view('integrasisystem.mitra.detailmitra', $param);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreMitraRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(StoreMitraRequest $request)
+    public function tambah ()
     {
-        //
+        $param = [
+            'title' => 'Tambah Mitra',
+            'active' => 'tambahmitra'
+        ];
+
+        return view('integrasisystem.mitra.tambahmitra', $param);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Mitra  $mitra
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Mitra $mitra)
-    {
-        //
+    public function save (Mitra $mitra ,Request $request) {
+        $request->validate([
+            'tipe' => 'required',
+            'nama_pendaftar' => 'required|max:15',
+            'nomor_kontak' => 'required|numeric',
+            'alamat_pendaftar' => 'required|max:255',
+        ]);
+
+        $data = $request->all();
+        $mitra->create($data);
+
+        return redirect(url('integrasisystem/mitra'))->with('success', 'Mitra berhasil di tambahkan');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Mitra  $mitra
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Mitra $mitra)
-    {
-        //
+    public function hapus (Mitra $mitra, Request $request) {
+        $mitra->destroy($request->id);
+        return redirect(url('integrasisystem/mitra'))->with('success', 'Mitra berhasil di hapus');
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateMitraRequest  $request
-     * @param  \App\Models\Mitra  $mitra
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateMitraRequest $request, Mitra $mitra)
+    public function resulttipe(Request $request)
     {
-        //
-    }
+        $tipe = $request->input('tipe');
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Mitra  $mitra
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Mitra $mitra)
-    {
-        //
+        return view('integrasisystem.mitra.resulttipe', ['result' => $tipe])->render();
     }
 }
