@@ -2,7 +2,7 @@
     <div class="container">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a href="#" class="nav-link bg-white">
+                <a href="{{ URL::to('dashboard/statistik') }}" class="nav-link bg-white">
                     <img src="{{ asset('img/logo.png') }}" width="200px"/>
                 </a>
             </li>
