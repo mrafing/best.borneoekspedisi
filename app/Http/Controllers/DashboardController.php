@@ -23,4 +23,13 @@ class DashboardController extends Controller
 
         return view('dashboard.mainmenu', $param);
     }
+
+    public function statistik() {
+        $param = [
+            'title' => 'Statistik',
+            'active' => 'statistik'
+        ];
+
+        return view('dashboard.statistik', $param);
+    }
 }

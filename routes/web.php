@@ -34,6 +34,7 @@ Route::middleware(('auth'))->group(function () {
     Route::controller(DashboardController::class)->group(function() {
         Route::get('/dashboard', 'index');
         Route::get('/dashboard/mainmenu', 'mainmenu');
+        Route::get('/dashboard/statistik', 'statistik')->middleware('hakAkses:gm');
     });
 
     Route::controller(IntegrasisystemController::class)->group(function() {
