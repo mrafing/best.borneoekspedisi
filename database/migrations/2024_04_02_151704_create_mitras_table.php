@@ -16,17 +16,18 @@ return new class extends Migration
         Schema::create('tb_mitra', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->enum('tipe', ['perusahaan', 'perorangan', 'customer priority']);
+            $table->string('nama_mitra');
+            $table->string('nama_pendaftar')->nullable();
+            $table->string('nomor_kontak')->nullable();
+            $table->string('alamat_pendaftar')->nullable();
+            $table->string('nama_perusahaan')->nullable();
+            $table->string('nama_pemimpin_perusahaan')->nullable();
+            $table->string('alamat_perusahaan')->nullable();
+            $table->string('kategori_perusahaan')->nullable();
+            $table->string('nama_toko')->nullable();
+            $table->string('jenis_produk_toko')->nullable();
+            $table->string('alamat_toko')->nullable();
             $table->enum('status', ['accepted', 'rejected', 'waiting']);
-            $table->string('nama_pendaftar')->nullable()->default(null);
-            $table->string('nomor_kontak')->nullable()->default(null);
-            $table->string('alamat_pendaftar')->nullable()->default(null);
-            $table->string('nama_perusahaan')->nullable()->default(null);
-            $table->string('nama_pemimpin_perusahaan')->nullable()->default(null);
-            $table->string('alamat_perusahaan')->nullable()->default(null);
-            $table->string('kategori_perusahaan')->nullable()->default(null);
-            $table->string('nama_toko')->nullable()->default(null);
-            $table->string('jenis_produk_toko')->nullable()->default(null);
-            $table->string('alamat_toko')->nullable()->default(null);
             $table->timestamps();
         });
     }

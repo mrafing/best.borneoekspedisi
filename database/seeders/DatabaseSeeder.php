@@ -27,31 +27,27 @@ class DatabaseSeeder extends Seeder
 
         User::create([
             'id_outlet' => '0',
-            'nama' => 'Aidil Fitra',
-            'nomor_hp' => '0',
-            'username' => 'aidil',
-            'password' => bcrypt('12345'),
-            'email' => 'aidil@gmail.com',
+            'nama' => 'Annisa',
+            'username' => 'annisa',
+            'password' => bcrypt('root'),
             'role' => 'gm',
         ]);
         User::create([
             'id_outlet' => '0',
-            'nama' => 'ellen',
-            'nomor_hp' => '0',
+            'nama' => 'Ellen',
             'username' => 'ellen',
-            'password' => bcrypt('12345'),
-            'email' => 'ellen@gmail.com',
+            'password' => bcrypt('root'),
             'role' => 'admin',
         ]);
 
         Outlet::create([
             'id_mitra' => '0',
-            'nama_agen' => 'PNK89',
-            'tipe' => 'mitra gw',
+            'kode_agen' => 'PNK89',
+            'tipe' => 'gw',
             'id_kecamatan' => '61.71.05',
-            'alamat' => NULL,
-            'nama_cs' => NULL,
-            'nomor_kontak' => NULL,
+            'alamat' => 'Jl. Bukit Barisan No.22 B',
+            'nama_cs' => 'Rizky',
+            'nomor_kontak' => '085250739275',
             'link_alamat' => NULL,
             'lokasi' => NULL,
             'status_bangunan' => NULL,
@@ -60,26 +56,12 @@ class DatabaseSeeder extends Seeder
         ]);
         Outlet::create([
             'id_mitra' => '0',
-            'nama_agen' => 'PNK001P',
-            'tipe' => 'mitra j',
-            'id_kecamatan' => '61.71.05',
-            'alamat' => NULL,
-            'nama_cs' => NULL,
-            'nomor_kontak' => NULL,
-            'link_alamat' => NULL,
-            'lokasi' => NULL,
-            'status_bangunan' => NULL,
-            'jenis_bangunan' => NULL,
-            'status' => 'active'
-        ]);
-        Outlet::create([
-            'id_mitra' => '0',
-            'nama_agen' => 'PNK001A',
+            'kode_agen' => 'PNK001A',
             'tipe' => 'mitra a',
             'id_kecamatan' => '61.71.05',
-            'alamat' => NULL,
-            'nama_cs' => NULL,
-            'nomor_kontak' => NULL,
+            'alamat' => 'Jl. Pangeran Natakusuma (Seberang Indomaret PNK)',
+            'nama_cs' => 'Ellen',
+            'nomor_kontak' => '081256955705',
             'link_alamat' => NULL,
             'lokasi' => NULL,
             'status_bangunan' => NULL,
@@ -89,17 +71,18 @@ class DatabaseSeeder extends Seeder
 
         Mitra::create([
             'tipe' => 'perusahaan',
-            'status' => 'accepted',
+            'nama_mitra' => 'PT. Borneo Citra Express',
             'nama_pendaftar' => 'aidil fitra',
-            'nomor_kontak' => NULL,
-            'alamat_pendaftar' => NULL,
-            'nama_perusahaan' => 'pt. borneo citra express',
+            'nomor_kontak' => '089693418191',
+            'alamat_pendaftar' => 'Jl Prof M Yamin Gg. Morodadi V Jalur 1',
+            'nama_perusahaan' => 'PT. Borneo Citra Express',
             'nama_pemimpin_perusahaan' => 'aidil fitra',
-            'alamat_perusahaan' => NULL,
+            'alamat_perusahaan' => 'JL Bukit Barisan No.22 B',
             'kategori_perusahaan' => NULL,
             'nama_toko' => NULL,
             'jenis_produk_toko' => NULL,
-            'alamat_toko' => NULL
+            'alamat_toko' => NULL,
+            'status' => 'accepted',
         ]);
     }
 }

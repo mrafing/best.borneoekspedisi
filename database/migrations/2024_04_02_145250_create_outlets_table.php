@@ -15,17 +15,17 @@ return new class extends Migration
     {
         Schema::create('tb_outlet', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('id_mitra');
-            $table->string('nama_agen')->unique();
-            $table->enum('tipe', ['mitra gw', 'mitra j', 'mitra a', 'mitra b', 'mitra c']);
+            $table->uuid('id_mitra');
+            $table->string('kode_agen')->unique();
+            $table->enum('tipe', ['gw', 'mitra a', 'mitra b', 'mitra c']);
             $table->string('id_kecamatan');
-            $table->text('alamat')->nullable()->default(null);
-            $table->string('nama_cs')->nullable()->default(null);
-            $table->string('nomor_kontak')->nullable()->default(null);
-            $table->text('link_alamat')->nullable()->default(null);
-            $table->string('lokasi')->nullable()->default(null);
-            $table->string('status_bangunan')->nullable()->default(null);
-            $table->string('jenis_bangunan')->nullable()->default(null);
+            $table->string('alamat')->nullable();
+            $table->string('nama_cs')->nullable();
+            $table->string('nomor_kontak')->nullable();
+            $table->text('link_alamat')->nullable();
+            $table->string('lokasi')->nullable();
+            $table->string('status_bangunan')->nullable();
+            $table->string('jenis_bangunan')->nullable();
             $table->enum('status', ['active', 'nonactive']);
             $table->timestamps();
         });
