@@ -27,7 +27,7 @@
         <div class="col-7">
             <div class="row justify-content-around">
                 <div class="col-md-4 mb-3">
-                    <a class="card text-center bg-primary shadow main-menu m-auto" href="">
+                    <a class="card text-center bg-primary shadow main-menu m-auto" href="{{ URL::to('operasional') }}">
                         <div class="card-body text-light">
                             <img class="mb-3" src="{{ asset('img/img.svg') }}" style="width: 50px">
                             <p style="font-size: 12px">OPERASIONAL</p>

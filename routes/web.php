@@ -5,6 +5,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\IntegrasisystemController;
 use App\Http\Controllers\MitraController;
+use App\Http\Controllers\OperasionalController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
@@ -51,6 +52,12 @@ Route::middleware(('auth'))->group(function () {
             Route::post('integrasisystem/mitra/save', 'save');
             Route::delete('integrasisystem/mitra/hapus', 'hapus');
             Route::get('integrasisystem/mitra/resulttipe', 'resulttipe')->name('resulttipe');
+        });
+    });
+
+    Route::controller(OperasionalController::class)->group(function() {
+        Route::middleware('hakAkses:admin')->group(function() {
+            Route::get('/operasional', 'index');
         });
     });
 });
