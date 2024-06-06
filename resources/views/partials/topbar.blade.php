@@ -16,7 +16,7 @@
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="mr-3 img-profile rounded-circle" style="width: 32px;" src="{{ asset('img/undraw_profile.svg') }}"/>
                     <span class="mt-1 mr-2">
-                        <p class="mb-0" style="line-height: 10px;"><small>{{ strtoupper(Auth::user()->outlet->nama_agen) }}</small></p>
+                        <p class="mb-0" style="line-height: 10px;"><small>{{ strtoupper(Auth::user()->outlet->kode_agen) }}</small></p>
                         <p class="mb-0"><small>{{ Auth::user()->username }}</small></p>
                     </span>
                 </a>
