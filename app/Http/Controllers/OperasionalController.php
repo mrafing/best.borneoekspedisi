@@ -10,6 +10,7 @@ class OperasionalController extends Controller
     {
         $param = [
             'title' => 'Operasional',
+            'active' => 'operasional'
         ];
         return view('operasional.index', $param);
     }
