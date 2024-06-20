@@ -9,6 +9,9 @@ class Kota extends Model
 {
     use HasFactory;
     protected $table = 'tb_kota';
+    protected $casts = [
+        'id' => 'string',
+    ];
 
     public function kecamatan() {
         return $this->hasMany(Kecamatan::class, 'id_kota', 'id');

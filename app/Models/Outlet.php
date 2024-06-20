@@ -19,4 +19,8 @@ class Outlet extends Model
     public function mitra () {
         return $this->belongsTo(Mitra::class, 'id_mitra', 'id');
     }
+
+    public function kecamatan () {
+        return $this->belongsTo(Kecamatan::class, 'id_kecamatan', 'id');
+    }
 }

@@ -13,11 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tb_kecamatan', function (Blueprint $table) {
+        Schema::create('tb_layanan', function (Blueprint $table) {
             $table->string('id')->primary();
-            $table->string('id_kota');
-            $table->string('nama_kecamatan');
-            $table->uuid('id_outlet_delivery');
+            $table->string('nama_layanan');
+            $table->string('nama_komoditi');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_kecamatan');
+        Schema::dropIfExists('tb_layanan');
     }
 };

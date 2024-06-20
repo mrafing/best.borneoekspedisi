@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tb_kecamatan', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->string('id_kota');
-            $table->string('nama_kecamatan');
-            $table->uuid('id_outlet_delivery');
+        Schema::create('tb_barang', function (Blueprint $table) {
+            $table->uuid('id')->primary();
+            $table->integer('koli');
+            $table->integer('berat_aktual');
+            $table->integer('berat_volumetrik');
+            $table->string('isi');
+            $table->string('id_komoditi');
+            $table->string('informasi_tambahan')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tb_kecamatan');
+        Schema::dropIfExists('tb_barang');
     }
 };

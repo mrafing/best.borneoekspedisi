@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Provinsi extends Model
+class Layanan extends Model
 {
     use HasFactory;
-    protected $table = 'tb_provinsi';
+    protected $table = 'tb_layanan';
     protected $casts = [
         'id' => 'string',
     ];
 
-    public function kota() {
-        return $this->hasMany(Kota::class, 'id_provinsi', 'id');
+    public function hargaOngkir() {
+        return $this->hasMany(hargaOngkir::class, 'id_layanan', 'id');
     }
 }
