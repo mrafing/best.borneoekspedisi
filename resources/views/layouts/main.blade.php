@@ -19,7 +19,7 @@
         <link href="{{ asset('dataTables/Buttons-2.3.6/css/buttons.bootstrap4.min.css') }}" rel="stylesheet" />
 
         {{-- Select2 link --}}
-        {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
         {{-- My Style --}}
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">

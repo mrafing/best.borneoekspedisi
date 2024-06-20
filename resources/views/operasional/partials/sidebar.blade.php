@@ -19,7 +19,7 @@
     </div>
 
     <li class="nav-item">
-        <a class="nav-link text-dark" href="#">
+        <a class="nav-link {{ $active == 'tambahManifestDomestik' ? 'text-primary' : 'text-dark' }}" href="{{ URL::to('operasional/manifestdomestik/tambah') }}">
             <i class="fa-solid fa-file-circle-plus"></i>
             <span>Resi Domestik</span>
         </a>
@@ -28,6 +28,18 @@
         <a class="nav-link text-dark" href="#">
             <i class="fa-solid fa-file-circle-plus"></i>
             <span>Resi International</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="#">
+            <i class="fa-solid fa-table-list"></i>
+            <span>Manifest Harian</span>
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="#">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Cek Ongkir</span>
         </a>
     </li>
     <li class="nav-item">
