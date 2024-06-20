@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\IntegrasisystemController;
+use App\Http\Controllers\ManifestDomestikController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\OperasionalController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
@@ -19,6 +20,8 @@ use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 
 Route::middleware(['guest'])->group(function() {
     Route::get('/', [LoginController::class, 'index'])->name('login');
@@ -58,6 +61,23 @@ Route::middleware(('auth'))->group(function () {
     Route::controller(OperasionalController::class)->group(function() {
         Route::middleware('hakAkses:admin')->group(function() {
             Route::get('/operasional', 'index');
+        });
+    });
+
+    Route::controller(ManifestDomestikController::class)->group(function() {
+        Route::middleware('hakAkses:admin')->group(function() {
+            Route::get('/operasional/manifestdomestik/tambah', 'tambah');
+            Route::post('/operasional/manifestdomestik/save', 'save');
+
+
+            Route::get('/operasional/manifestdomestik/getkota/{id}', 'getKota');
+            Route::get('/operasional/manifestdomestik/getKecamatan/{id}', 'getKecamatan');
+            
+            Route::get('/operasional/manifestdomestik/resultlayanan', 'resultlayanan')->name('resultlayanan');
+            Route::get('/operasional/manifestdomestik/resultitemkhusus', 'resultitemkhusus')->name('resultitemkhusus');
+            Route::get('/operasional/manifestdomestik/resulttabelkoli', 'resulttabelkoli')->name('resulttabelkoli');
+            Route::get('/operasional/manifestdomestik/resultinformasibiaya', 'resultinformasibiaya')->name('resultinformasibiaya');
+            Route::get('/operasional/manifestdomestik/resultjumlahitemkomodit', 'resultjumlahitemkomodit')->name('resultjumlahitemkomodit');
         });
     });
 });
