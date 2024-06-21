@@ -15,6 +15,7 @@ use App\Models\Manifest;
 use App\Models\Ongkir;
 use App\Models\Pengirim;
 use App\Models\Penerima;
+use App\Models\SubManifest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -34,7 +35,7 @@ class ManifestDomestikController extends Controller
         return view('operasional.manifestdomestik.tambah', $param);
     }
     
-    public function save(Pengirim $pengirim, Penerima $penerima, Barang $barang, Ongkir $ongkir, Manifest $manifest, Request $request) {
+    public function save(Pengirim $pengirim, Penerima $penerima, Barang $barang, Ongkir $ongkir, Manifest $manifest, SubManifest $subManifest, Request $request) {
         // Validasi data dari request
         $request->validate([
             // Validasi Informasi Pengirim
@@ -55,7 +56,7 @@ class ManifestDomestikController extends Controller
             'koli' => 'required|numeric',
             'berat_aktual' => 'required|numeric',
             'berat_volumetrik' => 'required|numeric',
-            'isi' => 'required|max:10',
+            'isi' => 'required|max:20',
             'id_komoditi' => 'required',
             'informasi_tambahan' => 'max:50',
     
@@ -117,6 +118,13 @@ class ManifestDomestikController extends Controller
                 'admin' => Auth::user()->username,
             ];
             $manifestInstance = $manifest->create($manifestData);
+
+            for ($i = 2; $i <= $request->koli; $i++) {
+                $subManifest->create([
+                    'id_manifest' => $manifestInstance->id,
+                    'sub_resi' => $manifestInstance->no_resi . str_pad($i, 3, '0', STR_PAD_LEFT),
+                ]);
+            }
     
             // Commit transaksi jika semuanya berhasil
             DB::commit();

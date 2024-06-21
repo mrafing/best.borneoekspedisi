@@ -189,3 +189,55 @@
         </div>
     </div>
 @endif
+
+<script>
+    // HITUNG INFORMASI BIAYA //
+        function biaya() {
+            interval = setInterval(function () {
+                var strHargaOngkir = document.getElementById('harga_ongkir').value;
+                var strHargaModal = document.getElementById('harga_modal').value;
+                var strHargaPacking = document.getElementById('harga_packing').value;
+                var strHargaKarantina = document.getElementById('harga_karantina').value;
+                var strHargaTransit = document.getElementById('harga_transit').value;
+
+                var hargaOngkir = parseInt(strHargaOngkir);
+                var hargaModal = parseInt(strHargaModal);
+                var hargaTransit = parseInt(strHargaTransit);
+                var hargaPacking = parseInt(strHargaPacking);
+                var hargaKarantina = parseInt(strHargaKarantina);
+                var beratVolumetrik = parseInt(document.getElementById('berat_volumetrik').value);
+                var beratAktual = parseInt(document.getElementById('berat_aktual').value);
+                var resultBerat = 0;
+
+                if (beratAktual >= beratVolumetrik) {
+                    resultBerat = beratAktual;
+                } else {
+                    resultBerat = beratVolumetrik;
+                }
+
+                // TOTAL ONGKIR //
+                    sumResultTotalOngkir = (hargaOngkir * resultBerat) + hargaPacking + hargaKarantina + hargaTransit;
+                    document.getElementById('total_ongkir').value = sumResultTotalOngkir;
+                // END TOTAL ONGKIR //
+
+                // TOTAL MODAL //
+                    sumResultTotalModal = (hargaModal * resultBerat) + hargaTransit + hargaKarantina;
+                    document.getElementById('total_modal').value = sumResultTotalModal;
+                // END TOTAL MODAL //
+
+                // LABA KOTOR //
+                    sumResultLabaKotor = sumResultTotalOngkir - sumResultTotalModal;
+                    if (sumResultLabaKotor <= 0) {
+                        sumResultLabaKotor = 0;
+                    }
+                    document.getElementById('laba_kotor').value = sumResultLabaKotor;
+                // END LABA KOTOR //
+            }, 1);
+        }
+
+        function endBiaya() {
+            clearInterval(interval);
+        }
+
+    // END HITUNG INFORMASI BIAYA //
+</script>

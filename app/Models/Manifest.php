@@ -18,7 +18,9 @@ class Manifest extends Model
         $date = now()->format('ymd');
         
         // Ambil resi terbaru yang dibuat pada hari yang sama
-        $lastResi = self::latest()->first();
+        $lastResi = self::whereDate('created_at', now()->format('Y-m-d'))
+                        ->orderBy('no_resi', 'desc')
+                        ->first();
 
         if ($lastResi) {
             // Ambil bagian nomor dari no_resi dan tambahkan 1
