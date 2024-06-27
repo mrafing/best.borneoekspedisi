@@ -43,7 +43,7 @@
                     </a>
                 </div>
                 <div class="col-md-4 mb-3">
-                    <a class="card text-center bg-primary shadow main-menu m-auto" href="jalurDistribusi/menuJalurDistribusi.php">
+                    <a class="card text-center bg-primary shadow main-menu m-auto" href="{{ URL::to('jalurdistribusi') }}">
                         <div class="card-body text-light">
                             <img class="mb-3" src="{{ asset('img/img3.svg') }}" style="width: 50px">
                             <p style="font-size: 12px">JALUR DISTRIBUSI</p>
