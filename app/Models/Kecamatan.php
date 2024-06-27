@@ -20,4 +20,8 @@ class Kecamatan extends Model
     public function outlet () {
         return $this->hasMany(Outlet::class, 'id_kecamatan', 'id');
     }
+
+    public function penerima() {
+        return $this->hasMany(Penerima::class, 'id_kecamatan_penerima', 'id');
+    }
 }

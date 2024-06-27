@@ -12,21 +12,11 @@ class Penerima extends Model
     protected $table = 'tb_penerima';
     protected $guarded = ['id'];
 
-    public static function getId()
-    {
-        $date = now()->format('ymd');
+    public function manifest() {
+        return $this->belongsTo(Manifest::class, 'id_penerima', 'id');
+    }
 
-        // Ambil resi terbaru yang dibuat pada hari yang sama
-        $lastId = self::latest()->first();
-
-        if ($lastId) {
-            // Ambil bagian nomor dari id dan tambahkan 1
-            $lastNumber = (int)substr($lastId->id, -6);
-            $newNumber = str_pad($lastNumber + 1, 6, '0', STR_PAD_LEFT);
-        } else {
-            $newNumber = '000001';
-        }
-
-        return $date . $newNumber;
+    public function kecamatan() {
+        return $this->belongsTo(Kecamatan::class, 'id_kecamatan_penerima', 'id');
     }
 }

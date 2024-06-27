@@ -33,4 +33,20 @@ class Manifest extends Model
 
         return $prefix . $date . $newNumber;
     }
+
+    public function pengirim() {
+        return $this->belongsTo(Pengirim::class, 'id_pengirim', 'id');
+    }
+
+    public function penerima() {
+        return $this->belongsTo(Penerima::class, 'id_penerima', 'id');
+    }
+
+    public function barang() {
+        return $this->belongsTo(Barang::class, 'id_barang', 'id');
+    }
+
+    public function ongkir() {
+        return $this->belongsTo(Ongkir::class, 'id_ongkir', 'id');
+    }
 }
