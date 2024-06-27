@@ -20,13 +20,83 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
 
 class ManifestDomestikController extends Controller
 {
+
+    public function index() {
+        $param = [
+            'title' => 'Manifest Harian Domestik',
+            'listmanifest' => Manifest::where('admin', Auth::user()->username)
+                         ->where('id_outlet_terima', Auth::user()->id_outlet)
+                         ->whereDate('created_at', Carbon::today())
+                         ->latest()
+                         ->get(),
+            'listkota' => Kota::all(),
+            'listlayanan' => Layanan::all()
+        ];
+
+        return view('operasional.manifestdomestik.index', $param);
+    }
+
+    public function filter(Request $request) {
+        $id_layanan = $request->input('id_layanan');
+        $id_kota_tujuan = $request->input('id_kota_tujuan');
+        $tanggal_terima = $request->input('tanggal_terima');
+        $pembayaran = $request->input('pembayaran');
+        $no_resi = $request->input('no_resi');
+
+        $query = Manifest::query()
+                ->where('id_outlet_terima', Auth::user()->id_outlet)
+                ->where('admin', Auth::user()->username);
+
+    
+        // Filter berdasarkan layanan
+        if ($request->filled('id_layanan')) {
+            $query->where('id_layanan', $id_layanan);
+        }
+    
+        // Filter berdasarkan kota tujuan
+        if ($request->filled('id_kota_tujuan')) {
+            $query->whereHas('penerima.kecamatan.kota', function ($query) use ($id_kota_tujuan) {
+                $query->where('id', $id_kota_tujuan);
+            });
+        }
+
+        // Filter berdasarkan tanggal terima
+        if ($request->filled('tanggal_terima')) {
+            $query->whereDate('created_at', $tanggal_terima);
+        } else {
+            // Default: data hari ini
+            $query->whereDate('created_at', Carbon::today());
+        }
+    
+        // Filter berdasarkan metode pembayaran
+        if ($request->filled('pembayaran')) {
+            $query->whereHas('ongkir', function ($query) use ($pembayaran) {
+                $query->where('pembayaran', $pembayaran);
+            });
+        }
+    
+        // Filter berdasarkan nomor/kode resi
+        if ($request->filled('no_resi')) {
+            $query->where('no_resi', $no_resi);
+        }
+    
+        // Urutkan berdasarkan terbaru
+        $listmanifest = $query->latest()->get();
+    
+        $param = [
+            'listmanifest' => $listmanifest,
+        ];
+
+        return view('operasional.manifestdomestik.filter', $param)->render();
+    }
+
     public function tambah() {
         $param = [
             'title' => 'Tambah Manifest Domestik',
-            'active' => 'tambahManifestDomestik',
             'listprovinsi' => Provinsi::all(),
             'listlayanan' => Layanan::all(),
             'listkarantina' => HargaKarantina::all()
@@ -35,7 +105,7 @@ class ManifestDomestikController extends Controller
         return view('operasional.manifestdomestik.tambah', $param);
     }
     
-    public function save(Pengirim $pengirim, Penerima $penerima, Barang $barang, Ongkir $ongkir, Manifest $manifest, SubManifest $subManifest, Request $request) {
+    public function save(Request $request) {
         // Validasi data dari request
         $request->validate([
             // Validasi Informasi Pengirim
@@ -83,32 +153,32 @@ class ManifestDomestikController extends Controller
                 'nama_pengirim', 'nama_perusahaan_pengirim', 'alamat_pengirim', 
                 'id_kecamatan_pengirim', 'no_pengirim'
             ]);
-            $pengirimInstance = $pengirim->create($pengirimData);
+            $pengirimInstance = Pengirim::create($pengirimData);
     
             // Membuat data penerima
             $penerimaData = $request->only([
                 'nama_penerima', 'nama_perusahaan_penerima', 'alamat_penerima', 
                 'id_kecamatan_penerima', 'no_penerima'
             ]);
-            $penerimaInstance = $penerima->create($penerimaData);
+            $penerimaInstance = Penerima::create($penerimaData);
     
             // Membuat data barang
             $barangData = $request->only([
                 'koli', 'berat_aktual', 'berat_volumetrik', 'isi', 
                 'id_komoditi', 'informasi_tambahan'
             ]);
-            $barangInstance = $barang->create($barangData);
+            $barangInstance = Barang::create($barangData);
     
             // Membuat data ongkir
             $ongkirData = $request->only([
                 'pembayaran', 'harga_transit', 'harga_karantina', 'harga_packing', 
                 'harga_modal', 'total_modal', 'harga_ongkir', 'total_ongkir'
             ]);
-            $ongkirInstance = $ongkir->create($ongkirData);
+            $ongkirInstance = Ongkir::create($ongkirData);
     
             // Membuat data manifest
             $manifestData = [
-                'no_resi' => $manifest->getNoResi(),
+                'no_resi' => Manifest::getNoResi(),
                 'id_outlet_terima' => Auth::user()->id_outlet,
                 'id_pengirim' => $pengirimInstance->id, // Asosiasi dengan pengirim
                 'id_penerima' => $penerimaInstance->id, // Asosiasi dengan penerima
@@ -117,10 +187,10 @@ class ManifestDomestikController extends Controller
                 'id_layanan' => $request->input('id_layanan'),
                 'admin' => Auth::user()->username,
             ];
-            $manifestInstance = $manifest->create($manifestData);
+            $manifestInstance = Manifest::create($manifestData);
 
             for ($i = 2; $i <= $request->koli; $i++) {
-                $subManifest->create([
+                SubManifest::create([
                     'id_manifest' => $manifestInstance->id,
                     'sub_resi' => $manifestInstance->no_resi . str_pad($i, 3, '0', STR_PAD_LEFT),
                 ]);
@@ -137,6 +207,50 @@ class ManifestDomestikController extends Controller
             Log::error('Error while saving data: '.$e->getMessage());
             return back()->withErrors(['message' => 'Terjadi kesalahan saat menambahkan data.']);
         }
+    }
+
+    public function printresi($id)
+    {
+        $data = Manifest::find($id);
+
+        $param = [
+            'title' => 'Print Manifest',
+            'data' => $data,
+        ];
+
+        return view('operasional.manifestdomestik.printresi', $param);
+    }
+
+    public function hapus($id)
+    {
+        $data = Manifest::find($id);
+        $param = [
+            'title' => 'Void Manifest',
+            'data' => $data,
+
+        ];
+
+        return view('operasional.manifestdomestik.hapus', $param);
+    }
+
+    public function savehapus(Request $request) 
+    {   
+
+        Manifest::destroy($request->id);
+        return redirect('operasional/manifestdomestik/')->with('success', 'Manifest Berhasil Di Void!');
+        // dd($request);
+        // DB::beginTransaction();
+        // try{
+        //     Manifest::destroy($request->id);
+        //     return redirect('operasional/manifestdomestik/')->with('success', 'Manifest Berhasil Di Void!');
+            
+        // } catch (\Exception $e) {
+        //     // Rollback transaksi jika terjadi kesalahan
+        //     DB::rollBack();
+        //     // Log the error for debugging
+        //     Log::error('Error while saving data: '.$e->getMessage());
+        //     return back()->withErrors(['message' => 'Terjadi kesalahan saat Void Manifest.']);
+        // }
     }
     
 

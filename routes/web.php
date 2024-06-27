@@ -7,6 +7,7 @@ use App\Http\Controllers\IntegrasisystemController;
 use App\Http\Controllers\ManifestDomestikController;
 use App\Http\Controllers\MitraController;
 use App\Http\Controllers\OperasionalController;
+use App\Http\Controllers\JalurDistribusiController;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
 
@@ -66,18 +67,27 @@ Route::middleware(('auth'))->group(function () {
 
     Route::controller(ManifestDomestikController::class)->group(function() {
         Route::middleware('hakAkses:admin')->group(function() {
+            Route::get('/operasional/manifestdomestik', 'index');
+            Route::get('/operasional/manifestdomestik/filter', 'filter')->name('filtermanifestharian');
             Route::get('/operasional/manifestdomestik/tambah', 'tambah');
             Route::post('/operasional/manifestdomestik/save', 'save');
-
+            Route::get('/operasional/manifestdomestik/printresi/{id}', 'printresi');
+            Route::get('/operasional/manifestdomestik/hapus/{id}', 'hapus');
+            Route::delete('/operasional/manifestdomestik/savehapus', 'savehapus');
 
             Route::get('/operasional/manifestdomestik/getkota/{id}', 'getKota');
             Route::get('/operasional/manifestdomestik/getKecamatan/{id}', 'getKecamatan');
-            
             Route::get('/operasional/manifestdomestik/resultlayanan', 'resultlayanan')->name('resultlayanan');
             Route::get('/operasional/manifestdomestik/resultitemkhusus', 'resultitemkhusus')->name('resultitemkhusus');
             Route::get('/operasional/manifestdomestik/resulttabelkoli', 'resulttabelkoli')->name('resulttabelkoli');
             Route::get('/operasional/manifestdomestik/resultinformasibiaya', 'resultinformasibiaya')->name('resultinformasibiaya');
             Route::get('/operasional/manifestdomestik/resultjumlahitemkomodit', 'resultjumlahitemkomodit')->name('resultjumlahitemkomodit');
+        });
+    });
+
+    Route::controller(JalurDistribusiController::class)->group(function () {
+        Route::middleware('auth')->group(function() {
+            Route::get('/jalurdistribusi', 'index');
         });
     });
 });

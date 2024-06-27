@@ -18,23 +18,33 @@
         </ul>
     </div>
 
+    <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link {{ $active == 'tambahManifestDomestik' ? 'text-primary' : 'text-dark' }}" href="{{ URL::to('operasional/manifestdomestik/tambah') }}">
+        <a class="nav-link {{ Request::is('operasional/manifestdomestik*') ? 'text-primary' : 'text-dark' }}" href="#" data-toggle="collapse" data-target="#manifestDomestik">
             <i class="fa-solid fa-file-circle-plus"></i>
             <span>Resi Domestik</span>
         </a>
+        <div id="manifestDomestik" class="collapse">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Components:</h6>
+                <a class="collapse-item" href="{{ URL::to('operasional/manifestdomestik/tambah') }}">Booking</a>
+                <a class="collapse-item" href="{{ URL::to('operasional/manifestdomestik') }}">Manifest Harian</a>
+            </div>
+        </div>
     </li>
+
     <li class="nav-item">
-        <a class="nav-link text-dark" href="#">
+        <a class="nav-link {{ Request::is('operasional/manifestinternational') ? 'text-primary' : 'text-dark' }}" href="#" data-toggle="collapse" data-target="#manifestInternational">
             <i class="fa-solid fa-file-circle-plus"></i>
             <span>Resi International</span>
         </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" href="#">
-            <i class="fa-solid fa-table-list"></i>
-            <span>Manifest Harian</span>
-        </a>
+        <div id="manifestInternational" class="collapse">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Components:</h6>
+                <a class="collapse-item" href="">Booking</a>
+                <a class="collapse-item" href="#">Manifest Harian</a>
+            </div>
+        </div>
     </li>
     <li class="nav-item">
         <a class="nav-link text-dark" href="#">
