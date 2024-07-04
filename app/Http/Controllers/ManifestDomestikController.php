@@ -16,6 +16,7 @@ use App\Models\Ongkir;
 use App\Models\Pengirim;
 use App\Models\Penerima;
 use App\Models\SubManifest;
+use App\Models\Tracking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -195,7 +196,20 @@ class ManifestDomestikController extends Controller
                     'sub_resi' => $manifestInstance->no_resi . str_pad($i, 3, '0', STR_PAD_LEFT),
                 ]);
             }
-    
+
+            // $trackingData = [
+            //     'no_resi' => Manifest::getNoResi(),
+            //     'id_outlet_asal' => Auth::user()->id_outlet,
+            //     'id_outlet_tujuan' => '',
+            //     'keterangan' => 'Paket teleh di ambil outlet - ' . Auth::user()->outlet->kode_agen,
+            //     'status_tracking' => 'Pengambilan Paket',
+            //     'nama_kurir' => NULL,
+            //     'armada' => NULL,
+            //     'plat_armada' => NULL,
+            //     'admin' => Auth::user()->username,
+            // ];
+            // Tracking::create($trackingData);
+            
             // Commit transaksi jika semuanya berhasil
             DB::commit();
             return redirect('operasional/manifestdomestik/tambah')->with('success', 'Data Berhasil Di Tambahkan!');

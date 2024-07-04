@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('trackings', function (Blueprint $table) {
+        Schema::create('tb_tracking', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('no_resi')->unique();
+            $table->string('no_resi');
             $table->uuid('id_outlet_asal');
             $table->uuid('id_outlet_tujuan');
             $table->string('keterangan');
@@ -35,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('trackings');
+        Schema::dropIfExists('tb_tracking');
     }
 };
