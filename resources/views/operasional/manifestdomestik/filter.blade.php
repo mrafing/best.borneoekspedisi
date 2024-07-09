@@ -27,7 +27,7 @@
             <tr>
                 <td class="bg-white border shadow" style="position: sticky; left: 0; z-index: 2;">
                     <div class="d-flex">
-                        <a href="{{ URL::to('operasional/manifestdomestik/printresi') }}/{{ $data->id }}" class="btn btn-primary btn-sm mr-1" ><i class="fa-solid fa-print fa-sm"></i></a>
+                        <a href="{{ URL::to('operasional/manifestdomestik/printresi') }}/{{ $data->id }}" class="btn btn-primary btn-sm mr-1" target="_blank" ><i class="fa-solid fa-print fa-sm"></i></a>
                         <a href="{{ URL::to('operasional/manifestdomestik/hapus') }}/{{ $data->id }}" class="btn btn-danger btn-sm mr-1" onSubmit="if(!confirm('Yakin Ingin Void?')){return false;}"><i class="fa-solid fa-trash-can fa-sm"></i></a>
                     </div>
                 </td>
