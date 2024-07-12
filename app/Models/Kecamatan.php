@@ -24,4 +24,8 @@ class Kecamatan extends Model
     public function penerima() {
         return $this->hasMany(Penerima::class, 'id_kecamatan_penerima', 'id');
     }
+
+    public function outletDelivery() {
+        return $this->belongsTo(Outlet::class, 'id_outlet_delivery', 'id');
+    }
 }

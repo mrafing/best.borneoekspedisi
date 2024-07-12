@@ -23,4 +23,12 @@ class Outlet extends Model
     public function kecamatan () {
         return $this->belongsTo(Kecamatan::class, 'id_kecamatan', 'id');
     }
+
+    public function manifest () {
+        return $this->hasMany(Manifest::class, 'id_outlet_terima', 'id');
+    }
+
+    public function kecamatanDelivery() {
+        return $this->hasMany(Kecamatan::class, 'id_outlet_delivery', 'id');
+    }
 }

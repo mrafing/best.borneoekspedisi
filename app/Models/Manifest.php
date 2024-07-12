@@ -49,4 +49,12 @@ class Manifest extends Model
     public function ongkir() {
         return $this->belongsTo(Ongkir::class, 'id_ongkir', 'id');
     }
+
+    public function layanan() {
+        return $this->belongsTo(Layanan::class, 'id_layanan', 'id');
+    }
+
+    public function outlet() {
+        return $this->belongsTo(Outlet::class, 'id_outlet_terima', 'id');
+    }
 }

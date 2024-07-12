@@ -13,6 +13,10 @@ class Layanan extends Model
         'id' => 'string',
     ];
 
+    public function manifest() {
+        return $this->hasMany(Manifest::class, 'id_layanan', 'id');
+    }
+
     public function hargaOngkir() {
         return $this->hasMany(hargaOngkir::class, 'id_layanan', 'id');
     }
