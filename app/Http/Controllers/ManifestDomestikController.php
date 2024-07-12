@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use Dompdf\Dompdf;
 
 class ManifestDomestikController extends Controller
 {
@@ -226,13 +227,24 @@ class ManifestDomestikController extends Controller
     public function printresi($id)
     {
         $data = Manifest::find($id);
+        $submanifest = SubManifest::where('id_manifest', $id)
+                        ->orderby('sub_resi')
+                        ->get();
 
         $param = [
             'title' => 'Print Manifest',
             'data' => $data,
+            'submanifest' => $submanifest,
         ];
 
-        return view('operasional.manifestdomestik.printresi', $param);
+        $html = view('operasional.manifestdomestik.printresi', $param)->render();
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('F4', 'portrait');
+        $dompdf->render();
+        return $dompdf->stream('document.pdf', ['Attachment' => false]);
+
+        // return view('operasional.manifestdomestik.printresi', $param);
     }
 
     public function hapus($id)
