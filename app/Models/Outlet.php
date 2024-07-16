@@ -10,7 +10,7 @@ class Outlet extends Model
 {
     use HasFactory, GenUid;
     protected $table = 'tb_outlet';
-    protected $guarded = ['id'];
+    // protected $guarded = ['id'];
 
     public function user() {
         return $this->hasMany(User::class, 'id_outlet', 'id');
