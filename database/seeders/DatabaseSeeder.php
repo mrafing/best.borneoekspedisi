@@ -44,6 +44,7 @@ class DatabaseSeeder extends Seeder
         $mitraId = Mitra::first()->id;
 
         Outlet::create([
+            'id' => 'ax5xtz19aa',
             'id_mitra' => $mitraId,
             'kode_agen' => 'PNK89',
             'tipe' => 'gw',
@@ -58,6 +59,7 @@ class DatabaseSeeder extends Seeder
             'status' => 'active'
         ]);
         Outlet::create([
+            'id' => 'h7z8maryd5',
             'id_mitra' => $mitraId,
             'kode_agen' => 'PNK001A',
             'tipe' => 'mitra a',
@@ -71,19 +73,49 @@ class DatabaseSeeder extends Seeder
             'jenis_bangunan' => NULL,
             'status' => 'active'
         ]);
+        Outlet::create([
+            'id' => 'x1a3abeqe1',
+            'id_mitra' => $mitraId,
+            'kode_agen' => 'PNK002A',
+            'tipe' => 'mitra a',
+            'id_kecamatan' => '61.71.05',
+            'alamat' => 'Jl Bukit Barisan No.22 B (Kantor J&T Cargo)',
+            'nama_cs' => 'Fajar',
+            'nomor_kontak' => '085250739275',
+            'link_alamat' => NULL,
+            'lokasi' => NULL,
+            'status_bangunan' => NULL,
+            'jenis_bangunan' => NULL,
+            'status' => 'active'
+        ]);
+        Outlet::create([
+            'id' => 'o17o1uy47',
+            'id_mitra' => $mitraId,
+            'kode_agen' => 'JKT002A',
+            'tipe' => 'mitra a',
+            'id_kecamatan' => '31.71.02',
+            'alamat' => 'Jl. Krekot Jaya Molek Blok C3 No.4',
+            'nama_cs' => NULL,
+            'nomor_kontak' => '085893633415',
+            'link_alamat' => NULL,
+            'lokasi' => NULL,
+            'status_bangunan' => NULL,
+            'jenis_bangunan' => NULL,
+            'status' => 'active'
+        ]);
 
-        $pnk001aId = Outlet::first()->id;
-        $pnk89Id = Outlet::skip(1)->first()->id;
+        // $pnk001aId = Outlet::first()->id;
+        // $pnk89Id = Outlet::skip(1)->first()->id;
 
         User::create([
-            'id_outlet' => $pnk89Id,
+            'id_outlet' => 'ax5xtz19aa',
             'nama' => 'Annisa',
             'username' => 'annisa',
             'password' => bcrypt('root'),
             'role' => 'gm',
         ]);
         User::create([
-            'id_outlet' => $pnk001aId,
+            'id_outlet' => 'h7z8maryd5',
             'nama' => 'Ellen',
             'username' => 'ellen',
             'password' => bcrypt('root'),
