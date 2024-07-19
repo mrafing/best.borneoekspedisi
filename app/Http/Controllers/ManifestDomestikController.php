@@ -191,10 +191,11 @@ class ManifestDomestikController extends Controller
             ];
             $manifestInstance = Manifest::create($manifestData);
 
+            // Membuat Sub Manifest
             for ($i = 2; $i <= $request->koli; $i++) {
                 SubManifest::create([
                     'id_manifest' => $manifestInstance->id,
-                    'sub_resi' => $manifestInstance->no_resi . str_pad($i, 3, '0', STR_PAD_LEFT),
+                    'sub_resi' => $manifestInstance->no_resi . str_pad($i, 3, '0', STR_PAD_LEFT)
                 ]);
             }
 

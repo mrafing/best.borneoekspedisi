@@ -15,12 +15,10 @@ class Manifest extends Model
     public static function getNoResi()
     {
         $prefix = 'BE';
-        $date = now()->format('ymd');
+        $date = now()->format('md');
         
-        // Ambil resi terbaru yang dibuat pada hari yang sama
-        $lastResi = self::whereDate('created_at', now()->format('Y-m-d'))
-                        ->orderBy('no_resi', 'desc')
-                        ->first();
+        // Ambil resi terbaru
+        $lastResi = self::latest()->first();
 
         if ($lastResi) {
             // Ambil bagian nomor dari no_resi dan tambahkan 1

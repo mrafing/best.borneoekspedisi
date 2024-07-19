@@ -54,7 +54,7 @@
                                     <img src="{{ $logo }}" style="width: 104px;">
                                 @endif
                             </td>
-                            <td style="width: 409px;">
+                            <td style="width: 430px;">
                                 <p style="font-size: 32px; font-weight: bolder; text-align: center;">
                                     {{ $data->outlet->kode_agen }} - 
                                     @if ($data->penerima->kecamatan->outletDelivery)
@@ -72,7 +72,12 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td><p style="text-align: center;">{{ $data->no_resi }}</p></td>
+                                        @php 
+                                            $no_resi_utama = $data->no_resi;
+                                            $depan_no_resi_utama = substr($no_resi_utama, 0, 6);
+                                            $belakang_no_resi_utama = substr($no_resi_utama, -6);
+                                        @endphp
+                                        <td><p style="text-align: center;"><span>{{ $depan_no_resi_utama }}</span><span style="color: red;">{{ $belakang_no_resi_utama }}</span></p></td>
                                     </tr>
                                 </table>
                             </td>
@@ -457,7 +462,7 @@
                         <p style="font-size: 10px; text-align:center; color:darkgrey;">CAP PENERIMA</p>
                     </td>
                     <td style="width: 178px">
-                        <p style="font-size: 14px; text-align:center;">{{ $data->no_resi }}</p>
+                        <p style="font-size: 14px; text-align:center;"><span>{{ $depan_no_resi_utama }}</span><span style="color: red;"><b>{{ $belakang_no_resi_utama }}</b></span></p>
                     </td>
                     <td>
                         <p style="font-size: 14px; text-align:center;">
@@ -637,8 +642,8 @@
                     <div class="footer">
                         <table border="1" style="width: 100%">
                             <tr>
-                                <td colspan="4" style="width: 258px"><p style="font-size: 14px; height: 64px;">Keterangan Tambahan : {{ $data->barang->informasi_tambahan }}</p></td>
-                                <td colspan="2" tyle="width: 270px">{!! DNS1DFacade::getBarcodeHTML($sub->sub_resi, 'C128', 1.6, 54) !!}</td>
+                                <td colspan="3" style="width: 258px"><p style="font-size: 14px; height: 64px;">Keterangan Tambahan : {{ $data->barang->informasi_tambahan }}</p></td>
+                                <td colspan="3" tyle="width: 270px">{!! DNS1DFacade::getBarcodeHTML($sub->sub_resi, 'C128', 2, 54) !!}</td>
                                 <td>
                                     <table style="width: 268px; padding-left: 4px;" border="0">
                                         <tr>
@@ -666,7 +671,13 @@
                                     <p style="font-size: 10px; text-align:center; color:darkgrey;">CAP PENERIMA</p>
                                 </td>
                                 <td style="width: 178px">
-                                    <p style="font-size: 14px; text-align:center;">{{ $sub->sub_resi }}</p>
+                                    @php 
+                                        $no_resi_sub = $sub->sub_resi; 
+                                        $depan_no_resi_sub = substr($no_resi_sub, 0, 6);
+                                        $tengah_no_resi_sub = substr($no_resi_sub, 6, 6);
+                                        $belakang_no_resi_sub = substr($no_resi_sub, -3);
+                                    @endphp
+                                    <p style="font-size: 14px; text-align:center;"><span>{{ $depan_no_resi_sub }}</span><span style="color: red"><b>{{ $tengah_no_resi_sub }}</b></span><span>{{ $belakang_no_resi_sub }}</span></p>
                                 </td>
                                 <td>
                                     <p style="font-size: 14px; text-align:center;">
