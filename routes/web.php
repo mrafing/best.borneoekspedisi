@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ArsipManifestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\LoginController;
@@ -66,15 +67,16 @@ Route::middleware(('auth'))->group(function () {
     });
 
     Route::controller(ManifestDomestikController::class)->group(function() {
+        Route::middleware('hakAkses:gm')->group(function() { 
+            Route::get('/operasional/manifestdomestik/hapus/{id}', 'hapus');
+            Route::delete('/operasional/manifestdomestik/savehapus', 'savehapus');
+        });
+
         Route::middleware('hakAkses:admin')->group(function() {
             Route::get('/operasional/manifestdomestik', 'index');
             Route::get('/operasional/manifestdomestik/filter', 'filter')->name('filtermanifestharian');
             Route::get('/operasional/manifestdomestik/tambah', 'tambah');
             Route::post('/operasional/manifestdomestik/save', 'save');
-            Route::get('/operasional/manifestdomestik/printresi/{id}', 'printresi');
-            Route::get('/operasional/manifestdomestik/hapus/{id}', 'hapus');
-            Route::delete('/operasional/manifestdomestik/savehapus', 'savehapus');
-
             Route::get('/operasional/manifestdomestik/getkota/{id}', 'getKota');
             Route::get('/operasional/manifestdomestik/getKecamatan/{id}', 'getKecamatan');
             Route::get('/operasional/manifestdomestik/resultlayanan', 'resultlayanan')->name('resultlayanan');
@@ -82,6 +84,18 @@ Route::middleware(('auth'))->group(function () {
             Route::get('/operasional/manifestdomestik/resulttabelkoli', 'resulttabelkoli')->name('resulttabelkoli');
             Route::get('/operasional/manifestdomestik/resultinformasibiaya', 'resultinformasibiaya')->name('resultinformasibiaya');
             Route::get('/operasional/manifestdomestik/resultjumlahitemkomodit', 'resultjumlahitemkomodit')->name('resultjumlahitemkomodit');
+        });
+
+        Route::middleware('hakAkses:gm,admin')->group(function() {
+            Route::get('/operasional/manifestdomestik/printresi/{id}', 'printresi');
+        });
+    });
+
+    Route::controller(ArsipManifestController::class)->group(function() {
+        Route::middleware('hakAkses:gm,admin')->group(function(){
+            Route::get('/arsipmanifest', 'index');
+            Route::get('/arsipmanifest/arsipdomestik', 'arsipdomestik');
+            Route::get('/arsipmanifest/filterarsipdomestik', 'filterarsipdomestik')->name('filterarsipdomestik');
         });
     });
 
