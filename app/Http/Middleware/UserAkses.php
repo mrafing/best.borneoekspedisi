@@ -14,11 +14,13 @@ class UserAkses
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$roles)
     {
-        if(auth()->user()->role == $role){
-            return $next($request);
+        foreach ($roles as $role) {
+            if(auth()->user()->role == $role){
+                return $next($request);
+            }
         }
         return abort('403', 'Anda Tidak Memiliki Akses Ke Halaman Ini');
-    }
+     }
 }
