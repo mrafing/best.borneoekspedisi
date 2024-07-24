@@ -18,24 +18,28 @@
         </ul>
     </div>
 
-    <li class="nav-item">
-        <a class="nav-link {{ Request::is('integrasisystem/mitra*') ? 'text-primary' : 'text-dark' }}" href="{{ URL::to('integrasisystem/mitra') }}">
-            <i class="fa-solid fa-tents"></i>
-            <span>Mitra</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" href="#">
-            <i class="fa-solid fa-inbox"></i>
-            <span>Pengajuan Mitra</span>
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" href="{{ URL::to('integrasisystem/kelolaakun') }}">
-            <i class="fa-solid fa-users"></i>
-            <span>Kelola Akun</span>
-        </a>
-    </li>
+    @can('gm')
+        <li class="nav-item">
+            <a class="nav-link {{ Request::is('integrasisystem/mitra*') ? 'text-primary' : 'text-dark' }}" href="{{ URL::to('integrasisystem/mitra') }}">
+                <i class="fa-solid fa-tents"></i>
+                <span>Mitra</span>
+            </a>
+        </li>   
+        <li class="nav-item">
+            <a class="nav-link text-dark" href="#">
+                <i class="fa-solid fa-inbox"></i>
+                <span>Pengajuan Mitra</span>
+            </a>
+        </li>
+    @endcan
+    @can('master')
+        <li class="nav-item">
+            <a class="nav-link {{ Request::is('integrasisystem/kelolaakun*') ? 'text-primary' : 'text-dark' }}" href="{{ URL::to('integrasisystem/kelolaakun') }}">
+                <i class="fa-solid fa-users"></i>
+                <span>Kelola Akun</span>
+            </a>
+        </li>
+    @endcan
     <li class="nav-item">
         <a class="nav-link text-dark" href="{{ URL::to('dashboard/mainmenu') }}">
             <i class="fa-solid fa-right-to-bracket"></i>

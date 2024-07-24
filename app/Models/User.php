@@ -37,6 +37,25 @@ class User extends Authenticatable
     //     'email_verified_at' => 'datetime',
     // ];
 
+    public static function getUsername($kode_agen) {
+        // Dapatkan pengguna yang sedang login
+        $baseKodeAgen = $kode_agen; // Misalnya: PNK001P
+
+        // Temukan urutan terakhir dari username yang sudah ada dengan prefix yang sama
+        $lastUser = User::where('username', 'like', "$baseKodeAgen%")
+                        ->orderBy('username', 'desc')
+                        ->first();
+
+        if ($lastUser) {
+            $lastUrutan = (int) substr($lastUser->username, -3);
+            $newUrutan = str_pad($lastUrutan + 1, 3, '0', STR_PAD_LEFT); // Tambahkan 1 dan pad dengan 0 di kiri
+        } else {
+            $newUrutan = '001';
+        }
+        
+        return $baseKodeAgen . $newUrutan;
+    }
+
     public function outlet () {
         return $this->belongsTo(Outlet::class, 'id_outlet', 'id');
     }
