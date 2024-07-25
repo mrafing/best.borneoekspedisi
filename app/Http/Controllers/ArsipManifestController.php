@@ -28,11 +28,8 @@ class ArsipManifestController extends Controller
 
         if (Auth::user()->role == 'gm') {
 
-        } elseif (Auth::user()->role == 'master') {
+        } else {
             $query->where('id_outlet_terima', Auth::user()->id_outlet);
-        } elseif (Auth::user()->role == 'admin') {
-            $query->where('id_outlet_terima', Auth::user()->id_outlet)
-                  ->where('admin', Auth::user()->username);
         }
 
         $listmanifest = $query->latest()->get();
@@ -65,11 +62,8 @@ class ArsipManifestController extends Controller
             if ($request->filled('id_outlet_terima')) {
                 $query->where('id_outlet_terima', $id_outlet_terima);
             }
-        } elseif (Auth::user()->role == 'master') {
+        } else {
             $query->where('id_outlet_terima', Auth::user()->id_outlet);
-        } elseif (Auth::user()->role == 'admin') {
-            $query->where('id_outlet_terima', Auth::user()->id_outlet)
-                  ->where('admin', Auth::user()->username);
         }
 
         // Filter berdasarkan layanan

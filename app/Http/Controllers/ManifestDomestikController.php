@@ -30,8 +30,7 @@ class ManifestDomestikController extends Controller
     public function index() {
         $param = [
             'title' => 'Manifest Harian Domestik',
-            'listmanifest' => Manifest::where('admin', Auth::user()->username)
-                         ->where('id_outlet_terima', Auth::user()->id_outlet)
+            'listmanifest' => Manifest::where('id_outlet_terima', Auth::user()->id_outlet)
                          ->whereDate('created_at', Carbon::today())
                          ->latest()
                          ->get(),
@@ -49,9 +48,7 @@ class ManifestDomestikController extends Controller
         $pembayaran = $request->input('pembayaran');
         $no_resi = $request->input('no_resi');
 
-        $query = Manifest::query()
-                ->where('id_outlet_terima', Auth::user()->id_outlet)
-                ->where('admin', Auth::user()->username);
+        $query = Manifest::query()->where('id_outlet_terima', Auth::user()->id_outlet);
 
     
         // Filter berdasarkan layanan
@@ -187,7 +184,7 @@ class ManifestDomestikController extends Controller
                 'id_barang' => $barangInstance->id, // Asosiasi dengan barang
                 'id_ongkir' => $ongkirInstance->id, // Asosiasi dengan ongkir
                 'id_layanan' => $request->input('id_layanan'),
-                'admin' => Auth::user()->username,
+                'admin' => Auth::user()->nama,
             ];
             $manifestInstance = Manifest::create($manifestData);
 
