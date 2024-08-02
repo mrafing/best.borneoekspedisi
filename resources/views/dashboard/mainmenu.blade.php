@@ -26,54 +26,105 @@
     <div class="row">
         <div class="col-7">
             <div class="row justify-content-around">
-                <div class="col-md-4 mb-3">
-                    <a class="card text-center bg-primary shadow main-menu m-auto" href="{{ URL::to('operasional') }}">
-                        <div class="card-body text-light">
-                            <img class="mb-3" src="{{ asset('img/img.svg') }}" style="width: 50px">
-                            <p style="font-size: 12px">OPERASIONAL</p>
+                @if (Auth::user()->outlet->tipe == 'gw')
+                    <div class="col-md-4 mb-3">
+                        <div class="card text-center bg-secondary shadow m-auto" href="{{ URL::to('operasional') }}">
+                            <div class="card-body text-light">
+                                <img class="mb-3" src="{{ asset('img/img.svg') }}" style="width: 50px">
+                                <p style="font-size: 12px">OPERASIONAL</p>
+                            </div>
                         </div>
-                    </a>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <a class="card text-center bg-primary shadow main-menu m-auto" href="{{ URL::to('arsipmanifest') }}">
-                        <div class="card-body text-light">
-                            <img class="mb-3" src="{{ asset('img/img2.svg') }}" style="width: 34px">
-                            <p style="font-size: 12px">ARSIP MANIFEST</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a class="card text-center bg-primary shadow main-menu m-auto" href="{{ URL::to('arsipmanifest') }}">
+                            <div class="card-body text-light">
+                                <img class="mb-3" src="{{ asset('img/img2.svg') }}" style="width: 34px">
+                                <p style="font-size: 12px">ARSIP MANIFEST</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a class="card text-center bg-primary shadow main-menu m-auto" href="{{ URL::to('jalurdistribusi') }}">
+                            <div class="card-body text-light">
+                                <img class="mb-3" src="{{ asset('img/img3.svg') }}" style="width: 50px">
+                                <p style="font-size: 12px">JALUR DISTRIBUSI</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a class="card text-center bg-primary shadow main-menu m-auto" href="">
+                            <div class="card-body text-light">
+                                <img class="mb-3" src="{{ asset('img/img4.svg') }}" style="width: 50px">
+                                <p style="font-size: 12px">LAPORAN KEUANGAN</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a class="card text-center bg-primary shadow main-menu m-auto" href="">
+                            <div class="card-body text-light">
+                                <img class="mb-3" src="{{ asset('img/img5.svg') }}" style="width: 36px">
+                                <p style="font-size: 12px">LAPORAN PENGIRIMAN</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a class="card text-center bg-primary shadow main-menu m-auto" href="{{ URL::to('integrasisystem') }}">
+                            <div class="card-body text-light">
+                                <img class="mb-3" src="{{ asset('img/img6.svg') }}" style="width: 52px">
+                                <p style="font-size: 12px">INTEGRASI SYSTEM</p>
+                            </div>
+                        </a>
+                    </div>
+                @elseif (Auth::user()->outlet->tipe == 'mitra a' || Auth::user()->outlet->tipe == 'mitra b')
+                    <div class="col-md-4 mb-3">
+                        <a class="card text-center bg-primary shadow main-menu m-auto" href="{{ URL::to('operasional') }}">
+                            <div class="card-body text-light">
+                                <img class="mb-3" src="{{ asset('img/img.svg') }}" style="width: 50px">
+                                <p style="font-size: 12px">OPERASIONAL</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a class="card text-center bg-primary shadow main-menu m-auto" href="{{ URL::to('arsipmanifest') }}">
+                            <div class="card-body text-light">
+                                <img class="mb-3" src="{{ asset('img/img2.svg') }}" style="width: 34px">
+                                <p style="font-size: 12px">ARSIP MANIFEST</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a class="card text-center bg-primary shadow main-menu m-auto" href="{{ URL::to('jalurdistribusi') }}">
+                            <div class="card-body text-light">
+                                <img class="mb-3" src="{{ asset('img/img3.svg') }}" style="width: 50px">
+                                <p style="font-size: 12px">JALUR DISTRIBUSI</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card text-center bg-secondary shadow m-auto" href="">
+                            <div class="card-body text-light">
+                                <img class="mb-3" src="{{ asset('img/img4.svg') }}" style="width: 50px">
+                                <p style="font-size: 12px">LAPORAN KEUANGAN</p>
+                            </div>
                         </div>
-                    </a>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <a class="card text-center bg-primary shadow main-menu m-auto" href="{{ URL::to('jalurdistribusi') }}">
-                        <div class="card-body text-light">
-                            <img class="mb-3" src="{{ asset('img/img3.svg') }}" style="width: 50px">
-                            <p style="font-size: 12px">JALUR DISTRIBUSI</p>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="card text-center bg-secondary shadow m-auto" href="">
+                            <div class="card-body text-light">
+                                <img class="mb-3" src="{{ asset('img/img5.svg') }}" style="width: 36px">
+                                <p style="font-size: 12px">LAPORAN PENGIRIMAN</p>
+                            </div>
                         </div>
-                    </a>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <a class="card text-center bg-primary shadow main-menu m-auto" href="">
-                        <div class="card-body text-light">
-                            <img class="mb-3" src="{{ asset('img/img4.svg') }}" style="width: 50px">
-                            <p style="font-size: 12px">LAPORAN KEUANGAN</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <a class="card text-center bg-primary shadow main-menu m-auto" href="">
-                        <div class="card-body text-light">
-                            <img class="mb-3" src="{{ asset('img/img5.svg') }}" style="width: 36px">
-                            <p style="font-size: 12px">LAPORAN PENGIRIMAN</p>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-md-4 mb-3">
-                    <a class="card text-center bg-primary shadow main-menu m-auto" href="{{ URL::to('integrasisystem') }}">
-                        <div class="card-body text-light">
-                            <img class="mb-3" src="{{ asset('img/img6.svg') }}" style="width: 52px">
-                            <p style="font-size: 12px">INTEGRASI SYSTEM</p>
-                        </div>
-                    </a>
-                </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <a class="card text-center bg-primary shadow main-menu m-auto" href="{{ URL::to('integrasisystem') }}">
+                            <div class="card-body text-light">
+                                <img class="mb-3" src="{{ asset('img/img6.svg') }}" style="width: 52px">
+                                <p style="font-size: 12px">INTEGRASI SYSTEM</p>
+                            </div>
+                        </a>
+                    </div>
+                @endif
             </div>
         </div>
         <div class="col" style="max-height: 284px; overflow: auto">
