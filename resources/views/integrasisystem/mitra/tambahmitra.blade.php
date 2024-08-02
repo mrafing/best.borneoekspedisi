@@ -50,6 +50,15 @@
                                 @enderror
                             </div>
                             <div class="form-group">
+                                <label for="nama_pendaftar">Nama Mitra</label>
+                                <input type="text" class="form-control @error('nama_mitra') is-invalid @enderror" id="nama_mitra" name="nama_mitra" value="{{ old('nama_mitra') }}" required placeholder="Cth: PT. Borneo Citra Express">
+                                @error('nama_mitra')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
                                 <label for="nomor_kontak">Nomor Kontak</label>
                                 <input type="number" class="form-control @error('nomor_kontak') is-invalid @enderror" id="nomor_kontak" name="nomor_kontak" value="{{ old('nomor_kontak') }}" required placeholder="Cth: 0895xxxxxxxx">
                                 @error('nomor_kontak')

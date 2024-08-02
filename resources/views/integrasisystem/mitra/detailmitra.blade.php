@@ -19,8 +19,8 @@
             <div class="watermark row justify-content-around">
                 @for ($i=0; $i<500; $i++)
                     <div>
-                        <p style="margin-bottom: 100px;"><b>{{ strtoupper(Auth::user()->username) }} - {{ strtoupper(Auth::user()->outlet->nama_agen) }} - {{ strtoupper(Auth::user()->role) }}</b></p>
-                        <p style="margin-left: 200px; margin-bottom: 100px;"><b>{{ strtoupper(Auth::user()->username) }} - {{ strtoupper(Auth::user()->outlet->nama_agen) }} - {{ strtoupper(Auth::user()->role) }}</b></p>
+                        <p style="margin-bottom: 100px;"><b>{{ strtoupper(Auth::user()->nama) }} - {{ strtoupper(Auth::user()->outlet->kode_agen) }} - {{ strtoupper(Auth::user()->role) }}</b></p>
+                        <p style="margin-left: 200px; margin-bottom: 100px;"><b>{{ strtoupper(Auth::user()->nama) }} - {{ strtoupper(Auth::user()->outlet->kode_agen) }} - {{ strtoupper(Auth::user()->role) }}</b></p>
                     </div>
                 @endfor
             </div>
@@ -34,7 +34,31 @@
                         <h6 class="mb-0"><b>Daftar Mitra</b> / Detail Mitra</h6>
                     </div>
                 </div>
-                <form action="" method="post">
+
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong> {{ session('success') }}</strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
+
+                <form action="{{ URL::to('integrasisystem/mitra/update') }}" method="post">
+                    @csrf
                     <input type="hidden" name="id" value="{{ $data->id }}">
                     <h5 class="font-weight-bold">Info Mitra</h5>
                     <div class="card p-3 mb-5">
@@ -53,6 +77,13 @@
                                         <td class="d-flex">
                                             <p class="mb-0 mr-1">:</p>
                                             <input class="form-control form-control-sm" type="text" name="nama_pendaftar" value="{{ $data->nama_pendaftar }}" required>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><p class="mb-1" >Nama Mitra<span class="text-danger">*</span></p></td>
+                                        <td class="d-flex">
+                                            <p class="mb-0 mr-1">:</p>
+                                            <input class="form-control form-control-sm" type="text" name="nama_mitra" value="{{ $data->nama_mitra }}" required>
                                         </td>
                                     </tr>
                                     <tr>
@@ -133,23 +164,15 @@
                             @endif
                         </div>
                         <div class="row p-2">
-                            {{-- <button class="col-auto btn btn-primary btn-sm mr-2" type="submit" name="editMitra"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan</button> --}}
+                            <button class="col-auto btn btn-primary btn-sm mr-2" type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan</button>
                         </div>
                     </div>
                 </form>
 
                 {{-- List Outlet --}}
                     <div class="d-flex justify-content-between mb-3">
-                        <h5 class="font-weight-bold mb-0">Daftar Outlet dari Mitra 
-                            @if ($data->tipe == "perusahaan")
-                                {{ strtoupper($data->nama_perusahaan) }}
-                            @elseif ($data->tipe == "customer priority")
-                                {{ strtoupper($data->nama_toko) }}
-                            @else
-                                {{ strtoupper($data->nama_pendaftar) }}
-                            @endif
-                        </h5>
-                        <a href="#" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Tambah Outlet</a>
+                        <h5 class="font-weight-bold mb-0">Daftar Outlet dari Mitra {{ strtoupper($data->nama_mitra) }}</h5>
+                        <a href="{{ URL::to("integrasisystem/mitra/tambahoutlet/$data->id") }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Tambah Outlet</a>
                     </div>
                     <div id="accordion">
                         @if($listoutlet->count() > 0 )
@@ -157,7 +180,7 @@
                                 <div class="card mb-3">
                                     <div class="card-header p-0">
                                         <button class="btn d-flex justify-content-between p-3 w-100" data-toggle="collapse" data-target="#collapseOne{{ $outlet->id }}">
-                                            <p class="mb-0">ID Outlet : {{ $outlet->nama_agen }}</p>
+                                            <p class="mb-0">ID Outlet : {{ $outlet->kode_agen }}</p>
                                             <p class="mb-0">{{ strtoupper($outlet->tipe) }}</p>
                                             <div class="mb-0 align-items-center d-flex">
                                                 <i class="fa-solid fa-circle fa-xs mr-1 {{ ($outlet->status === "active") ? 'text-success' : 'text-danger'  }}"></i> 
@@ -168,7 +191,8 @@
                             
                                     <div id="collapseOne{{ $outlet->id }}" class="collapse show" data-parent="#accordion">
                                         <div class="card-body">
-                                            <form action="" method="post">
+                                            <form action="{{ URL::to('integrasisystem/mitra/updateoutlet') }}" method="post">
+                                                @csrf
                                                 <input type="hidden" name="id_outlet" value="{{ $outlet->id }}">
                                                 <input type="hidden" name="id_mitra" value="{{ $outlet->id_mitra }}">
                                                 <div class="row">
@@ -177,7 +201,7 @@
                                                             <label class="col-4 col-form-label">Kode Agen</label>
                                                             <div class="col-8 d-flex">
                                                                 <p class="mb-0 mr-2">:</p>
-                                                                <input type="text" class="form-control form-control-sm" name="nama_agen" value="{{ $outlet->nama_agen }}" required>
+                                                                <input type="text" class="form-control form-control-sm" name="kode_agen" value="{{ $outlet->kode_agen }}" required>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row mb-0">
@@ -185,8 +209,7 @@
                                                             <div class="col-8 d-flex">
                                                                 <p class="mb-0 mr-2">:</p>
                                                                 <select class="form-control form-control-sm" name="tipe" required>
-                                                                    <option value="mitra gw" {{   ($outlet->tipe == "mitra gw") ? 'selected': '' }}>Mitra GW</option>
-                                                                    <option value="mitra j" {{   ($outlet->tipe == "mitra j") ? 'selected': '' }}>Mitra P</option>
+                                                                    <option value="gw" {{   ($outlet->tipe == "gw") ? 'selected': '' }}>GW</option>
                                                                     <option value="mitra a" {{   ($outlet->tipe == "mitra a") ? 'selected': '' }}>Mitra A</option>
                                                                     <option value="mitra b" {{   ($outlet->tipe == "mitra b") ? 'selected': '' }}>Mitra B</option>
                                                                     <option value="mitra c" {{   ($outlet->tipe == "mitra c") ? 'selected': '' }}>Mitra C</option>
@@ -276,8 +299,8 @@
                                                 </div>
                                                 <div class="row p-2 justify-content-end">
                                                     <button class="col-auto btn btn-primary btn-sm mr-2" type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan</button>
-                                                    <a href="" class="col-auto btn btn-danger btn-sm mr-2" onclick="return confirm('yakin ingin menghapus Agen?');"> 
-                                                        <i class="fa-solid fa-trash"></i> Hapus Agen
+                                                    <a href="{{ URL::to("integrasisystem/mitra/hapusoutlet/$outlet->id") }}" class="col-auto btn btn-danger btn-sm mr-2" onclick="return confirm('yakin ingin menghapus Outlet?');"> 
+                                                        <i class="fa-solid fa-trash"></i> Hapus Outlet
                                                     </a>
                                                 </div>
                                             </form>

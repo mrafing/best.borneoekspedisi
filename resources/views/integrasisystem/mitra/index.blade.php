@@ -39,19 +39,19 @@
                     <table id="daftarmittra" class="table table-bordered table-hover shadow">
                         <thead class="bg-primary text-light">
                           <tr>
-                            <th class="align-middle border bg-primary shadow" style="height: 20px; position: sticky; left: 0; z-index: 2;"><i class="fa-solid fa-gear"></i></th>
-                            <th class="align-middle " style="min-width: 100px;">Tipe</th>
-                            <th class="align-middle " style="min-width: 100px;">Status</th>
-                            <th class="align-middle " style="min-width: 100px;">Nama Pendaftar</th>
-                            <th class="align-middle " style="min-width: 100px;">Nomor Kontak</th>
-                            <th class="align-middle " style="min-width: 300px;">Alamat Pendaftar</th>
-                            <th class="align-middle " style="min-width: 100px;">Nama Perusahaan</th>
-                            <th class="align-middle " style="min-width: 100px;">Nama Pimpinan</th>
-                            <th class="align-middle " style="min-width: 300px;">Alamat Perusahaan</th>
-                            <th class="align-middle " style="min-width: 100px;">Kategori Perusahaan</th>
-                            <th class="align-middle " style="min-width: 100px;">Nama Toko</th>
-                            <th class="align-middle " style="min-width: 100px;">Jenis Produk</th>
-                            <th class="align-middle " style="min-width: 300px;">Alamat Toko</th>
+                            <th class="border bg-primary shadow" style="height: 20px; position: sticky; left: 0; z-index: 2;"><i class="fa-solid fa-gear"></i></th>
+                            <th style="white-space: nowrap;">Tipe</th>
+                            <th style="white-space: nowrap;">Status</th>
+                            <th style="white-space: nowrap;">Nama Pendaftar</th>
+                            <th style="white-space: nowrap;">Nomor Kontak</th>
+                            <th style="white-space: nowrap;">Alamat Pendaftar</th>
+                            <th style="white-space: nowrap;">Nama Perusahaan</th>
+                            <th style="white-space: nowrap;">Nama Pimpinan</th>
+                            <th style="white-space: nowrap;">Alamat Perusahaan</th>
+                            <th style="white-space: nowrap;">Kategori Perusahaan</th>
+                            <th style="white-space: nowrap;">Nama Toko</th>
+                            <th style="white-space: nowrap;">Jenis Produk</th>
+                            <th style="white-space: nowrap;">Alamat Toko</th>
                           </tr>
                         </thead>
                         <tbody>
