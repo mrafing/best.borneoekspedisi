@@ -31,6 +31,21 @@
             <span>International</span>
         </a>
     </li>
+    @can('gm')
+        <li class="nav-item">
+            <a class="nav-link {{ $active == 'voiddomestik' || $active == 'voidinternational' ? 'text-primary' : 'text-dark' }}" href="#" data-toggle="collapse" data-target="#voidManifest">
+                <i class="fa-solid fa-folder-minus"></i>
+                <span>Void Manifest</span>
+            </a>
+            <div id="voidManifest" class="collapse">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Components:</h6>
+                    <a class="collapse-item" href="{{ URL::to('arsipmanifest/voiddomestik') }}">Domestik</a>
+                    <a class="collapse-item" href="#">International</a>
+                </div>
+            </div>
+        </li>
+    @endcan
 
     <li class="nav-item">
         <a class="nav-link text-dark" href="{{ URL::to('dashboard/mainmenu') }}">

@@ -24,6 +24,18 @@
                 @endfor
             </div>
             {{-- CONTENT --}}
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 @if (session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <strong> {{ session('success') }}</strong>
@@ -32,9 +44,10 @@
                         </button>
                     </div>
                 @endif
+                
                 <div class="d-flex justify-content-between align-items-end mb-2">
                     <div>
-                        <p class="mb-2">Unduh Arsip Manifest</p>
+                        <p class="mb-2">Unduh Void Manifest</p>
                         <button class="btn btn-sm btn-danger" type="submit" name="action" value="pdf">PDF <i class="fa-solid fa-file-pdf"></i></button>
                         <button class="btn btn-sm btn-success" type="submit" name="action" value="excel">Excel <i class="fa-solid fa-table"></i></button>
                     </div>
@@ -55,13 +68,6 @@
                                         @foreach ( $listoutlet as $data )
                                             <option value="{{ $data->id }}">{{ $data->kode_agen }}</option>
                                         @endforeach
-                                    </select>
-                                </div>
-                            @elseif (Auth::user()->role == 'admin')
-                                <div class="col-3 form-group">
-                                    <label for="id_outlet_terima"><small>Outlet Terima</small></label>
-                                    <select class="form-control form-control-sm" id="id_outlet_terima" name="id_outlet_terima" readonly>
-                                        <option value="{{ Auth::user()->id_outlet }}" selected>{{ Auth::user()->outlet->kode_agen }}</option>
                                     </select>
                                 </div>
                             @endif
@@ -103,10 +109,6 @@
                                     <option value="COD">COD</option>
                                 </select>
                             </div>
-                            <div class="col-3 form-group">
-                                <label for=""><small>Nomor/kode Resi</small></label>
-                                <input class="form-control form-control-sm" name="no_resi" id="no_resi" placeholder="Cth: BE240611xxxxxx">
-                            </div>
                         </div>
                         <div class="row justify-content-between">
                             <div class="col-auto">
@@ -119,14 +121,13 @@
                     </div>
                 </div>
 
-            <div class="table-responsive border rounded py-2" id="filterarsipdomestik">
+            <div class="table-responsive border rounded py-2" id="filtervoiddomestik">
                 <table class="table table-bordered table-hover shadow" id="manifest">
                     <thead>
                         <tr class="bg-secondary text-light">
                             <th class="bg-secondary border shadow" style="position: sticky; left: 0; z-index: 2;">
                                 <i class="fa-solid fa-gear"></i>
                             </th>
-                            <th class="bg-secondary border shadow" style="position: sticky; left: 88px; z-index: 2; white-space: nowrap;"><small>Nomor Resi</small></th>
                             <th style="white-space: nowrap;"><small>Nama Pengirim</small></th>
                             <th style="white-space: nowrap;"><small>Nama Penerima</small></th>
                             <th style="white-space: nowrap;"><small>Tujuan</small></th>
@@ -141,19 +142,25 @@
                             <th style="white-space: nowrap;"><small>Total</small></th>
                             <th style="white-space: nowrap;"><small>Metode Pembayaran</small></th>
                             <th style="white-space: nowrap;"><small>Admin</small></th>
-                            <th style="white-space: nowrap;"><small>Tanggal Terima</small></th>
+                            <th style="white-space: nowrap;"><small>Deleted By</small></th>
+                            <th style="white-space: nowrap;"><small>Tanggal Void</small></th>
+                            <th style="white-space: nowrap;"><small>Keterangan</small></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($listmanifest as $data)
+                        @forelse ($listvoidmanifest as $data)
                             <tr>
                                 <td class="bg-white border shadow" style="position: sticky; left: 0; z-index: 2;">
                                     <div class="d-flex">
-                                        <a href="{{ URL::to('operasional/manifestdomestik/printresi') }}/{{ $data->id }}" class="btn btn-primary btn-sm mr-1" target="_blank"><i class="fa-solid fa-print fa-sm"></i></a>
-                                        <a href="{{ URL::to('operasional/manifestdomestik/hapus') }}/{{ $data->id }}" class="btn btn-danger btn-sm mr-1" onSubmit="if(!confirm('Yakin Ingin Void?')){return false;}"><i class="fa-solid fa-trash-can fa-sm"></i></a>
+                                        <a href="{{ URL::to("arsipmanifest/restoredomestik/$data->id") }}" class="btn btn-primary btn-sm mr-1" onclick="if(!confirm('Yakin Ingin Pulihkan?')){return false;}"><i class="fa-solid fa-arrows-rotate"></i></a>
+                                        <form action="{{ URL::to("arsipmanifest/savehapusvoiddomestik") }}" method="post" onsubmit="if(!confirm('Yakin Ingin Hapus? Resi Akan Hilang Permanen')){return false;}">
+                                            @csrf
+                                            @method('delete')
+                                            <input type="hidden" name="id" value="{{ $data->id }}">
+                                            <button type="submit" class="btn btn-danger btn-sm mr-1"><i class="fa-solid fa-trash-can fa-sm"></i></button>
+                                        </form>
                                     </div>
                                 </td>
-                                <td class="bg-white border shadow" style="position: sticky; left: 88px; z-index: 2; white-space: nowrap;"><small>{{ $data->no_resi }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->pengirim->nama_pengirim }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->penerima->nama_penerima }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->penerima->kecamatan->nama_kecamatan }}, {{ $data->penerima->kecamatan->kota->nama_kota }}</small></td>
@@ -168,11 +175,13 @@
                                 <td style="white-space: nowrap;"><small>{{ $data->ongkir->total_ongkir }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->ongkir->pembayaran }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->admin }}</small></td>
+                                <td style="white-space: nowrap;"><small>{{ $data->deleted_by }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->created_at }}</small></td>
+                                <td style="white-space: nowrap;"><small>{{ $data->keterangan_hapus }}</small></td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="17" class="text-center"><small>Not Found</small></td>
+                                <td colspan="18" class="text-center"><small>Not Found</small></td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -224,11 +233,9 @@
             let dari_tanggal = $('#dari_tanggal').val();
             let sampai_tanggal = $('#sampai_tanggal').val();
             let pembayaran = $('#pembayaran').val();
-            let no_resi = $('#no_resi').val();
-            console.log(id_layanan)
             $.ajax({
                 type: 'GET',
-                url: '{{ route("filterarsipdomestik") }}',
+                url: '{{ route("filtervoiddomestik") }}',
                 data: {
                     id_outlet_terima : id_outlet_terima,
                     id_layanan : id_layanan,
@@ -236,10 +243,9 @@
                     dari_tanggal : dari_tanggal,
                     sampai_tanggal : sampai_tanggal,
                     pembayaran : pembayaran,
-                    no_resi : no_resi
                 },
                 success: function (response) {
-                    $('#filterarsipdomestik').html(response);
+                    $('#filtervoiddomestik').html(response);
                 },
                 error: function (error) {
                     console.log(error);

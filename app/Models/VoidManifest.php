@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class VoidManifest extends Model
 {
     use HasFactory, GenUid;
-    protected $table = 'tb_manifest';
+    protected $table = 'tb_void_manifest';
     protected $guarded = ['id'];
 
     public function pengirim() {

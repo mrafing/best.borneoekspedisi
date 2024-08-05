@@ -17,6 +17,7 @@ use App\Models\Pengirim;
 use App\Models\Penerima;
 use App\Models\SubManifest;
 use App\Models\Tracking;
+use App\Models\VoidManifest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -260,21 +261,36 @@ class ManifestDomestikController extends Controller
     public function savehapus(Request $request) 
     {   
 
-        Manifest::destroy($request->id);
-        return redirect('operasional/manifestdomestik/')->with('success', 'Manifest Berhasil Di Void!');
         // dd($request);
-        // DB::beginTransaction();
-        // try{
-        //     Manifest::destroy($request->id);
-        //     return redirect('operasional/manifestdomestik/')->with('success', 'Manifest Berhasil Di Void!');
+        DB::beginTransaction();
+        try{
+            // Membuat Data Void Manifest
+            $voidManifestData = [
+                'id_outlet_terima' => $request->id_outlet_terima,
+                'id_pengirim' => $request->id_pengirim,
+                'id_penerima' => $request->id_penerima,
+                'id_barang' => $request->id_barang,
+                'id_ongkir' => $request->id_ongkir,
+                'id_layanan' => $request->id_layanan,
+                'keterangan_hapus' => $request->keterangan_hapus,
+                'admin' => $request->admin,
+                'deleted_by' => Auth::user()->nama,
+            ];
+            VoidManifest::create($voidManifestData);
+
+            Manifest::destroy($request->id);
+            SubManifest::where('id_manifest', $request->id)->delete();
+
+            DB::commit();
+            return redirect('/arsipmanifest/arsipdomestik/')->with('success', 'Manifest Berhasil Di Void!');
             
-        // } catch (\Exception $e) {
-        //     // Rollback transaksi jika terjadi kesalahan
-        //     DB::rollBack();
-        //     // Log the error for debugging
-        //     Log::error('Error while saving data: '.$e->getMessage());
-        //     return back()->withErrors(['message' => 'Terjadi kesalahan saat Void Manifest.']);
-        // }
+        } catch (\Exception $e) {
+            // Rollback transaksi jika terjadi kesalahan
+            DB::rollBack();
+            // Log the error for debugging
+            Log::error('Error while saving data: '.$e->getMessage());
+            return back()->withErrors(['message' => 'Terjadi kesalahan saat Void Manifest.']);
+        }
     }
     
 

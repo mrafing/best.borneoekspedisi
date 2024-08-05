@@ -26,6 +26,18 @@
             </div>
             {{-- CONTENT --}}
             <div style="max-width: 1000px">
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 <form action="{{ URL::to('operasional/manifestdomestik/savehapus') }}" method="post">
                     @csrf
                     @method('delete')
@@ -37,7 +49,6 @@
                     <input type="hidden" name="id_ongkir" value="{{ $data->id_ongkir }}">
                     <input type="hidden" name="id_layanan" value="{{ $data->id_layanan }}">
                     <input type="hidden" name="admin" value="{{ $data->admin }}">
-                    <input type="hidden" name="deleted_by" value="{{ Auth::user()->username }}">
 
                     <label class="form-label">Keterangan Hapus</label>
                     <textarea class="form-control mb-3" name="keterangan_hapus" cols="30" rows="5"></textarea>
