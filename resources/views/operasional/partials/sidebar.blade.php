@@ -47,7 +47,7 @@
         </div>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" href="#">
+        <a class="nav-link {{ Request::is('operasional/cekongkir*') ? 'text-primary' : 'text-dark' }}" href="{{ URL::to('operasional/cekongkir') }}">
             <i class="fa-solid fa-magnifying-glass"></i>
             <span>Cek Ongkir</span>
         </a>
