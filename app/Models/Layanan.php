@@ -17,7 +17,15 @@ class Layanan extends Model
         return $this->hasMany(Manifest::class, 'id_layanan', 'id');
     }
 
+    public function manifestLn() {
+        return $this->hasMany(ManifestLn::class, 'id_layanan', 'id');
+    }
+
     public function hargaOngkir() {
         return $this->hasMany(hargaOngkir::class, 'id_layanan', 'id');
+    }
+
+    public function hargaOngkirLn() {
+        return $this->hasMany(hargaOngkirLn::class, 'id_layanan', 'id');
     }
 }

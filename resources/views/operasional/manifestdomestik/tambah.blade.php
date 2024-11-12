@@ -92,21 +92,13 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm mb-2">
-                                            <label for="provinsi_pengirim" class="form-label">Provinsi</label>
-                                            <input type="text" class="form-control form-control-sm" name="provinsi_pengirim" id="provinsi_pengirim" value="{{ auth()->user()->outlet->kecamatan->kota->provinsi->nama_provinsi }}" readonly>
-                                        </div>
-                                        <div class="col-sm mb-2">
-                                            <label for="kota_pengirim" class="form-label">Kota</label>
-                                            <input type="text" class="form-control form-control-sm" name="kota_pengirim" id="kota_pengirim" value="{{ auth()->user()->outlet->kecamatan->kota->nama_kota }}" readonly>
-                                            <input type="hidden" id="id_kota_pengirim" value="{{ auth()->user()->outlet->kecamatan->kota->id }}">
+                                            <label for="">Kecamtan, Kota asal</label>
+                                            <input type="text" class="form-control form-control-sm" value="{{ strtoupper(auth()->user()->outlet->kecamatan->kota->provinsi->nama_provinsi) . "/" . strtoupper(auth()->user()->outlet->kecamatan->kota->nama_kota) . "/" . strtoupper(auth()->user()->outlet->kecamatan->nama_kecamatan) }}" readonly>
+                                            <input type="hidden" name="id_kecamatan_pengirim" value="{{ auth()->user()->outlet->kecamatan->id }}">
+                                            <input type="hidden" id="id_kota_pengirim" name="id_kota_pengirim" value="{{ auth()->user()->outlet->kecamatan->kota->id }}">
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-sm mb-2">
-                                            <label for="nama_kecamatan_pengirim" class="form-label">Kecamatan</label>
-                                            <input type="text" class="form-control form-control-sm" name="nama_kecamatan_pengirim" id="nama_kecamatan_pengirim" value="{{ auth()->user()->outlet->kecamatan->nama_kecamatan }}" readonly>
-                                            <input type="hidden" name="id_kecamatan_pengirim" value="{{ auth()->user()->outlet->kecamatan->id }}">
-                                        </div>
                                         <div class="col-sm mb-2">
                                             <label for="alamat_pengirim" class="form-label"><span class="text-danger">*</span> Detail Alamat</label>
                                             <input type="text" class="form-control form-control-sm @error('alamat_pengirim') is-invalid @enderror " name="alamat_pengirim" id="alamat_pengirim" value="{{ old('alamat_pengirim') }}" required>
@@ -161,6 +153,13 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-sm mb-2">
+                                        <label for="kecamatan_penerima">Kecamtan, Kota tujuan</label>
+                                        <select class="form-control form-control-sm" id="kecamatan_penerima" name="id_kecamatan_penerima">
+                                        </select>
+                                    </div>
+                                </div>
+                                {{-- <div class="row">
+                                    <div class="col-sm mb-2">
                                         <label for="provinsi_penerima" class="form-label"><span class="text-danger">*</span> Provinsi</label>
                                         <select class="form-control  form-control-sm" name="provinsi_penerima" id="provinsi_penerima" required>
                                             <option value="">-pilih-</option>
@@ -169,22 +168,22 @@
                                             @endforeach
                                         </select>
                                     </div>
-                                </div>
-                                <div class="row">
+                                </div> --}}
+                                {{-- <div class="row">
                                     <div class="col-sm mb-2">
                                         <label for="kota_penerima" class="form-label"><span class="text-danger">*</span> Kota</label>
                                         <select class="form-control form-control-sm" name="kota_penerima" id="kota_penerima" required>
                                             <option value="" selected>-pilih-</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="row mb-3">
-                                    <div class="col-sm mb-2">
+                                    {{-- <div class="col-sm mb-2">
                                         <label for="id_kecamatan_penerima" class="form-label"><span class="text-danger">*</span> Kecamatan</label>
                                         <select class="form-control form-control-sm" name="id_kecamatan_penerima" id="kecamatan_penerima" required>
                                             <option value="" selected>-pilih-</option>
                                         </select>
-                                    </div>
+                                    </div> --}}
                                     <div class="col-sm mb-2">
                                         <label for="alamat_penerima" class="form-label"><span class="text-danger">*</span> Detail Alamat</label>
                                         <textarea class="form-control form-control-sm @error('alamat_penerima') is-invalid @enderror" name="alamat_penerima" id="alamat_penerima" cols="10" rows="1" required>{{ old('alamat_penerima') }}</textarea>
@@ -455,74 +454,73 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            $('#provinsi_penerima, #kota_penerima, #kecamatan_penerima').select2();
+            // $('#provinsi_penerima, #kota_penerima').select2();
+
+            // Search kecamatan //
+            $('#kecamatan_penerima').select2({
+                placeholder: '-Pilih-',
+                ajax: {
+                    url : '{{ route("searchkecamatan") }}',
+                    dataType: 'json',
+                    delay: 250, // Delay sebelum pencarian dimulai
+                    data: function (params) {
+                        return {
+                            q: params.term // Kata kunci yang diketik
+                        };
+                    },
+                    processResults: function (data) {
+                        // Proses hasil dari response dan tampilkan di select2
+                        return {
+                            results: data.results.map(function(item) {
+                                return {
+                                    id: item.id,
+                                    text: item.text
+                                };
+                            })
+                        };
+                    },
+                    cache: true
+                },
+                minimumInputLength: 1, // Mulai pencarian setelah mengetik 1 karakter
+            });
+
         });
 
-        // GET KOTA PENERIMA //
-        $(document).ready(function() {
-            $('#provinsi_penerima').on('change', function(){
-                var id_provinsi_penerima = $(this).val();
-                // console.log(id_provinsi_penerima);
-                if (id_provinsi_penerima) {
-                    $.ajax({
-                        url: "{{ URL::to('/operasional/manifestdomestik/getkota/') }}/" + id_provinsi_penerima,
-                        type: 'GET',
-                        data: {
-                            '_token': '{{ csrf_token() }}'
-                        },
-                        dataType: 'json',
-                        success: function(data) {
-                            // console.log(data)
-                            if (data) {
-                                $('#kota_penerima').empty();
-                                $('#kota_penerima').append('<option value="">-pilih-</option>')
-                                $.each(data, function(key, listkota) {
-                                    $('select[name="kota_penerima"]').append(
-                                        '<option value="'+ listkota.id +'">' +
-                                        listkota.nama_kota + '</option>'
-                                    );
-                                });
-                            } else {
-                                $('#kota_penerima').empty();
-                            }
-                        }
-                    })
-                } else {
-                }
-            })
-        })
+        // Get kota penerima //
+        // $(document).ready(function() {
+        //     $('#provinsi_penerima').on('change', function(){
+        //         var id_provinsi_penerima = $(this).val();
+        //         // console.log(id_provinsi_penerima);
+        //         if (id_provinsi_penerima) {
+        //             $.ajax({
+        //                 url: "{{ URL::to('/operasional/manifestdomestik/getkota/') }}/" + id_provinsi_penerima,
+        //                 type: 'GET',
+        //                 data: {
+        //                     '_token': '{{ csrf_token() }}'
+        //                 },
+        //                 dataType: 'json',
+        //                 success: function(data) {
+        //                     // console.log(data)
+        //                     if (data) {
+        //                         $('#kota_penerima').empty();
+        //                         $('#kota_penerima').append('<option value="">-pilih-</option>')
+        //                         $.each(data, function(key, listkota) {
+        //                             $('select[name="kota_penerima"]').append(
+        //                                 '<option value="'+ listkota.id +'">' +
+        //                                 listkota.nama_kota + '</option>'
+        //                             );
+        //                         });
+        //                     } else {
+        //                         $('#kota_penerima').empty();
+        //                     }
+        //                 }
+        //             })
+        //         } else {
+        //         }
+        //     })
+        // })
 
-        // GET KECAMATAN PENERIMA
-        $(document).ready(function() {
-            $('#kota_penerima').on('change', function(){
-                var id_kota_penerima = $(this).val();
-                $.ajax({
-                    url: "{{ URL::to('/operasional/manifestdomestik/getKecamatan/') }}/" + id_kota_penerima,
-                    type: 'GET',
-                    data: {
-                        '_token': '{{ csrf_token() }}'
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        // console.log(data)
-                        if (data) {
-                            $('#kecamatan_penerima').empty();
-                            $('#kecamatan_penerima').append('<option value="">-pilih-</option>')
-                            $.each(data, function(key, listkecamatan) {
-                                $('select[name="id_kecamatan_penerima"]').append(
-                                    '<option value="'+ listkecamatan.id +'">' +
-                                    listkecamatan.nama_kecamatan + '</option>'
-                                );
-                            });
-                        } else {
-                            $('#kota_penerima').empty();
-                        }
-                    }
-                })
-            })
-        })
-
-        // RESULT LAYANAN //
+        // Get layanan //
         $(document).ready(function () {
             $('#kecamatan_penerima').change(function () {
                 var id_kota_pengirim = $('#id_kota_pengirim').val();
@@ -544,7 +542,7 @@
             });
         });
 
-        // GET JUMLAH ITEM KOMODITI //
+        // Get jumlah item komoditi //
         $(document).ready(function() {
             $('#komoditi').on('change', function(){
                 var id_komoditi = $(this).val();

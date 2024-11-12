@@ -28,4 +28,8 @@ class VoidManifest extends Model
         return $this->belongsTo(Ongkir::class, 'id_ongkir', 'id');
     }
 
+    public function outlet() {
+        return $this->belongsTo(Outlet::class, 'id_outlet_terima', 'id');
+    }
+
 }

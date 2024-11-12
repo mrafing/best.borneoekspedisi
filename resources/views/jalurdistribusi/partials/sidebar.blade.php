@@ -17,14 +17,13 @@
             </li>
         </ul>
     </div>
-
-    {{-- <li class="nav-item">
-        <a class="nav-link {{ $active == 'tambahManifestDomestik' ? 'text-primary' : 'text-dark' }}" href="{{ URL::to('operasional/manifestdomestik/tambah') }}">
-            <i class="fa-solid fa-file-circle-plus"></i>
-            <span>Resi Domestik</span>
-        </a>
-    </li> --}}
+    
     <li class="nav-item">
+        <a class="nav-link {{ $active == 'menuscan' ? 'text-primary' : 'text-dark' }}" href="{{ URL::to('jalurdistribusi/menuscan') }}">
+            <i class="fa-solid fa-qrcode"></i>
+            <span>Menu Scan</span>
+        </a>
+
         <a class="nav-link text-dark" href="{{ URL::to('dashboard/mainmenu') }}">
             <i class="fa-solid fa-right-to-bracket"></i>
             <span>Main Menu</span>

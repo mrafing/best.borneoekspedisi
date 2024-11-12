@@ -23,36 +23,32 @@
         </tr>
     </thead>
     <tbody>
-        @forelse ($listmanifest as $data)
+        @foreach ($listmanifest as $data)
             <tr>
                 <td class="bg-white border shadow" style="position: sticky; left: 0; z-index: 2;">
                     <div class="d-flex">
-                        <a href="{{ URL::to('operasional/manifestdomestik/printresi') }}/{{ $data->id }}" class="btn btn-primary btn-sm mr-1" target="_blank" ><i class="fa-solid fa-print fa-sm"></i></a>
-                        <a href="{{ URL::to('operasional/manifestdomestik/hapus') }}/{{ $data->id }}" class="btn btn-danger btn-sm mr-1" onSubmit="if(!confirm('Yakin Ingin Void?')){return false;}"><i class="fa-solid fa-trash-can fa-sm"></i></a>
+                        <a href="{{ URL::to("arsipmanifest/manifestinternational/detail/$data->id") }}" class="btn btn-secondary btn-sm mr-1" ><i class="fa-solid fa-circle-info"></i></a>
+                        <a href="{{ URL::to("operasional/manifestinternational/printresi/$data->id") }}" class="btn btn-primary btn-sm mr-1" target="_blank" ><i class="fa-solid fa-print fa-sm"></i></a>
                     </div>
                 </td>
                 <td class="bg-white border shadow" style="position: sticky; left: 88px; z-index: 2; white-space: nowrap;"><small>{{ $data->no_resi }}</small></td>
                 <td style="white-space: nowrap;"><small>{{ $data->pengirim->nama_pengirim }}</small></td>
-                <td style="white-space: nowrap;"><small>{{ $data->penerima->nama_penerima }}</small></td>
-                <td style="white-space: nowrap;"><small>{{ $data->penerima->kecamatan->nama_kecamatan }}, {{ $data->penerima->kecamatan->kota->nama_kota }}</small></td>
+                <td style="white-space: nowrap;"><small>{{ $data->penerimaLn->nama_penerima }}</small></td>
+                <td style="white-space: nowrap;"><small>{{ $data->penerimaLn->kotaLn->nama_kota_ln }}, {{ $data->penerimaLn->kotaLn->negaraLn->nama_negara }}</small></td>
                 <td style="white-space: nowrap;"><small>{{ $data->barang->koli }}</small></td>
                 <td style="white-space: nowrap;"><small>{{ $data->barang->berat_aktual }}</small></td>
                 <td style="white-space: nowrap;"><small>{{ $data->barang->berat_volumetrik }}</small></td>
                 <td style="white-space: nowrap;"><small>{{ $data->barang->isi }}</small></td>
-                <td style="white-space: nowrap;"><small>{{ $data->ongkir->harga_transit }}</small></td>
-                <td style="white-space: nowrap;"><small>{{ $data->ongkir->harga_karantina }}</small></td>
-                <td style="white-space: nowrap;"><small>{{ $data->ongkir->harga_packing }}</small></td>
-                <td style="white-space: nowrap;"><small>{{ $data->ongkir->harga_ongkir }}</small></td>
-                <td style="white-space: nowrap;"><small>{{ $data->ongkir->total_ongkir }}</small></td>
-                <td style="white-space: nowrap;"><small>{{ $data->ongkir->pembayaran }}</small></td>
+                <td style="white-space: nowrap;"><small>{{ $data->ongkirLn->harga_transit }}</small></td>
+                <td style="white-space: nowrap;"><small>{{ $data->ongkirLn->harga_karantina }}</small></td>
+                <td style="white-space: nowrap;"><small>{{ $data->ongkirLn->harga_packing }}</small></td>
+                <td style="white-space: nowrap;"><small>{{ $data->ongkirLn->harga_ongkir }}</small></td>
+                <td style="white-space: nowrap;"><small>{{ $data->ongkirLn->total_ongkir }}</small></td>
+                <td style="white-space: nowrap;"><small>{{ $data->ongkirLn->pembayaran }}</small></td>
                 <td style="white-space: nowrap;"><small>{{ $data->admin }}</small></td>
                 <td style="white-space: nowrap;"><small>{{ $data->created_at }}</small></td>
             </tr>
-        @empty
-            <tr>
-                <td colspan="17" class="text-center"><small>Not Found</small></td>
-            </tr>
-        @endforelse
+        @endforeach
     </tbody>
 </table>
 

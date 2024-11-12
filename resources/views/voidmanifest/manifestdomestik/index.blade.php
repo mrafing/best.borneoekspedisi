@@ -48,8 +48,8 @@
                 <div class="d-flex justify-content-between align-items-end mb-2">
                     <div>
                         <p class="mb-2">Unduh Void Manifest</p>
-                        <button class="btn btn-sm btn-danger" type="submit" name="action" value="pdf">PDF <i class="fa-solid fa-file-pdf"></i></button>
-                        <button class="btn btn-sm btn-success" type="submit" name="action" value="excel">Excel <i class="fa-solid fa-table"></i></button>
+                        <button class="btn btn-sm btn-danger disabled" type="submit" name="action" value="pdf" disabled>PDF <i class="fa-solid fa-file-pdf"></i></button>
+                        <button class="btn btn-sm btn-success disabled" type="submit" name="action" value="excel" disabled>Excel <i class="fa-solid fa-table"></i></button>
                     </div>
                     <div class="ml-5">
                         <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false">
@@ -121,13 +121,14 @@
                     </div>
                 </div>
 
-            <div class="table-responsive border rounded py-2" id="filtervoiddomestik">
-                <table class="table table-bordered table-hover shadow" id="manifest">
+            <div class="table-responsive border rounded py-2" id="filtervoidmanifestdomestik">
+                <table class="table table-bordered table-hover shadow" id="table">
                     <thead>
                         <tr class="bg-secondary text-light">
                             <th class="bg-secondary border shadow" style="position: sticky; left: 0; z-index: 2;">
                                 <i class="fa-solid fa-gear"></i>
                             </th>
+                            <th style="white-space: nowrap;"><small>Outlet Asal</small></th>
                             <th style="white-space: nowrap;"><small>Nama Pengirim</small></th>
                             <th style="white-space: nowrap;"><small>Nama Penerima</small></th>
                             <th style="white-space: nowrap;"><small>Tujuan</small></th>
@@ -148,19 +149,61 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($listvoidmanifest as $data)
+                        @foreach ($listvoidmanifest as $data)
+                            {{-- Restore modal --}}
+                            <div class="modal fade" id="restoreModal{{ $data->id }}" tabindex="-1" role="dialog" aria-labelledby="restoreModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="restoreModalLabel">Konfirmasi restore</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="modal-title" id="restoreModalLabel">Apa anda yakin ingin memulihkan resi?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                            <a href="{{ URL::to("voidmanifest/manifestdomestik/restore/$data->id") }}" class="btn btn-primary">Pulihkan</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {{-- Delete modal --}}
+                            <div class="modal fade" id="deleteModal{{ $data->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="modal-title" id="deleteModalLabel">Apa anda yakin ingin menghapus resi? resi akan hilang permanen</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                            <form action="{{ URL::to("voidmanifest/manifestdomestik/delete") }}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <input type="hidden" name="id" value="{{ $data->id }}">
+                                                <button type="submit" class="btn btn-danger">Hapus</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <tr>
                                 <td class="bg-white border shadow" style="position: sticky; left: 0; z-index: 2;">
                                     <div class="d-flex">
-                                        <a href="{{ URL::to("arsipmanifest/restoredomestik/$data->id") }}" class="btn btn-primary btn-sm mr-1" onclick="if(!confirm('Yakin Ingin Pulihkan?')){return false;}"><i class="fa-solid fa-arrows-rotate"></i></a>
-                                        <form action="{{ URL::to("arsipmanifest/savehapusvoiddomestik") }}" method="post" onsubmit="if(!confirm('Yakin Ingin Hapus? Resi Akan Hilang Permanen')){return false;}">
-                                            @csrf
-                                            @method('delete')
-                                            <input type="hidden" name="id" value="{{ $data->id }}">
-                                            <button type="submit" class="btn btn-danger btn-sm mr-1"><i class="fa-solid fa-trash-can fa-sm"></i></button>
-                                        </form>
+                                        <button type="button" class="btn btn-primary btn-sm mr-1" data-toggle="modal" data-target="#restoreModal{{ $data->id }}"><i class="fa-solid fa-arrows-rotate"></i></button>
+                                        <button type="button" class="btn btn-danger btn-sm mr-1" data-toggle="modal" data-target="#deleteModal{{ $data->id }}"><i class="fa-solid fa-trash-can fa-sm"></i></button>
                                     </div>
                                 </td>
+                                <td style="white-space: nowrap;"><small>{{ $data->outlet->kode_agen }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->pengirim->nama_pengirim }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->penerima->nama_penerima }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->penerima->kecamatan->nama_kecamatan }}, {{ $data->penerima->kecamatan->kota->nama_kota }}</small></td>
@@ -179,11 +222,7 @@
                                 <td style="white-space: nowrap;"><small>{{ $data->created_at }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->keterangan_hapus }}</small></td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="18" class="text-center"><small>Not Found</small></td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -215,17 +254,15 @@
         }),
 
         // Select2 
-        $('#id_kota_tujuan').select2();
-        $('#id_outlet_terima').select2();
+        $('#id_kota_tujuan, #id_outlet_terima').select2();
 
         // Datatables //
-        var table = $('#manifest').DataTable( {
+        $('#table').DataTable({
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        } );
-        table.buttons().container().appendTo( '#manifest_wrapper .col-md-6:eq(0)' );
+        });
     });
 
-    // GET FILTER //
+    // Get filter //
         $('#filter').click(function () {
             let id_outlet_terima = $('#id_outlet_terima').val();
             let id_layanan = $('#id_layanan').val();
@@ -235,7 +272,7 @@
             let pembayaran = $('#pembayaran').val();
             $.ajax({
                 type: 'GET',
-                url: '{{ route("filtervoiddomestik") }}',
+                url: '{{ route("filtervoidmanifestdomestik") }}',
                 data: {
                     id_outlet_terima : id_outlet_terima,
                     id_layanan : id_layanan,
@@ -245,13 +282,13 @@
                     pembayaran : pembayaran,
                 },
                 success: function (response) {
-                    $('#filtervoiddomestik').html(response);
+                    $('#filtervoidmanifestdomestik').html(response);
                 },
                 error: function (error) {
                     console.log(error);
                 }
             });
         });
-    // END //
+    // End //
 </script>
 @endsection

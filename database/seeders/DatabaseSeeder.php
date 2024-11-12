@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
             'kode_agen' => 'PNK001A',
             'tipe' => 'mitra a',
             'id_kecamatan' => '61.71.05',
-            'alamat' => 'Jl. Pangeran Natakusuma (Seberang Indomaret PNK)',
+            'alamat' => 'Jl. Dr. Sutomo No.24',
             'nama_cs' => 'Ellen',
             'nomor_kontak' => '081256955705',
             'link_alamat' => NULL,

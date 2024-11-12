@@ -24,6 +24,18 @@
                 @endfor
             </div>
             {{-- CONTENT --}}
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                @endif
                 @if (session('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <strong> {{ session('success') }}</strong>
@@ -32,11 +44,12 @@
                         </button>
                     </div>
                 @endif
+                
                 <div class="d-flex justify-content-between align-items-end mb-2">
                     <div>
-                        <p class="mb-2">Unduh Arsip Manifest</p>
-                        <button class="btn btn-sm btn-danger" type="submit" name="action" value="pdf">PDF <i class="fa-solid fa-file-pdf"></i></button>
-                        <button class="btn btn-sm btn-success" type="submit" name="action" value="excel">Excel <i class="fa-solid fa-table"></i></button>
+                        <p class="mb-2">Unduh Void Manifest International</p>
+                        <button class="btn btn-sm btn-danger" type="submit" name="action" value="pdf" disabled>PDF <i class="fa-solid fa-file-pdf"></i></button>
+                        <button class="btn btn-sm btn-success" type="submit" name="action" value="excel" disabled>Excel <i class="fa-solid fa-table"></i></button>
                     </div>
                     <div class="ml-5">
                         <button class="btn btn-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false">
@@ -57,29 +70,21 @@
                                         @endforeach
                                     </select>
                                 </div>
-                            @elseif (Auth::user()->role == 'admin')
-                                <div class="col-3 form-group">
-                                    <label for="id_outlet_terima"><small>Outlet Terima</small></label>
-                                    <select class="form-control form-control-sm" id="id_outlet_terima" name="id_outlet_terima" readonly>
-                                        <option value="{{ Auth::user()->id_outlet }}" selected>{{ Auth::user()->outlet->kode_agen }}</option>
-                                    </select>
-                                </div>
                             @endif
                             <div class="col-3 form-group">
                                 <label for="id_layanan"><small>Layanan</small></label>
                                 <select class="form-control form-control-sm" id="id_layanan" name="id_layanan">
                                     <option value="">-pilih-</option>
-                                    @foreach ($listlayanan as $data )
-                                        <option value="{{ $data->id }}">{{ $data->nama_layanan }} - {{ $data->nama_komoditi }}</option>
-                                    @endforeach
+                                    <option value="LY8">INTERNATIONAL - (GENERAL CARGO / Barang Umum)</option>
+                                    <option value="LY9">INTERNATIONAL - (SENSITIVE ITEM)</option>
                                 </select>
                             </div>
                             <div class="col-3 form-group">
-                                <label for="id_kota_tujuan"><small>Kota/Kab Tujuan</small></label>
-                                <select class="form-control form-control-sm" name="id_kota_tujuan" id="id_kota_tujuan">
+                                <label for="id_negara_tujuan"><small>Negara Tujuan</small></label>
+                                <select class="form-control form-control-sm" name="id_negara_tujuan" id="id_negara_tujuan">
                                     <option value="">-pilih-</option>
-                                    @foreach ( $listkota as $data )
-                                        <option value="{{ $data->id }}">{{ $data->nama_kota }}</option>
+                                    @foreach ( $listnegara as $data )
+                                        <option value="{{ $data->id }}">{{ $data->nama_negara }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -103,10 +108,6 @@
                                     <option value="COD">COD</option>
                                 </select>
                             </div>
-                            <div class="col-3 form-group">
-                                <label for=""><small>Nomor/kode Resi</small></label>
-                                <input class="form-control form-control-sm" name="no_resi" id="no_resi" placeholder="Cth: BE240611xxxxxx">
-                            </div>
                         </div>
                         <div class="row justify-content-between">
                             <div class="col-auto">
@@ -119,14 +120,13 @@
                     </div>
                 </div>
 
-            <div class="table-responsive border rounded py-2" id="filterarsipdomestik">
-                <table class="table table-bordered table-hover shadow" id="manifest">
+            <div class="table-responsive border rounded py-2" id="filtermanifestinternational">
+                <table class="table table-bordered table-hover shadow" id="table">
                     <thead>
                         <tr class="bg-secondary text-light">
                             <th class="bg-secondary border shadow" style="position: sticky; left: 0; z-index: 2;">
                                 <i class="fa-solid fa-gear"></i>
                             </th>
-                            <th class="bg-secondary border shadow" style="position: sticky; left: 88px; z-index: 2; white-space: nowrap;"><small>Nomor Resi</small></th>
                             <th style="white-space: nowrap;"><small>Nama Pengirim</small></th>
                             <th style="white-space: nowrap;"><small>Nama Penerima</small></th>
                             <th style="white-space: nowrap;"><small>Tujuan</small></th>
@@ -141,40 +141,63 @@
                             <th style="white-space: nowrap;"><small>Total</small></th>
                             <th style="white-space: nowrap;"><small>Metode Pembayaran</small></th>
                             <th style="white-space: nowrap;"><small>Admin</small></th>
-                            <th style="white-space: nowrap;"><small>Tanggal Terima</small></th>
+                            <th style="white-space: nowrap;"><small>Deleted By</small></th>
+                            <th style="white-space: nowrap;"><small>Tanggal Void</small></th>
+                            <th style="white-space: nowrap;"><small>Keterangan</small></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($listmanifest as $data)
+                        @foreach ($listvoidmanifest as $data)
+                            {{-- Delete modal --}}
+                            <div class="modal fade" id="deleteModal{{ $data->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel">Konfirmasi Hapus</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="modal-title" id="deleteModalLabel">Apa anda yakin ingin menghapus resi? resi akan hilang permanen</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                            <form action="{{ URL::to("voidmanifest/manifestinternational/delete") }}" method="post">
+                                                @csrf
+                                                @method('delete')
+                                                <input type="hidden" name="id" value="{{ $data->id }}">
+                                                <button type="submit" class="btn btn-danger">Hapus</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <tr>
                                 <td class="bg-white border shadow" style="position: sticky; left: 0; z-index: 2;">
                                     <div class="d-flex">
-                                        <a href="{{ URL::to('operasional/manifestdomestik/printresi') }}/{{ $data->id }}" class="btn btn-primary btn-sm mr-1" target="_blank"><i class="fa-solid fa-print fa-sm"></i></a>
-                                        <a href="{{ URL::to('operasional/manifestdomestik/hapus') }}/{{ $data->id }}" class="btn btn-danger btn-sm mr-1" onSubmit="if(!confirm('Yakin Ingin Void?')){return false;}"><i class="fa-solid fa-trash-can fa-sm"></i></a>
+                                        <button type="button" class="btn btn-danger btn-sm mr-1" data-toggle="modal" data-target="#deleteModal{{ $data->id }}"><i class="fa-solid fa-trash-can fa-sm"></i></button>
                                     </div>
                                 </td>
-                                <td class="bg-white border shadow" style="position: sticky; left: 88px; z-index: 2; white-space: nowrap;"><small>{{ $data->no_resi }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->pengirim->nama_pengirim }}</small></td>
-                                <td style="white-space: nowrap;"><small>{{ $data->penerima->nama_penerima }}</small></td>
-                                <td style="white-space: nowrap;"><small>{{ $data->penerima->kecamatan->nama_kecamatan }}, {{ $data->penerima->kecamatan->kota->nama_kota }}</small></td>
+                                <td style="white-space: nowrap;"><small>{{ $data->penerimaLn->nama_penerima }}</small></td>
+                                <td style="white-space: nowrap;"><small>{{ $data->penerimaLn->kotaLn->nama_kota_ln }}, {{ $data->penerimaLn->kotaLn->negaraLn->nama_negara }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->barang->koli }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->barang->berat_aktual }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->barang->berat_volumetrik }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->barang->isi }}</small></td>
-                                <td style="white-space: nowrap;"><small>{{ $data->ongkir->harga_transit }}</small></td>
-                                <td style="white-space: nowrap;"><small>{{ $data->ongkir->harga_karantina }}</small></td>
-                                <td style="white-space: nowrap;"><small>{{ $data->ongkir->harga_packing }}</small></td>
-                                <td style="white-space: nowrap;"><small>{{ $data->ongkir->harga_ongkir }}</small></td>
-                                <td style="white-space: nowrap;"><small>{{ $data->ongkir->total_ongkir }}</small></td>
-                                <td style="white-space: nowrap;"><small>{{ $data->ongkir->pembayaran }}</small></td>
+                                <td style="white-space: nowrap;"><small>{{ $data->ongkirLn->harga_transit }}</small></td>
+                                <td style="white-space: nowrap;"><small>{{ $data->ongkirLn->harga_karantina }}</small></td>
+                                <td style="white-space: nowrap;"><small>{{ $data->ongkirLn->harga_packing }}</small></td>
+                                <td style="white-space: nowrap;"><small>{{ $data->ongkirLn->harga_ongkir }}</small></td>
+                                <td style="white-space: nowrap;"><small>{{ $data->ongkirLn->total_ongkir }}</small></td>
+                                <td style="white-space: nowrap;"><small>{{ $data->ongkirLn->pembayaran }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->admin }}</small></td>
+                                <td style="white-space: nowrap;"><small>{{ $data->deleted_by }}</small></td>
                                 <td style="white-space: nowrap;"><small>{{ $data->created_at }}</small></td>
+                                <td style="white-space: nowrap;"><small>{{ $data->keterangan_hapus }}</small></td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="17" class="text-center"><small>Not Found</small></td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -206,46 +229,41 @@
         }),
 
         // Select2 
-        $('#id_kota_tujuan').select2();
-        $('#id_outlet_terima').select2();
+        $('#id_negara_tujuan, #id_outlet_terima').select2();
 
         // Datatables //
-        var table = $('#manifest').DataTable( {
+        $('#table').DataTable({
             lengthMenu: [[10, 25, 50, -1], [10, 25, 50, "All"]],
-        } );
-        table.buttons().container().appendTo( '#manifest_wrapper .col-md-6:eq(0)' );
+        });
     });
 
-    // GET FILTER //
+    // Get filter //
         $('#filter').click(function () {
             let id_outlet_terima = $('#id_outlet_terima').val();
             let id_layanan = $('#id_layanan').val();
-            let id_kota_tujuan = $('#id_kota_tujuan').val();
+            let id_negara_tujuan = $('#id_negara_tujuan').val();
             let dari_tanggal = $('#dari_tanggal').val();
             let sampai_tanggal = $('#sampai_tanggal').val();
             let pembayaran = $('#pembayaran').val();
-            let no_resi = $('#no_resi').val();
-            console.log(id_layanan)
             $.ajax({
                 type: 'GET',
-                url: '{{ route("filterarsipdomestik") }}',
+                url: '{{ route("filtermanifestinternational") }}',
                 data: {
                     id_outlet_terima : id_outlet_terima,
                     id_layanan : id_layanan,
-                    id_kota_tujuan : id_kota_tujuan,
+                    id_negara_tujuan : id_negara_tujuan,
                     dari_tanggal : dari_tanggal,
                     sampai_tanggal : sampai_tanggal,
                     pembayaran : pembayaran,
-                    no_resi : no_resi
                 },
                 success: function (response) {
-                    $('#filterarsipdomestik').html(response);
+                    $('#filtermanifestinternational').html(response);
                 },
                 error: function (error) {
                     console.log(error);
                 }
             });
         });
-    // END //
+    // End //
 </script>
 @endsection

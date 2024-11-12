@@ -34,15 +34,15 @@
     </li>
 
     <li class="nav-item">
-        <a class="nav-link {{ Request::is('operasional/manifestinternational') ? 'text-primary' : 'text-dark' }}" href="#" data-toggle="collapse" data-target="#manifestInternational">
+        <a class="nav-link {{ Request::is('operasional/manifestinternational*') ? 'text-primary' : 'text-dark' }}" href="#" data-toggle="collapse" data-target="#manifestInternational">
             <i class="fa-solid fa-file-circle-plus"></i>
             <span>Resi International</span>
         </a>
         <div id="manifestInternational" class="collapse">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Components:</h6>
-                <a class="collapse-item" href="">Booking</a>
-                <a class="collapse-item" href="#">Manifest Harian</a>
+                <a class="collapse-item" href="{{ URL::to('operasional/manifestinternational/tambah') }}">Booking</a>
+                <a class="collapse-item" href="{{ URL::to('operasional/manifestinternational') }}">Manifest Harian</a>
             </div>
         </div>
     </li>

@@ -15,15 +15,18 @@ return new class extends Migration
     {
         Schema::create('tb_tracking', function (Blueprint $table) {
             $table->uuid('id')->primary();
+            $table->string('id_manifest');
             $table->string('no_resi');
-            $table->uuid('id_outlet_asal');
-            $table->uuid('id_outlet_tujuan');
+            $table->uuid('id_outlet_asal')->nullable();
+            $table->uuid('id_outlet_tujuan')->nullable();
             $table->string('keterangan');
             $table->string('status_tracking');
             $table->string('nama_kurir')->nullable();
             $table->string('armada')->nullable();
             $table->string('plat_armada')->nullable();
-            $table->string('admin');
+            $table->string('pemindai');
+            $table->string('status')->nullable();
+            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }

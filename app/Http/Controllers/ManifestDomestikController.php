@@ -2,35 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Barang;
-use App\Models\HargaKarantina;
-use App\Models\HargaOngkir;
-use App\Models\HargaItemKhusus;
-use App\Models\ItemKhusus;
-use App\Models\Kecamatan;
-use App\Models\Provinsi;
-use App\Models\Kota;
-use App\Models\Layanan;
-use App\Models\Manifest;
-use App\Models\Ongkir;
-use App\Models\Pengirim;
-use App\Models\Penerima;
-use App\Models\SubManifest;
-use App\Models\Tracking;
-use App\Models\VoidManifest;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use App\Models\Barang, App\Models\HargaKarantina, App\Models\HargaOngkir, App\Models\HargaItemKhusus, App\Models\ItemKhusus, App\Models\Kecamatan, App\Models\Provinsi, App\Models\Kota, App\Models\Layanan, App\Models\Manifest, App\Models\Ongkir, App\Models\Pengirim, App\Models\Penerima, App\Models\SubManifest, App\Models\Tracking, App\Models\VoidManifest;
+use Illuminate\Support\Facades\Auth, Illuminate\Support\Facades\DB, Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Dompdf\Dompdf;
+use Illuminate\Http\Request;
 
 class ManifestDomestikController extends Controller
 {
 
-    public function index() {
+    public function index()
+    {
         $param = [
-            'title' => 'Manifest Harian Domestik',
+            'title' => 'Manifest harian domestik',
             'listmanifest' => Manifest::where('id_outlet_terima', Auth::user()->id_outlet)
                          ->whereDate('created_at', Carbon::today())
                          ->latest()
@@ -42,7 +26,8 @@ class ManifestDomestikController extends Controller
         return view('operasional.manifestdomestik.index', $param);
     }
 
-    public function filter(Request $request) {
+    public function filter(Request $request) 
+    {
         $id_layanan = $request->input('id_layanan');
         $id_kota_tujuan = $request->input('id_kota_tujuan');
         $tanggal_terima = $request->input('tanggal_terima');
@@ -94,9 +79,10 @@ class ManifestDomestikController extends Controller
         return view('operasional.manifestdomestik.filter', $param)->render();
     }
 
-    public function tambah() {
+    public function tambah()
+    {
         $param = [
-            'title' => 'Tambah Manifest Domestik',
+            'title' => 'Tambah manifest domestik',
             'listprovinsi' => Provinsi::all(),
             'listlayanan' => Layanan::all(),
             'listkarantina' => HargaKarantina::all()
@@ -105,20 +91,21 @@ class ManifestDomestikController extends Controller
         return view('operasional.manifestdomestik.tambah', $param);
     }
     
-    public function save(Request $request) {
+    public function save(Request $request)
+    {
         // Validasi data dari request
         $request->validate([
             // Validasi Informasi Pengirim
             'nama_pengirim' => 'required|max:15',
             'nama_perusahaan_pengirim' => 'max:20',
-            'alamat_pengirim' => 'required|max:70',
+            'alamat_pengirim' => 'required|max:100',
             'id_kecamatan_pengirim' => 'required',
             'no_pengirim' => 'required|numeric',
     
             // Validasi Informasi Penerima
             'nama_penerima' => 'required|max:15',
             'nama_perusahaan_penerima' => 'max:20',
-            'alamat_penerima' => 'required|max:70',
+            'alamat_penerima' => 'required|max:100',
             'id_kecamatan_penerima' => 'required',
             'no_penerima' => 'required|numeric',
     
@@ -189,37 +176,54 @@ class ManifestDomestikController extends Controller
             ];
             $manifestInstance = Manifest::create($manifestData);
 
-            // Membuat Sub Manifest
+            // Membuat Sub Manifest dan Tracking Paket
+            SubManifest::create([
+                'id_manifest' => $manifestInstance->id,
+                'sub_resi' => $manifestInstance->no_resi
+            ]);
+
+            Tracking::create([
+                'id_manifest' => $manifestInstance->id,
+                'no_resi' => $manifestInstance->no_resi,
+                'id_outlet_asal' => Auth::user()->id_outlet,
+                'id_outlet_tujuan' => NULL,
+                'keterangan' => 'Paket telah di ambil outlet - ' . Auth::user()->outlet->kode_agen,
+                'status_tracking' => 'Pengambilan Paket',
+                'nama_kurir' => NULL,
+                'armada' => NULL,
+                'plat_armada' => NULL,
+                'pemindai' => Auth::user()->nama,
+            ]);
+
             for ($i = 2; $i <= $request->koli; $i++) {
                 SubManifest::create([
                     'id_manifest' => $manifestInstance->id,
                     'sub_resi' => $manifestInstance->no_resi . str_pad($i, 3, '0', STR_PAD_LEFT)
                 ]);
+                Tracking::create([
+                    'id_manifest' => $manifestInstance->id,
+                    'no_resi' => $manifestInstance->no_resi . str_pad($i, 3, '0', STR_PAD_LEFT),
+                    'id_outlet_asal' => Auth::user()->id_outlet,
+                    'id_outlet_tujuan' => NULL,
+                    'keterangan' => 'Paket telah di ambil outlet - ' . Auth::user()->outlet->kode_agen,
+                    'status_tracking' => 'Pengambilan Paket',
+                    'nama_kurir' => NULL,
+                    'armada' => NULL,
+                    'plat_armada' => NULL,
+                    'pemindai' => Auth::user()->nama,
+                ]);
             }
-
-            // $trackingData = [
-            //     'no_resi' => Manifest::getNoResi(),
-            //     'id_outlet_asal' => Auth::user()->id_outlet,
-            //     'id_outlet_tujuan' => '',
-            //     'keterangan' => 'Paket teleh di ambil outlet - ' . Auth::user()->outlet->kode_agen,
-            //     'status_tracking' => 'Pengambilan Paket',
-            //     'nama_kurir' => NULL,
-            //     'armada' => NULL,
-            //     'plat_armada' => NULL,
-            //     'admin' => Auth::user()->username,
-            // ];
-            // Tracking::create($trackingData);
             
             // Commit transaksi jika semuanya berhasil
             DB::commit();
-            return redirect('operasional/manifestdomestik/tambah')->with('success', 'Data Berhasil Di Tambahkan!');
+            return redirect('operasional/manifestdomestik/tambah')->with('success', 'Nomor resi berhasil ditambahkan');
             
         } catch (\Exception $e) {
             // Rollback transaksi jika terjadi kesalahan
             DB::rollBack();
             // Log the error for debugging
             Log::error('Error while saving data: '.$e->getMessage());
-            return back()->withErrors(['message' => 'Terjadi kesalahan saat menambahkan data.']);
+            return back()->withErrors(['message' => 'Terjadi kesalahan saat menambahkan nomor resi.']);
         }
     }
 
@@ -227,11 +231,11 @@ class ManifestDomestikController extends Controller
     {
         $data = Manifest::find($id);
         $submanifest = SubManifest::where('id_manifest', $id)
-                        ->orderby('sub_resi')
+                        ->orderby('sub_resi',)
                         ->get();
 
         $param = [
-            'title' => 'Print Manifest',
+            'title' => 'Print manifest domestik',
             'data' => $data,
             'submanifest' => $submanifest,
         ];
@@ -241,27 +245,12 @@ class ManifestDomestikController extends Controller
         $dompdf->loadHtml($html);
         $dompdf->setPaper('F4', 'portrait');
         $dompdf->render();
+        ob_end_clean();
         return $dompdf->stream('document.pdf', ['Attachment' => false]);
-
-        // return view('operasional.manifestdomestik.printresi', $param);
     }
 
-    public function hapus($id)
-    {
-        $data = Manifest::find($id);
-        $param = [
-            'title' => 'Void Manifest',
-            'data' => $data,
-
-        ];
-
-        return view('operasional.manifestdomestik.hapus', $param);
-    }
-
-    public function savehapus(Request $request) 
-    {   
-
-        // dd($request);
+    public function delete(Request $request) 
+    { 
         DB::beginTransaction();
         try{
             // Membuat Data Void Manifest
@@ -280,31 +269,28 @@ class ManifestDomestikController extends Controller
 
             Manifest::destroy($request->id);
             SubManifest::where('id_manifest', $request->id)->delete();
+            Tracking::where('id_manifest', $request->id)->delete();
 
             DB::commit();
-            return redirect('/arsipmanifest/arsipdomestik/')->with('success', 'Manifest Berhasil Di Void!');
+            return redirect('/arsipmanifest/manifestdomestik/')->with('success', 'Nomor resi berhasil divoid');
             
         } catch (\Exception $e) {
             // Rollback transaksi jika terjadi kesalahan
             DB::rollBack();
             // Log the error for debugging
             Log::error('Error while saving data: '.$e->getMessage());
-            return back()->withErrors(['message' => 'Terjadi kesalahan saat Void Manifest.']);
+            return back()->withErrors(['message' => 'Terjadi kesalahan saat void nomor resi.']);
         }
     }
     
-
-    public function getKota($id) {
+    public function getKota($id) 
+    {
         $kota = Kota::where('id_provinsi', $id)->get();
         return response()->json($kota);
     }
 
-    public function getKecamatan($id) {
-        $kecamatan = Kecamatan::where('id_kota', $id)->get();
-        return response()->json($kecamatan);
-    }
-
-    public function resultlayanan (Request $request) {
+    public function resultlayanan(Request $request) 
+    {
 
         $id_kota_pengirim = $request->input('id_kota_pengirim');
         $id_kecamatan_penerima = $request->input('id_kecamatan_penerima');
@@ -319,7 +305,8 @@ class ManifestDomestikController extends Controller
         return view('operasional.manifestdomestik.resultlayanan', $param)->render();
     }
 
-    public function resultitemkhusus (Request $request) {
+    public function resultitemkhusus(Request $request)
+    {
 
         $id_layanan = $request->input('id_layanan');
         $param = [
@@ -329,7 +316,8 @@ class ManifestDomestikController extends Controller
         return view('operasional.manifestdomestik.resultitemkhusus', $param)->render();
     }
 
-    public function resulttabelkoli (Request $request) {
+    public function resulttabelkoli(Request $request)
+    {
         $id_layanan = $request->input('id_layanan');
         $id_item_khusus = $request->input('id_item_khusus');
         $koli = $request->input('koli');
@@ -342,7 +330,8 @@ class ManifestDomestikController extends Controller
         return view('operasional.manifestdomestik.resulttabelkoli', $param)->render();
     }
 
-    public function resultjumlahitemkomodit (Request $request) {
+    public function resultjumlahitemkomodit(Request $request)
+    {
         $id_komoditi = $request->input('id_komoditi');
         $param = [
             'id_komoditi' => $id_komoditi
@@ -351,7 +340,8 @@ class ManifestDomestikController extends Controller
         return view('operasional.manifestdomestik.resultjumlahitemkomodit', $param)->render();
     }
 
-    public function resultinformasibiaya (Request $request) {
+    public function resultinformasibiaya(Request $request)
+    {
         $id_kota_pengirim = $request->input('id_kota_pengirim');
         $id_kecamatan_penerima = $request->input('id_kecamatan_penerima');
         $id_layanan = $request->input('id_layanan');

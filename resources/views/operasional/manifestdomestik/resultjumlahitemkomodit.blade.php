@@ -1,5 +1,5 @@
 @if(in_array($id_komoditi, ['KM1', 'KM2', 'KM3']))
-    <label for="" class="form-label"><b>Jumlah Item Komoditi</b></label>
+    <label for="" class="form-label">Jumlah Item Komoditi</label>
     <select class="form-control form-control-sm" name="jumlah_item_komoditi" id="jumlah_item_komoditi">
         <option value="1">1 (Satu)</option>
         <option value="2">2 (Dua)</option>
@@ -13,6 +13,6 @@
         <option value="10">10 (Sepuluh)</option>
     </select>
 @else
-    <label for="" class="form-label"><b>Jumlah Item Komoditi</b></label>
+    <label for="" class="form-label">Jumlah Item Komoditi</label>
     <input type="text" class="form-control form-control-sm" name="jumlah_item_komoditi" id="jumlah_item_komoditi" placeholder="Tidak Ada" disabled>
 @endif

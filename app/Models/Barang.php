@@ -15,4 +15,8 @@ class Barang extends Model
     public function manifest() {
         return $this->belongsTo(Manifest::class, 'id_barang', 'id');
     }
+
+    public function manifestLn() {
+        return $this->belongsTo(ManifestLn::class, 'id_barang', 'id');
+    }
 }

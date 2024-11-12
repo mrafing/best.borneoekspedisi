@@ -11,4 +11,8 @@ class Tracking extends Model
     use HasFactory, GenUid;
     protected $table = 'tb_tracking';
     protected $guarded = ['id'];
+
+    public function manifest() {
+        return $this->belongsTo(Manifest::class, 'id_manifest', 'id');
+    }
 }

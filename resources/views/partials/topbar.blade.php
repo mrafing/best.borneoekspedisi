@@ -4,11 +4,14 @@
         <div class="navbar-nav ml-auto">
             <form action="" method="post" class="d-none d-lg-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search pt-3">
                 <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="CEK POSISI PAKET" name="no_resi" aria-label="Search" aria-describedby="basic-addon2" />
-                    <div class="input-group-append">
-                    <button class="btn bg-white" type="submit">
-                        <i class="fas fa-search fa-sm"></i>
-                    </button>
+                    <form action="{{ URL::to('lacakpaket') }}" method="get">
+                        @csrf
+                        <input type="text" class="form-control bg-light border-0 small" placeholder="CEK POSISI PAKET" name="no_resi" aria-label="Search" aria-describedby="basic-addon2" />
+                        <div class="input-group-append">
+                        <button class="btn bg-white" type="submit">
+                            <i class="fas fa-search fa-sm"></i>
+                        </button>
+                    </form>
                     </div>
                 </div>
             </form>

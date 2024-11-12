@@ -229,8 +229,8 @@
                     <tr>
                         <td style="width: 250px">
                             <div style="border-bottom: 1px solid black ">
-                                <p style="font-size: 11px; line-height: 16px;">JL. P Natakusuma (Seberang Indomaret PNK)</p>
-                                <p style="font-size: 11px; margin-bottom: 7px;">0812-5695-5705</p>
+                                <p style="font-size: 11px; line-height: 16px;">Jl. Dr. Sutomo No.24</p>
+                                <p style="font-size: 11px; margin-bottom: 7px;">0812-5695-5705 / 0813-4783-2877</p>
                             </div>
                             <div>
                                 <p style="font-size: 11px; line-height: 16px;">Jl. Veteran No. 06B (Seberang Resto Fajar)</p>
@@ -487,7 +487,7 @@
 
 {{-- SUB MANIFEST --}}
     @if ($submanifest)
-        @foreach ( $submanifest as $sub )
+        @foreach ( $submanifest->skip(1) as $sub )
             <div style=page-break-before:always align="center"><span style="visibility: hidden;">-</span></div>
             {{-- LEMBAR PENERIMA --}}
                 <div class="container">

@@ -55,4 +55,8 @@ class Manifest extends Model
     public function outlet() {
         return $this->belongsTo(Outlet::class, 'id_outlet_terima', 'id');
     }
+
+    public function tracking() {
+        return $this->hasMany(Tracking::class, 'id_manifest', 'id');
+    }
 }

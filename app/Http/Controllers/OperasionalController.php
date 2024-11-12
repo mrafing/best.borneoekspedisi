@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\HargaOngkir;
-use App\Models\Kecamatan;
+use App\Models\HargaOngkir, App\Models\Kecamatan;
 use Illuminate\Http\Request;
 
 class OperasionalController extends Controller
@@ -17,9 +16,10 @@ class OperasionalController extends Controller
         return view('operasional.index', $param);
     }
 
-    public function cekongkir() {
+    public function cekongkir()
+    {
         $param = [
-            'title' => 'Cek Ongkir',
+            'title' => 'Cek ongkir',
             'active' => 'cekongkir',
             'listkecamatan' => Kecamatan::all()
         ];
@@ -27,7 +27,8 @@ class OperasionalController extends Controller
         return view('operasional.cekongkir.index', $param);
     }
 
-    public function resultcekongkir(Request $request) {
+    public function resultcekongkir(Request $request)
+    {
         $kecamatan_asal = Kecamatan::find($request->input('id_kecamatan_asal'));
         $id_kota_asal = $kecamatan_asal->id_kota;
         $id_kecamatan_tujuan = $request->input('id_kecamatan_tujuan');

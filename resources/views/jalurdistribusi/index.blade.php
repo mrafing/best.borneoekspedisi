@@ -23,74 +23,10 @@
                 @endfor
             </div>
             {{-- CONTENT --}}
-            <p>Operasi Outlet</p>
-            <hr>
-            <div class="row mb-5">
-                <div class="col-2">
-                    <a class="d-flex flex-column align-items-center text-center">
-                        <div>
-                            <i class="fa-solid fa-house fa-lg"></i>
-                        </div>
-                        <p>Scan Masuk Outlet</p>
-                    </a>
-                </div>
-                <div class="col-2">
-                    <a class="d-flex flex-column align-items-center text-center">
-                        <div>
-                            <i class="fa-solid fa-truck fa-lg"></i>
-                        </div>
-                        <p>Scan Kirim</p>
-                    </a>
-                </div>
-                <div class="col-2">
-                    <a class="d-flex flex-column align-items-center text-center">
-                        <div>
-                            <i class="fa-solid fa-warehouse fa-lg"></i>
-                        </div>
-                        <p>Scan Paket Sampai</p>
-                    </a>
-                </div>
-                <div class="col-2">
-                    <a class="d-flex flex-column align-items-center text-center">
-                        <div>
-                            <i class="fa-solid fa-right-from-bracket fa-lg"></i>
-                        </div>
-                        <p>Scan Keluar Outlet</p>
-                    </a>
-                </div>
-            </div>
-
-            <p>Operasi Gateway</p>
-            <hr>
-            <div class="row mb-5">
-                <div class="col-2">
-                    <a class="d-flex flex-column align-items-center text-center">
-                        <div>
-                            <i class="fa-solid fa-truck-ramp-box fa-lg"></i>
-                        </div>
-                        <p>Bongkar Paket Sampai</p>
-                    </a>
-                </div>
-                <div class="col-2">
-                    <a class="d-flex flex-column align-items-center text-center">
-                        <div>
-                            <i class="fa-solid fa-truck-plane fa-lg"></i>
-                        </div>
-                        <p>Kirim Paket Muatan</p>
-                    </a>
-                </div>
-            </div>
-
-            <p>Operasi Tidak Normal</p>
-            <hr>
-            <div class="row">
-                <div class="col-2">
-                    <a class="d-flex flex-column align-items-center text-center">
-                        <div>
-                            <i class="fa-solid fa-circle-exclamation fa-lg"></i>
-                        </div>
-                        <p>Scan Paket Bermasalah</p>
-                    </a>
+            <div class="row justify-content-center mt-5">
+                <div class="col-auto text-center">
+                    <img src="{{ asset('img/img9.png') }}" alt="">
+                    <h3 class="bg-primary text-light px-5"><b>JALUR DISTRIBUSI PENGIRIMAN BARANG</b></h3>
                 </div>
             </div>
             {{-- END CONTENT --}}

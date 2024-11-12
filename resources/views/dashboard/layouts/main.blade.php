@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <link rel="icon" href="">
+        <link rel="icon" href="{{ asset('img/logo3.svg') }}">
         <title>BEST - {{ $title }}</title>
         {{-- Font family --}}
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
@@ -19,7 +19,7 @@
         <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap4.min.css" rel="stylesheet" /> --}}
 
         {{-- Select2 link --}}
-        {{-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> --}}
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
         {{-- My Style --}}
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -109,7 +109,7 @@
         <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
         {{-- Font Awesome script --}}
-        <script src="https://kit.fontawesome.com/88e6f231cb.js" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/fcf5ecfc69.js" crossorigin="anonymous"></script>
 
         {{-- Datatables scripts --}}
         {{-- <script src="{{ asset('js/DataTables-1.13.4/js/jquery.dataTables.min.js') }}"></script>
@@ -117,5 +117,6 @@
 
         {{-- Select2 Script --}}
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+        @yield('script')
     </body>
 </html>

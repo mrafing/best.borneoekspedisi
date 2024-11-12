@@ -45,12 +45,12 @@ class User extends Authenticatable
         $lastUser = User::where('username', 'like', "$baseKodeAgen%")
                         ->orderBy('username', 'desc')
                         ->first();
+        
+        $newUrutan = '001';
 
-        if ($lastUser) {
+        if (strlen($lastUser->username) > 7) {
             $lastUrutan = (int) substr($lastUser->username, -3);
             $newUrutan = str_pad($lastUrutan + 1, 3, '0', STR_PAD_LEFT); // Tambahkan 1 dan pad dengan 0 di kiri
-        } else {
-            $newUrutan = '001';
         }
         
         return $baseKodeAgen . $newUrutan;

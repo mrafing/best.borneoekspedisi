@@ -20,28 +20,28 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link {{ $active == 'arsipmanifestdomestik' ? 'text-primary' : 'text-dark' }}" href="{{ URL::to('arsipmanifest/arsipdomestik') }}">
+        <a class="nav-link {{ Request::is('arsipmanifest/manifestdomestik*') ? 'text-primary' : 'text-dark' }}" href="{{ URL::to('arsipmanifest/manifestdomestik') }}">
             <i class="fa-solid fa-table-list"></i>
             <span>Domestik</span>
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-dark" href="#">
+        <a class="nav-link {{ Request::is('arsipmanifest/manifestinternational*') ? 'text-primary' : 'text-dark' }}" href="{{ URL::to('arsipmanifest/manifestinternational') }}">
             <i class="fa-solid fa-table-list"></i>
             <span>International</span>
         </a>
     </li>
     @can('gm')
         <li class="nav-item">
-            <a class="nav-link {{ $active == 'voiddomestik' || $active == 'voidinternational' ? 'text-primary' : 'text-dark' }}" href="#" data-toggle="collapse" data-target="#voidManifest">
+            <a class="nav-link {{ Request::is('voidmanifest*') ? 'text-primary' : 'text-dark' }}" href="#" data-toggle="collapse" data-target="#voidManifest">
                 <i class="fa-solid fa-folder-minus"></i>
                 <span>Void Manifest</span>
             </a>
             <div id="voidManifest" class="collapse">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Components:</h6>
-                    <a class="collapse-item" href="{{ URL::to('arsipmanifest/voiddomestik') }}">Domestik</a>
-                    <a class="collapse-item" href="#">International</a>
+                    <a class="collapse-item" href="{{ URL::to('voidmanifest/manifestdomestik') }}">Domestik</a>
+                    <a class="collapse-item" href="{{ URL::to('voidmanifest/manifestinternational') }}">International</a>
                 </div>
             </div>
         </li>

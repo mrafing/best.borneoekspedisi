@@ -5,7 +5,7 @@
 
 @section('container')
 {{-- Sidebar --}}
-@include('operasional.partials.sidebar')
+@include('arsipmanifest.partials.sidebar')
 
 {{-- Content wrapper --}}
 <div id="content-wrapper" class="d-flex flex-column bg-white">
@@ -38,18 +38,10 @@
                         </button>
                     </div>
                 @endif
-                <form action="{{ URL::to('operasional/manifestdomestik/savehapus') }}" method="post">
+                <form action="{{ URL::to('operasional/manifestinternational/savehapus') }}" method="post">
                     @csrf
                     @method('delete')
                     <input type="hidden" name="id" value="{{ $data->id }}">
-                    <input type="hidden" name="id_outlet_terima" value="{{ $data->id_outlet_terima }}">
-                    <input type="hidden" name="id_pengirim" value="{{ $data->id_pengirim }}">
-                    <input type="hidden" name="id_penerima" value="{{ $data->id_penerima }}">
-                    <input type="hidden" name="id_barang" value="{{ $data->id_barang }}">
-                    <input type="hidden" name="id_ongkir" value="{{ $data->id_ongkir }}">
-                    <input type="hidden" name="id_layanan" value="{{ $data->id_layanan }}">
-                    <input type="hidden" name="admin" value="{{ $data->admin }}">
-
                     <label class="form-label">Keterangan Hapus</label>
                     <textarea class="form-control mb-3" name="keterangan_hapus" cols="30" rows="5"></textarea>
                     <button class="btn btn-danger" type="submit">Void</button>

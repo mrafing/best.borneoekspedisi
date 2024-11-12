@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth, Illuminate\Support\Facades\Hash;
 
 class KelolaAkunController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $param = [
-            'title' => 'Kelola Akun',
+            'title' => 'Kelola akun',
             'active' => 'kelolaakun',
             'listuser' => User::where('id_outlet', Auth::user()->id_outlet)->get()
         ];
@@ -19,16 +19,18 @@ class KelolaAkunController extends Controller
         return view('integrasisystem.kelolaakun.index', $param);
     }
 
-    public function tambah() {
+    public function tambah()
+    {
         $param = [
-            'title' => 'Tambah Akun',
+            'title' => 'Tambah akun',
             'active' => 'tambahakun',
         ];
 
         return view('integrasisystem.kelolaakun.tambah', $param);
     }
 
-    public function save(Request $request) {
+    public function save(Request $request) 
+    {
         // dd($request);
         $request->validate([
             'nama' => 'required|max:15',
@@ -52,9 +54,10 @@ class KelolaAkunController extends Controller
         return redirect('integrasisystem/kelolaakun')->with('success', 'User Berhasil Di Tambahkan!');
     }
 
-    public function hapus (Request $request) {
+    public function hapus (Request $request)
+    {
         User::destroy($request->id);
-
+        
         return redirect('integrasisystem/kelolaakun')->with('success', 'User Berhasil Di Hapus!');
     }
 }

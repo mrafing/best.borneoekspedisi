@@ -4,6 +4,7 @@
             <th class="bg-secondary border shadow" style="position: sticky; left: 0; z-index: 2;">
                 <i class="fa-solid fa-gear"></i>
             </th>
+            <th class="bg-secondary border shadow" style="position: sticky; left: 88px; z-index: 2; white-space: nowrap;"><small>Nomor Resi</small></th>
             <th style="white-space: nowrap;"><small>Nama Pengirim</small></th>
             <th style="white-space: nowrap;"><small>Nama Penerima</small></th>
             <th style="white-space: nowrap;"><small>Tujuan</small></th>
@@ -18,25 +19,19 @@
             <th style="white-space: nowrap;"><small>Total</small></th>
             <th style="white-space: nowrap;"><small>Metode Pembayaran</small></th>
             <th style="white-space: nowrap;"><small>Admin</small></th>
-            <th style="white-space: nowrap;"><small>Deleted By</small></th>
-            <th style="white-space: nowrap;"><small>Tanggal Void</small></th>
-            <th style="white-space: nowrap;"><small>Keterangan</small></th>
+            <th style="white-space: nowrap;"><small>Tanggal Terima</small></th>
         </tr>
     </thead>
     <tbody>
-        @forelse ($listvoidmanifest as $data)
+        @foreach ($listmanifest as $data)
             <tr>
                 <td class="bg-white border shadow" style="position: sticky; left: 0; z-index: 2;">
                     <div class="d-flex">
-                        <a href="{{ URL::to("arsipmanifest/restoredomestik/$data->id") }}" class="btn btn-primary btn-sm mr-1" onclick="if(!confirm('Yakin Ingin Pulihkan?')){return false;}"><i class="fa-solid fa-arrows-rotate"></i></a>
-                        <form action="{{ URL::to("arsipmanifest/savehapusvoiddomestik") }}" method="post" onsubmit="if(!confirm('Yakin Ingin Hapus? Resi Akan Hilang Permanen')){return false;}">
-                            @csrf
-                            @method('delete')
-                            <input type="hidden" name="id" value="{{ $data->id }}">
-                            <button type="submit" class="btn btn-danger btn-sm mr-1"><i class="fa-solid fa-trash-can fa-sm"></i></button>
-                        </form>
+                        <a href="{{ URL::to("arsipmanifest/manifestdomestik/detail/$data->id") }}" class="btn btn-secondary btn-sm mr-1" ><i class="fa-solid fa-circle-info"></i></a>
+                        <a href="{{ URL::to('operasional/manifestdomestik/printresi') }}/{{ $data->id }}" class="btn btn-primary btn-sm mr-1" target="_blank"><i class="fa-solid fa-print fa-sm"></i></a>
                     </div>
                 </td>
+                <td class="bg-white border shadow" style="position: sticky; left: 88px; z-index: 2; white-space: nowrap;"><small>{{ $data->no_resi }}</small></td>
                 <td style="white-space: nowrap;"><small>{{ $data->pengirim->nama_pengirim }}</small></td>
                 <td style="white-space: nowrap;"><small>{{ $data->penerima->nama_penerima }}</small></td>
                 <td style="white-space: nowrap;"><small>{{ $data->penerima->kecamatan->nama_kecamatan }}, {{ $data->penerima->kecamatan->kota->nama_kota }}</small></td>
@@ -51,15 +46,9 @@
                 <td style="white-space: nowrap;"><small>{{ $data->ongkir->total_ongkir }}</small></td>
                 <td style="white-space: nowrap;"><small>{{ $data->ongkir->pembayaran }}</small></td>
                 <td style="white-space: nowrap;"><small>{{ $data->admin }}</small></td>
-                <td style="white-space: nowrap;"><small>{{ $data->deleted_by }}</small></td>
                 <td style="white-space: nowrap;"><small>{{ $data->created_at }}</small></td>
-                <td style="white-space: nowrap;"><small>{{ $data->keterangan_hapus }}</small></td>
             </tr>
-        @empty
-            <tr>
-                <td colspan="18" class="text-center"><small>Not Found</small></td>
-            </tr>
-        @endforelse
+        @endforeach
     </tbody>
 </table>
 

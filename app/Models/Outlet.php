@@ -28,6 +28,10 @@ class Outlet extends Model
         return $this->hasMany(Manifest::class, 'id_outlet_terima', 'id');
     }
 
+    public function voidManifest () {
+        return $this->hasMany(VoidManifest::class, 'id_outlet_terima', 'id');
+    }
+
     public function kecamatanDelivery() {
         return $this->hasMany(Kecamatan::class, 'id_outlet_delivery', 'id');
     }

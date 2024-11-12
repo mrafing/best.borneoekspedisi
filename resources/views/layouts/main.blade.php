@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <link rel="icon" href="">
+        <link rel="icon" href="{{ asset('img/logo3.svg') }}">
         <title>BEST - {{ $title }}</title>
         {{-- Font family --}}
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
@@ -77,7 +77,7 @@
         <script src="{{ asset('js/sb-admin-2.min.js') }}"></script>
 
         {{-- Font Awesome script --}}
-        <script src="https://kit.fontawesome.com/88e6f231cb.js" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/fcf5ecfc69.js" crossorigin="anonymous"></script>
 
         {{-- Datatables scripts --}}
         <script src="{{ asset('dataTables/DataTables-1.13.4/js/jquery.dataTables.min.js') }}"></script>
