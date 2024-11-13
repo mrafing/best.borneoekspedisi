@@ -184,7 +184,7 @@
         $(document).ready(function() {
             // Search outlet Select 2 //
             $('#searchoutlet').select2({
-                placeholder: '-Pilih-',
+                placeholder: 'Cari outlet',
                 ajax: {
                     url : '{{ route("searchoutlet") }}',
                     dataType: 'json',

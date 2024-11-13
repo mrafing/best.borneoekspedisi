@@ -13,6 +13,7 @@ use App\Http\Controllers\KecamatanController, App\Http\Controllers\OutletControl
 use App\Http\Controllers\KelolaAkunController;
 use App\Http\Controllers\ManifestInternationalController;
 use App\Http\Controllers\VoidManifestController;
+use App\Http\Controllers\TrackingController;
 use App\Models\VoidManifest;
 use SebastianBergmann\CodeCoverage\Report\Html\Dashboard;
 
@@ -216,6 +217,12 @@ Route::middleware(('auth'))->group(function () {
 
     Route::controller(OutletController::class)->group(function() {
         Route::get('searchoutlet', 'searchoutlet')->name('searchoutlet');
+    });
+
+    Route::controller(TrackingController::class)->group(function() {
+        Route::middleware('auth')->group(function() {
+            Route::post('tracking/lacakpaket', 'lacakpaket');
+        });
     });
 });
 

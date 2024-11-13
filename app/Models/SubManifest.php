@@ -11,4 +11,8 @@ class SubManifest extends Model
     use HasFactory, GenUid;
     protected $table = 'tb_sub_manifest';
     protected $guarded = ['id'];
+
+    public function manifest() {
+        return $this->belongsTo(Manifest::class, 'id_manifest', 'id');
+    }
 }

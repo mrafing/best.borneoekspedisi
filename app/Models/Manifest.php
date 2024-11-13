@@ -59,4 +59,8 @@ class Manifest extends Model
     public function tracking() {
         return $this->hasMany(Tracking::class, 'id_manifest', 'id');
     }
+
+    public function submanifest() {
+        return $this->hasMany(SubManifest::class, 'id_manifest', 'id');
+    }
 }
