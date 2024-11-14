@@ -24,8 +24,9 @@
                 @endfor
             </div>
             {{-- CONTENT --}}
-                <h4 class="mb-3"><b>Daftar Mitra</b></h4>
-                <a href="{{ URL::to('integrasisystem/mitra/tambah') }}" class="btn btn-primary btn-sm">+ Tambah Mitra Baru</a>
+                <h6><i class="fa-solid fa-house"></i> / Integrasi System / <span class="text-primary">Mitra</span></h6>
+                <hr>
+
                 @if(session()->has('success'))
                     <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
                         <strong>{{ session('success') }}</strong>. click x to close
@@ -34,52 +35,51 @@
                         </button>
                     </div>
                 @endif
-                <hr>
+
+                <a href="{{ URL::to('integrasisystem/mitra/tambah') }}" class="btn btn-secondary btn-sm mb-2">+ Tambah mitra</a>
                 <div class="table-responsive">
-                    <table id="daftarmittra" class="table table-bordered table-hover shadow">
-                        <thead class="bg-primary text-light">
+                    <table class="table table-bordered table-hover shadow" id="table">
+                        <thead class="bg-secondary text-light">
                           <tr>
-                            <th class="border bg-primary shadow" style="height: 20px; position: sticky; left: 0; z-index: 2;"><i class="fa-solid fa-gear"></i></th>
-                            <th style="white-space: nowrap;">Tipe</th>
-                            <th style="white-space: nowrap;">Status</th>
-                            <th style="white-space: nowrap;">Nama Pendaftar</th>
-                            <th style="white-space: nowrap;">Nomor Kontak</th>
-                            <th style="white-space: nowrap;">Alamat Pendaftar</th>
-                            <th style="white-space: nowrap;">Nama Perusahaan</th>
-                            <th style="white-space: nowrap;">Nama Pimpinan</th>
-                            <th style="white-space: nowrap;">Alamat Perusahaan</th>
-                            <th style="white-space: nowrap;">Kategori Perusahaan</th>
-                            <th style="white-space: nowrap;">Nama Toko</th>
-                            <th style="white-space: nowrap;">Jenis Produk</th>
-                            <th style="white-space: nowrap;">Alamat Toko</th>
+                            <th class="border bg-secondary shadow" style="position: sticky; left: 0; z-index: 2;"><i class="fa-solid fa-gear"></i></th>
+                            <th style="white-space: nowrap;"><small>Tipe</small></th>
+                            <th style="white-space: nowrap;"><small>Status</small></th>
+                            <th style="white-space: nowrap;"><small>Nama pendaftar</small></th>
+                            <th style="white-space: nowrap;"><small>Nomor kontak</small></th>
+                            <th style="white-space: nowrap;"><small>Alamat pendaftar</small></th>
+                            <th style="white-space: nowrap;"><small>Nama perusahaan</small></th>
+                            <th style="white-space: nowrap;"><small>Nama pimpinan</small></th>
+                            <th style="white-space: nowrap;"><small>Alamat perusahaan</small></th>
+                            <th style="white-space: nowrap;"><small>Kategori perusahaan</small></th>
+                            <th style="white-space: nowrap;"><small>Nama toko</small></th>
+                            <th style="white-space: nowrap;"><small>Jenis produk</small></th>
+                            <th style="white-space: nowrap;"><small>Alamat toko</small></th>
                           </tr>
                         </thead>
                         <tbody>
                             @foreach ( $listmitra as $mitra)
                             <tr>
-                                <td class="align-middle border bg-white shadow" style="position: sticky; left: 0; z-index: 2;">
-                                    <a href="{{ URL::to("integrasisystem/mitra/show/$mitra->id") }}" class="btn btn-sm">
-                                        <i class="fa-solid fa-eye text-primary"></i>
-                                    </a>
+                                <td class="align-middle border bg-white shadow d-flex" style="position: sticky; left: 0; z-index: 2;">
+                                    <a href="{{ URL::to("integrasisystem/mitra/detail/$mitra->id") }}" class="btn btn-secondary btn-sm mr-1"><i class="fa-solid fa-circle-info"></i></a>
                                     <form action="{{ URL::to('integrasisystem/mitra/hapus') }}" method="post" onSubmit="if(!confirm('Yakin ingin menghapus data?')){return false;}">
                                         @method('delete')
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $mitra->id }}">
-                                        <button class="btn btn-sm"><i class="fa-solid fa-trash text-danger"></i></button>
+                                        <button class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i></button>
                                     </form>
                                 </td>
-                                <td>{{ $mitra->tipe }}</td>
-                                <td>{{ $mitra->status }}</td>
-                                <td>{{ $mitra->nama_pendaftar }}</td>
-                                <td>{{ $mitra->nomor_kontak }}</td>
-                                <td>{{ $mitra->alamat_pendaftar }}</td>
-                                <td>{{ strtoupper($mitra->nama_perusahaan) }}</td>
-                                <td>{{ $mitra->nama_pemimpin_perusahaan }}</td>
-                                <td>{{ $mitra->alamat_perusahaan }}</td>
-                                <td>{{ $mitra->kategori_perusahaan }}</td>
-                                <td>{{ $mitra->nama_toko }}</td>
-                                <td>{{ $mitra->jenis_produk_toko }}</td>
-                                <td>{{ $mitra->alamat_toko }}</td>
+                                <td class="td-truncate"><small>{{ $mitra->tipe }}</small></td>
+                                <td class="td-truncate"><small>{{ $mitra->status }}</small></td>
+                                <td class="td-truncate"><small>{{ $mitra->nama_pendaftar }}</small></td>
+                                <td class="td-truncate"><small>{{ $mitra->nomor_kontak }}</small></td>
+                                <td class="td-truncate"><small>{{ $mitra->alamat_pendaftar }}</small></td>
+                                <td class="td-truncate"><small>{{ $mitra->nama_perusahaan }}</small></td>
+                                <td class="td-truncate"><small>{{ $mitra->nama_pemimpin_perusahaan }}</small></td>
+                                <td class="td-truncate"><small>{{ $mitra->alamat_perusahaan }}</small></td>
+                                <td class="td-truncate"><small>{{ $mitra->kategori_perusahaan }}</td>
+                                <td class="td-truncate"><small>{{ $mitra->nama_toko }}</small></td>
+                                <td class="td-truncate"><small>{{ $mitra->jenis_produk_toko }}</small></td>
+                                <td class="td-truncate"><small>{{ $mitra->alamat_toko }}</small></td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -101,11 +101,12 @@
 @endsection
 
 @section('script')
-    <script>
-        $(document).ready(function() {
-            var table = $('#daftarmittra').DataTable({
-                lengthMenu:[[10,25,50,-1], [10,25,50, "All"]]
-            });
+<script>
+    $(document).ready(function() {
+        // Datatable //
+        $('#table').DataTable({
+            lengthMenu:[[10,25,50,-1], [10,25,50, "All"]]
         });
-    </script>
+    });
+</script>
 @endsection

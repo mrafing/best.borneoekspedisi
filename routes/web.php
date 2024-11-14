@@ -61,7 +61,7 @@ Route::middleware(('auth'))->group(function () {
     Route::controller(MitraController::class)->group(function() {
         Route::middleware('hakAkses:gm')->group(function() {
             Route::get('integrasisystem/mitra', 'index');
-            Route::get('integrasisystem/mitra/show/{id}', 'show');
+            Route::get('integrasisystem/mitra/detail/{id}', 'detail');
             Route::get('integrasisystem/mitra/tambah', 'tambah');
             Route::post('integrasisystem/mitra/save', 'save');
             Route::delete('integrasisystem/mitra/hapus', 'hapus');
@@ -75,8 +75,8 @@ Route::middleware(('auth'))->group(function () {
     });
 
     Route::controller(KelolaAkunController::class)->group(function() {
-        Route::middleware('hakAkses:master')->group(function() {
-            Route::get('integrasisystem/kelolaakun', 'index');
+        Route::middleware('hakAkses:gm')->group(function() {
+            Route::get('integrasisystem/kelolaakun', 'index')->name('integrasisystem.kelolaakun');
             Route::get('integrasisystem/kelolaakun/tambah', 'tambah');
             Route::post('integrasisystem/kelolaakun/save', 'save');
             Route::delete('integrasisystem/kelolaakun/hapus', 'hapus');

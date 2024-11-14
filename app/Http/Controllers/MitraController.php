@@ -18,10 +18,10 @@ class MitraController extends Controller
         return view('integrasisystem.mitra.index', $param);
     }
 
-    public function show($id)
+    public function detail($id)
     {
         $param = [
-            'title' => 'Detail Mitra',
+            'title' => 'Detail mitra',
             'active' => 'detailmitra',
             'data' => Mitra::find($id),
             'listoutlet' => Outlet::where('id_mitra', $id)->get()
@@ -33,7 +33,7 @@ class MitraController extends Controller
     public function tambah()
     {
         $param = [
-            'title' => 'Tambah Mitra',
+            'title' => 'Tambah mitra',
             'active' => 'tambahmitra'
         ];
 
@@ -44,7 +44,7 @@ class MitraController extends Controller
     {
         $request->validate([
             'tipe' => 'required',
-            'nama_pendaftar' => 'required|max:15',
+            'nama_pendaftar' => 'required|max:255',
             'nama_mitra' => 'required',
             'nomor_kontak' => 'required|numeric',
             'alamat_pendaftar' => 'required|max:255',
@@ -53,20 +53,20 @@ class MitraController extends Controller
         $data = $request->all();
         $mitra->create($data);
 
-        return redirect(url('integrasisystem/mitra'))->with('success', 'Mitra berhasil di tambahkan');
+        return redirect(url('integrasisystem/mitra'))->with('success', 'Mitra berhasil ditambahkan');
     }
 
     public function hapus(Mitra $mitra, Request $request)
     {
         $mitra->destroy($request->id);
-        return redirect(url('integrasisystem/mitra'))->with('success', 'Mitra berhasil di hapus');
+        return redirect(url('integrasisystem/mitra'))->with('success', 'Mitra berhasil dihapus');
     }
 
     public function update(Mitra $mitra, Request $request)
     {
         // dd($request);
         $validatedData = $request->validate([
-            'nama_pendaftar' => 'required|max:15',
+            'nama_pendaftar' => 'required|max:255',
             'nama_mitra' => 'required',
             'nomor_kontak' => 'required|numeric',
             'alamat_pendaftar' => 'required|max:255',
@@ -85,7 +85,7 @@ class MitraController extends Controller
 
         $mitra->where('id', $request->id)->update($validatedData);
 
-        return redirect(url("integrasisystem/mitra/show/" .$request->id. ""))->with('success', 'Mitra Berhasil di ubah');
+        return redirect(url("integrasisystem/mitra/detail/" .$request->id. ""))->with('success', 'Mitra berhasil diubah');
     }
 
     public function resulttipe(Request $request)
@@ -98,10 +98,9 @@ class MitraController extends Controller
     public function tambahoutlet($id)
     {
         $param = [
-            'title' => 'Tambah Outlet',
+            'title' => 'Tambah outlet',
             'active' => 'tambahoutlet',
-            'data' => Mitra::find($id),
-            'listkecamatan' => Kecamatan::all()
+            'data' => Mitra::find($id)
         ];
 
         return view('integrasisystem.mitra.tambahoutlet', $param);
@@ -115,7 +114,7 @@ class MitraController extends Controller
             'tipe' => 'required',
             'id_kecamatan' => 'required',
             'alamat' => 'required|max:255',
-            'nama_cs' => 'required|max:15',
+            'nama_cs' => 'required|max:255',
             'nomor_kontak' => 'required|numeric',
             'link_alamat' => 'max:255',
             'lokasi' => 'required',
@@ -126,7 +125,7 @@ class MitraController extends Controller
 
         $outlet->create($validatedData);
 
-        return redirect(url("integrasisystem/mitra/tambahoutlet/$request->id_mitra"))->with('success', 'Outlet berhasil di tambahkan');
+        return redirect(url("integrasisystem/mitra/tambahoutlet/$request->id_mitra"))->with('success', 'Outlet berhasil ditambahkan');
     }
     
     public function updateoutlet(Outlet $outlet,Request $request)
@@ -136,7 +135,7 @@ class MitraController extends Controller
             'kode_agen' => 'required',
             'tipe' => 'required',
             'alamat' => 'required|max:255',
-            'nama_cs' => 'required|max:15',
+            'nama_cs' => 'required|max:255',
             'id_kecamatan' => 'required',
             'nomor_kontak' => 'required|numeric',
             'lokasi' => 'required',
@@ -146,12 +145,12 @@ class MitraController extends Controller
         ]);
 
         $outlet->where('id', $request->id_outlet)->update($validatedData);
-        return redirect(url("integrasisystem/mitra/show/" .$request->id_mitra. ""))->with('success', 'Outlet Berhasil di ubah');
+        return redirect(url("integrasisystem/mitra/detail/" .$request->id_mitra. ""))->with('success', 'Outlet Berhasil di ubah');
     }
 
     public function hapusoutlet($id)
     {
         Outlet::destroy($id);
-        return back()->with('success', 'Outlet Berhasil Dihapus!');
+        return back()->with('success', 'Outlet berhasil dihapus');
     }
 }

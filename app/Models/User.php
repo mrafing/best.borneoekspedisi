@@ -37,22 +37,38 @@ class User extends Authenticatable
     //     'email_verified_at' => 'datetime',
     // ];
 
-    public static function getUsername($kode_agen) {
-        // Dapatkan pengguna yang sedang login
-        $baseKodeAgen = $kode_agen; // Misalnya: PNK001P
+    // public static function getUsername($kode_agen) {
+    //     // Dapatkan pengguna yang sedang login
+    //     $baseKodeAgen = $kode_agen; // Misalnya: PNK001P
 
-        // Temukan urutan terakhir dari username yang sudah ada dengan prefix yang sama
+    //     // Temukan urutan terakhir dari username yang sudah ada dengan prefix yang sama
+    //     $lastUser = User::where('username', 'like', "$baseKodeAgen%")
+    //                     ->orderBy('username', 'desc')
+    //                     ->first();
+        
+    //     $newUrutan = '001';
+
+    //     if (strlen($lastUser->username) > 7) {
+    //         $lastUrutan = (int) substr($lastUser->username, -3);
+    //         $newUrutan = str_pad($lastUrutan + 1, 3, '0', STR_PAD_LEFT); // Tambahkan 1 dan pad dengan 0 di kiri
+    //     }
+        
+    //     return $baseKodeAgen . $newUrutan;
+    // }
+
+    public static function getUsername($kode_agen)
+    {
+        // Define the base code for the agent
+        $baseKodeAgen = $kode_agen; // Example: PNK001P
+    
+        // Retrieve the last user with the same prefix, ordered by descending username
         $lastUser = User::where('username', 'like', "$baseKodeAgen%")
-                        ->orderBy('username', 'desc')
+                        ->orderByDesc('username')
                         ->first();
-        
-        $newUrutan = '001';
-
-        if (strlen($lastUser->username) > 7) {
-            $lastUrutan = (int) substr($lastUser->username, -3);
-            $newUrutan = str_pad($lastUrutan + 1, 3, '0', STR_PAD_LEFT); // Tambahkan 1 dan pad dengan 0 di kiri
-        }
-        
+    
+        // Set default sequence to '001'
+        $newUrutan = $lastUser ? str_pad((int) substr($lastUser->username, -3) + 1, 3, '0', STR_PAD_LEFT) : '001';
+    
         return $baseKodeAgen . $newUrutan;
     }
 

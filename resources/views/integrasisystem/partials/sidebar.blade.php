@@ -31,8 +31,6 @@
                 <span>Pengajuan Mitra</span>
             </a>
         </li>
-    @endcan
-    @can('master')
         <li class="nav-item">
             <a class="nav-link {{ Request::is('integrasisystem/kelolaakun*') ? 'text-primary' : 'text-dark' }}" href="{{ URL::to('integrasisystem/kelolaakun') }}">
                 <i class="fa-solid fa-users"></i>

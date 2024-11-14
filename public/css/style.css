@@ -117,3 +117,11 @@ input:checked + .radio-layanan label {
     color: white;
 }
 /* END LAYANAN STYLE */
+
+/* Style Table*/
+.td-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px; /* Adjust width as needed */
+}

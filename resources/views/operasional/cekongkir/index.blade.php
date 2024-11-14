@@ -25,24 +25,14 @@
                 @endfor
             </div>
             {{-- CONTENT --}}
-                <h5>Cek Ongkir</h5>
+                <h6><i class="fa-solid fa-house"></i> / Operasional / <span class="text-primary">Cek ongkir</span></h6>
                 <hr>
                 <div class="row align-items-end mb-5" style="max-width: 1000px">
                     <div class="col-sm-7">
                         <label for="basic-url">Alamat Asal & Tujuan</label>
                         <div class="input-group">
-                            <select class="form-control" id="id_kecamatan_asal">
-                                <option value="">-Pilih-</option>
-                                @foreach ( $listkecamatan as $data)
-                                    <option value="{{ $data->id }}">{{ strtoupper($data->nama_kecamatan) }}, {{ strtoupper(optional($data->kota)->nama_kota) }}</option>
-                                @endforeach
-                            </select>
-                            <select class="form-control" id="id_kecamatan_tujuan">
-                                <option value="">-Pilih-</option>
-                                @foreach ( $listkecamatan as $data)
-                                    <option value="{{ $data->id }}">{{ strtoupper($data->nama_kecamatan) }}, {{ strtoupper(optional($data->kota)->nama_kota) }}</option>
-                                @endforeach
-                            </select>
+                            <select class="form-control form-control-sm" id="id_kecamatan_asal"></select>
+                            <select class="form-control form-control-sm" id="id_kecamatan_tujuan"></select>
                         </div>
                     </div>
                     <div class="col-sm-auto">
@@ -85,7 +75,33 @@
 @section('script')
 <script>
     $(document).ready(function() {
-        $('#id_kecamatan_asal, #id_kecamatan_tujuan').select2();
+        // Search kecamatan //
+        $('#id_kecamatan_asal, #id_kecamatan_tujuan').select2({
+            placeholder: '[pilih]',
+            ajax: {
+                url : '{{ route("searchkecamatan") }}',
+                dataType: 'json',
+                delay: 250, // Delay sebelum pencarian dimulai
+                data: function (params) {
+                    return {
+                        q: params.term // Kata kunci yang diketik
+                    };
+                },
+                processResults: function (data) {
+                    // Proses hasil dari response dan tampilkan di select2
+                    return {
+                        results: data.results.map(function(item) {
+                            return {
+                                id: item.id,
+                                text: item.text
+                            };
+                        })
+                    };
+                },
+                cache: true
+            },
+            minimumInputLength: 1, // Mulai pencarian setelah mengetik 1 karakter
+        });
     });
 
     // GET FILTER //

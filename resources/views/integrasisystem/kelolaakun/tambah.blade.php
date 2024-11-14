@@ -23,68 +23,82 @@
                 @endfor
             </div>
             {{-- CONTENT --}}
-                <div class="row align-items-center no-gutters mb-3">
-                    <div class="col-auto mr-3">
-                        <a href="{{ URL::to('integrasisystem/kelolaakun') }}" class="btn btn-primary rounded-circle"><i class="fa-solid fa-chevron-left"></i></a>
+                <h6><i class="fa-solid fa-house"></i> / Integrasi System / Kelola akun / <span class="text-primary">Tambah akun</span></h6>
+                <hr>
+
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
-                    <div class="col-auto">
-                        <h6 class="mb-0"><b>Mitra</b> / Kelola Akun / Tambah Akun</h6>
-                    </div>
-                </div>
-                <div class="card p-3" style="max-width: 1000px">
-                    @if ($errors->any())
-                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                    @endif
-                    
+                @endif
+
+                <div style="max-width: 700px">
                     <form action="{{ URL::to('integrasisystem/kelolaakun/save') }}" method="post">
                         @csrf
                         <div class="row mb-3">
-                            <div class="col-md-6">
+                            <div class="col-6">
                                 <div class="form-group">
-                                    <label>Outlet</label>
-                                    <input class="form-control" type="text" value="{{ Auth::user()->outlet->kode_agen }}" readonly>
-                                    <input type="hidden" name="id_outlet" value="{{ Auth::user()->id_outlet }}">
+                                    <label>Nama lengkap</label>
+                                    <input type="text" class="form-control form-control-sm @error('nama') is-invalid @enderror" name="nama" value="{{ old('nama') }}" autofocus="on">
+                                    @error('nama')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label>Nama <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="nama" value="{{ old('nama') }}" required>
+                                    <label>Outlet asal</label>
+                                    <select class="form-control form-control-sm @error('id_outlet') is-invalid @enderror" name="id_outlet" id="searchoutlet"></select>
+                                    @error('id_outlet')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label>Tipe <span class="text-danger">*</span></label>
-                                    <select class="form-control" name="role" required>
-                                        <option value="">Pilih</option>
-                                        <option value="master" {{ old('role') == 'master' ? 'selected' : '' }} >Master</option>
-                                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                    <label>Tipe user</label>
+                                    <select class="form-control form-control-sm @error('role') is-invalid @enderror" name="role">
+                                        <option value="">[pilih]</option>
+                                        <option value="gm" {{ old('role') == 'gm' ? 'selected' : '' }} >Grand master</option>
+                                        {{-- <option value="master" {{ old('role') == 'master' ? 'selected' : '' }} >Master admin</option> --}}
+                                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Staff admin</option>
+                                        <option value="gudang" {{ old('role') == 'gudang' ? 'selected' : '' }}>Staff gudang</option>
+                                        {{-- <option value="kurir" {{ old('role') == 'kurir' ? 'selected' : '' }}>Kurir / sprinter</option> --}}
                                     </select>
-                                </div>
-                                {{-- <div class="form-group">
-                                    <label>Username <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" name="username" required>
-                                </div> --}}
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label>Password <span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control" name="password" required>
+                                    @error('role')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label>Confirm Password <span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control" name="confirm_password" required>
+                                    <label>Password</label>
+                                    <input type="password" id="password" class="form-control form-control-sm @error('password') is-invalid @enderror" name="password">
+                                    @error('password')
+                                        <div class="invalid-feedback">
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Confirm Password</label>
+                                    <input type="password" id="confirm_password" class="form-control form-control-sm" name="password_confirmation">
+                                    <div id="password-match-feedback" class="invalid-feedback d-none">
+                                        Passwords tidak sama
+                                    </div>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">
-                                <button class="btn btn-primary btn-sm mr-2" type="submit" name="submit"><i class="fa-solid fa-plus"></i> Tambah Akun</button>
+                            <div class="col-6">
+                                <button class="btn btn-primary btn-sm w-100" type="submit" name="submit"><i class="fa-solid fa-plus"></i> Tambah akun</button>
                             </div>
                         </div>
                     </form>
@@ -102,4 +116,52 @@
         </div>
     </footer>
 </div>
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function() {
+        // Search outlet Select 2 //
+        $('#searchoutlet').select2({
+            placeholder: '[pilih]',
+            ajax: {
+                url : '{{ route("searchoutlet") }}',
+                dataType: 'json',
+                delay: 250, // Delay sebelum pencarian dimulai
+                data: function (params) {
+                    return {
+                        q: params.term // Kata kunci yang diketik
+                    };
+                },
+                processResults: function (data){
+                    return {
+                        results: data.results.map(function(item) {
+                            return {
+                                id: item.id,
+                                text: item.text
+                            }
+                        })
+                    };
+                },
+                cache: true
+            },
+            minimumInputLength: 1, // Mulai pencarian setelah mengetik 1 karakter
+        });
+    });
+
+    // Matching Password
+    document.getElementById('confirm_password').addEventListener('input', function () {
+        const password = document.getElementById('password').value;
+        const confirmPassword = this.value;
+        const feedback = document.getElementById('password-match-feedback');
+
+        if (confirmPassword === password) {
+            feedback.classList.add('d-none');
+            this.classList.remove('is-invalid');
+        } else {
+            feedback.classList.remove('d-none');
+            this.classList.add('is-invalid');
+        }
+    });
+</script>
 @endsection

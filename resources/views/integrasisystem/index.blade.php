@@ -23,6 +23,9 @@
                 @endfor
             </div>
             {{-- CONTENT --}}
+                <h6><i class="fa-solid fa-house"></i> / <span class="text-primary">Integrasi System</span></h6>
+                <hr>
+
                 <div class="row justify-content-center mt-5">
                     <div class="col-auto text-center">
                         <img src="{{ asset('img/img8.png') }}" alt="">

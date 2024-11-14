@@ -110,14 +110,14 @@ class DatabaseSeeder extends Seeder
         User::create([
             'id_outlet' => 'ax5xtz19aa',
             'nama' => 'Annisa',
-            'username' => 'PNK89',
+            'username' => 'PNK89001',
             'password' => bcrypt('root'),
             'role' => 'gm',
         ]);
         User::create([
             'id_outlet' => 'h7z8maryd5',
             'nama' => 'Ellen',
-            'username' => 'PNK001A',
+            'username' => 'PNK001A001',
             'password' => bcrypt('root'),
             'role' => 'admin',
         ]);

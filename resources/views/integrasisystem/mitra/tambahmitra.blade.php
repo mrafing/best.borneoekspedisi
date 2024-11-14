@@ -23,26 +23,27 @@
                 @endfor
             </div>
             {{-- CONTENT --}}
-                <h6 class="mb-3"><b>Tambah Mitra Baru</b></h6>
+                <h6><i class="fa-solid fa-house"></i> / Integrasi System / Mitra / <span class="text-primary">Tambah mitra</span></h6>
                 <hr>
+
                 <form action="{{ URL::to('integrasisystem/mitra/save') }}" method="post">
                     @csrf
-                    <div style="max-width: 500px">
+                    <div style="max-width: 400px">
                         <div>
-                            <h4 class="text-primary"># Data Pendaftar</h4>
+                            <h5># Data Pendaftar</h5>
                             <hr>
                             <div class="form-group">
                                 <label for="tipe">Tipe</label>
-                                <select class="form-control" id="tipe" name="tipe" required>
-                                    <option value="">Pilih</option>
+                                <select class="form-control form-control-sm" id="tipe" name="tipe" required>
+                                    <option value="">[pilih]</option>
                                     <option value="perusahaan">Perusahaan</option>
                                     <option value="perorangan">Perorangan</option>
-                                    <option value="customer priority">Customer Priority</option>
+                                    {{-- <option value="customer priority">Customer Priority</option> --}}
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="nama_pendaftar">Nama Pendaftar</label>
-                                <input type="text" class="form-control @error('nama_pendaftar') is-invalid @enderror" id="nama_pendaftar" name="nama_pendaftar" value="{{ old('nama_pendaftar') }}" required placeholder="Cth: Budi Setiawan">
+                                <label for="nama_pendaftar">Nama pendaftar</label>
+                                <input type="text" class="form-control form-control-sm @error('nama_pendaftar') is-invalid @enderror" id="nama_pendaftar" name="nama_pendaftar" value="{{ old('nama_pendaftar') }}" required placeholder="Cth: Budi Setiawan">
                                 @error('nama_pendaftar')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -50,8 +51,8 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="nama_pendaftar">Nama Mitra</label>
-                                <input type="text" class="form-control @error('nama_mitra') is-invalid @enderror" id="nama_mitra" name="nama_mitra" value="{{ old('nama_mitra') }}" required placeholder="Cth: PT. Borneo Citra Express">
+                                <label for="nama_pendaftar">Nama mitra</label>
+                                <input type="text" class="form-control form-control-sm @error('nama_mitra') is-invalid @enderror" id="nama_mitra" name="nama_mitra" value="{{ old('nama_mitra') }}" required placeholder="Cth: PT. Borneo Citra Express">
                                 @error('nama_mitra')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -59,8 +60,8 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="nomor_kontak">Nomor Kontak</label>
-                                <input type="number" class="form-control @error('nomor_kontak') is-invalid @enderror" id="nomor_kontak" name="nomor_kontak" value="{{ old('nomor_kontak') }}" required placeholder="Cth: 0895xxxxxxxx">
+                                <label for="nomor_kontak">Nomor kontak</label>
+                                <input type="number" class="form-control form-control-sm @error('nomor_kontak') is-invalid @enderror" id="nomor_kontak" name="nomor_kontak" value="{{ old('nomor_kontak') }}" required placeholder="Cth: 0895xxxxxxxx">
                                 @error('nomor_kontak')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -68,14 +69,19 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                <label for="alamat_pendaftar">Alamat Pendaftar</label>
-                                <input type="text" class="form-control" id="alamat_pendaftar" name="alamat_pendaftar" value="{{ old('alamat_pendaftar') }}" required placeholder="Cth: Jl. Prof. M. Yamin Gg. Amanah No.12">
+                                <label for="alamat_pendaftar">Alamat pendaftar</label>
+                                <input type="text" class="form-control form-control-sm @error('alamat_pendaftar') is-invalid @enderror" id="alamat_pendaftar" name="alamat_pendaftar" value="{{ old('alamat_pendaftar') }}" required placeholder="Cth: Jl. Prof. M. Yamin Gg. Amanah No.12">
+                                @error('alamat_pendaftar')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
                             </div>
                         </div>
                         <div id="resulttipe" class="mt-5">
                         </div>
+                        <button class="btn btn-primary btn-sm w-100" type="submit">+ Tambah</button>
                     </div>
-                    <button class="btn btn-primary btn-sm" type="submit">+ Tambahkan</button>
                 </form>
             {{-- END CONTENT --}}
         </div>
@@ -93,24 +99,24 @@
 @endsection
 
 @section('script')
-    <script>
-        $(document).ready(function () {
-            $('#tipe').change(function () {
-                var tipe = $(this).val();
-                $.ajax({
-                    type: 'GET',
-                    url: '{{ route("resulttipe") }}',
-                    data: {
-                        tipe: tipe
-                    },
-                    success: function (response) {
-                        $('#resulttipe').html(response);
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });
+<script>
+    $(document).ready(function () {
+        $('#tipe').change(function () {
+            var tipe = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: '{{ route("resulttipe") }}',
+                data: {
+                    tipe: tipe
+                },
+                success: function (response) {
+                    $('#resulttipe').html(response);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
             });
         });
-    </script>
+    });
+</script>
 @endsection

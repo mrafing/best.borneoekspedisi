@@ -26,14 +26,8 @@
             </div>
             {{-- CONTENT --}}
             <div class="container m-0">
-                <div class="row align-items-center no-gutters mb-3">
-                    <div class="col-auto mr-3">
-                        <a href="{{ URL::to("integrasisystem/mitra") }}" class="btn btn-primary rounded-circle"><i class="fa-solid fa-chevron-left"></i></a>
-                    </div>
-                    <div class="col-auto">
-                        <h6 class="mb-0"><b>Daftar Mitra</b> / Detail Mitra</h6>
-                    </div>
-                </div>
+                <h6><i class="fa-solid fa-house"></i> / Integrasi System / Mitra / <span class="text-primary">Detail mitra</span></h6>
+                <hr>
 
                 @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -60,119 +54,110 @@
                 <form action="{{ URL::to('integrasisystem/mitra/update') }}" method="post">
                     @csrf
                     <input type="hidden" name="id" value="{{ $data->id }}">
-                    <h5 class="font-weight-bold">Info Mitra</h5>
-                    <div class="card p-3 mb-5">
-                        <div class="row mb-2">
-                            <div class="col-sm">
-                                <table>
-                                    <tr>
-                                        <td><p class="mb-1" style="width: 160px;">Tipe Mitra</p></td>
-                                        <td class="d-flex" >
-                                            <p class="mb-0 mr-1">:</p>
-                                            <input class="form-control form-control-sm" type="text" name="tipe" value="{{ $data->tipe }}" readonly>    
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><p class="mb-1" >Pendaftar <span class="text-danger">*</span></p></td>
-                                        <td class="d-flex">
-                                            <p class="mb-0 mr-1">:</p>
-                                            <input class="form-control form-control-sm" type="text" name="nama_pendaftar" value="{{ $data->nama_pendaftar }}" required>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><p class="mb-1" >Nama Mitra<span class="text-danger">*</span></p></td>
-                                        <td class="d-flex">
-                                            <p class="mb-0 mr-1">:</p>
-                                            <input class="form-control form-control-sm" type="text" name="nama_mitra" value="{{ $data->nama_mitra }}" required>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><p class="mb-1" >Kontak Pendaftar <span class="text-danger">*</span></p></td>
-                                        <td class="d-flex">
-                                            <p class="mb-0 mr-1">:</p>
-                                            <input class="form-control form-control-sm" type="text" name="nomor_kontak" value="{{ $data->nomor_kontak }}" required>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td><p class="mb-1" >Alamat Pendaftar <span class="text-danger">*</span></p></td>
-                                        <td class="d-flex align-items-center">
-                                            <p class="mb-0 mr-1">:</p>
-                                            <textarea class="form-control" name="alamat_pendaftar" cols="auto">{{ $data->alamat_pendaftar }}</textarea>
-                                        </td>
-                                    </tr>
-                                </table>            
+                    <div class="row mb-2">
+                        <div class="col-lg-6">
+                            <div class="form-group row align-items-baseline">
+                                <label class="col-4 col-form-label">Tipe mitra</label>
+                                <div class="col-7 d-flex">
+                                    <p class="mb-0 mr-2">:</p>
+                                    <input class="form-control form-control-sm" type="text" name="tipe" value="{{ $data->tipe }}" readonly>
+                                </div>
                             </div>
-                            @if ($data->tipe == "perusahaan")
-                                <div class="col">
-                                    <table>
-                                        <tr>
-                                            <td><p class="mb-1" style="width: 160px;">Nama Perusahaan <span class="text-danger">*</span></p></td>
-                                            <td class="d-flex">
-                                                <p class="mb-0 mr-1">:</p>
-                                                <input class="form-control form-control-sm" type="text" name="nama_perusahaan" value="{{ $data->nama_perusahaan }}" required>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><p class="mb-1" >Owner Perusahaan <span class="text-danger">*</span></p></td>
-                                            <td class="d-flex">
-                                                <p class="mb-0 mr-1">:</p>
-                                                <input class="form-control form-control-sm" type="text" name="nama_pemimpin_perusahaan" value="{{ $data->nama_pemimpin_perusahaan }}" required>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><p class="mb-1" >Alamat Perusahaan <span class="text-danger">*</span></p></td>
-                                            <td class="d-flex align-items-center">
-                                                <p class="mb-0 mr-1">:</p>
-                                                <textarea class="form-control" name="alamat_perusahaan">{{ $data->alamat_perusahaan }}</textarea>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><p class="mb-1" >Kategori Perusahaan <span class="text-danger">*</span></p></td>
-                                            <td class="d-flex">
-                                                <p class="mb-0 mr-1">:</p>
-                                                <input class="form-control form-control-sm" type="text" name="kategori_perusahaan" value="{{ $data->kategori_perusahaan }}" required>
-                                            </td>
-                                        </tr>
-                                    </table>            
+                            <div class="form-group row align-items-baseline">
+                                <label class="col-4 col-form-label">Pendaftar</label>
+                                <div class="col-7 d-flex">
+                                    <p class="mb-0 mr-2">:</p>
+                                    <input class="form-control form-control-sm" type="text" name="nama_pendaftar" value="{{ $data->nama_pendaftar }}" required>
                                 </div>
-                            @elseif($data->tipe == "customer priority")
-                                <div class="col">
-                                    <table>
-                                        <tr>
-                                            <td><p class="mb-1" style="width: 160px;">Nama Toko <span class="text-danger">*</span></p></td>
-                                            <td class="d-flex">
-                                                <p class="mb-0 mr-1">:</p>
-                                                <input class="form-control form-control-sm" type="text" name="nama_toko" value="{{ $data->nama_toko }}" required>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><p class="mb-1" style="width: 160px;">Produk <span class="text-danger">*</span></p></td>
-                                            <td class="d-flex">
-                                                <p class="mb-0 mr-1">:</p>
-                                                <input class="form-control form-control-sm" type="text" name="jenis_produk_toko" value="{{ $data->jenis_produk_toko }}" required>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><p class="mb-1" >Alamat Toko <span class="text-danger">*</span></p></td>
-                                            <td class="d-flex align-items-center">
-                                                <p class="mb-0 mr-1">:</p>
-                                                <textarea class="form-control" name="alamat_toko">{{ $data->alamat_toko }}</textarea>
-                                            </td>
-                                        </tr>
-                                    </table>            
+                            </div>
+                            <div class="form-group row align-items-baseline">
+                                <label class="col-4 col-form-label">Nama mitra</label>
+                                <div class="col-7 d-flex">
+                                    <p class="mb-0 mr-2">:</p>
+                                    <input class="form-control form-control-sm" type="text" name="nama_mitra" value="{{ $data->nama_mitra }}" required>
                                 </div>
-                            @endif
+                            </div>
+                            <div class="form-group row align-items-baseline">
+                                <label class="col-4 col-form-label">Kontak pendaftar</label>
+                                <div class="col-7 d-flex">
+                                    <p class="mb-0 mr-2">:</p>
+                                    <input class="form-control form-control-sm" type="text" name="nomor_kontak" value="{{ $data->nomor_kontak }}" required>
+                                </div>
+                            </div>
+                            <div class="form-group row align-items-baseline">
+                                <label class="col-4 col-form-label">Alamat pendaftar</label>
+                                <div class="col-7 d-flex">
+                                    <p class="mb-0 mr-2">:</p>
+                                    <textarea class="form-control" name="alamat_pendaftar" cols="auto">{{ $data->alamat_pendaftar }}</textarea>
+                                </div>
+                            </div>
                         </div>
-                        <div class="row p-2">
-                            <button class="col-auto btn btn-primary btn-sm mr-2" type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan</button>
-                        </div>
+                        @if ($data->tipe == "perusahaan")
+                            <div class="col-lg-6">
+                                <div class="form-group row align-items-baseline">
+                                    <label class="col-4 col-form-label">Nama perusahaan</label>
+                                    <div class="col-7 d-flex">
+                                        <p class="mb-0 mr-2">:</p>
+                                        <input class="form-control form-control-sm" type="text" name="nama_perusahaan" value="{{ $data->nama_perusahaan }}" required>
+                                    </div>
+                                </div>  
+                                <div class="form-group row align-items-baseline">
+                                    <label class="col-4 col-form-label">Owner perusahaan</label>
+                                    <div class="col-7 d-flex">
+                                        <p class="mb-0 mr-2">:</p>
+                                        <input class="form-control form-control-sm" type="text" name="nama_pemimpin_perusahaan" value="{{ $data->nama_pemimpin_perusahaan }}" required>
+                                    </div>
+                                </div>  
+                                <div class="form-group row align-items-baseline">
+                                    <label class="col-4 col-form-label">Alamat perusahaan</label>
+                                    <div class="col-7 d-flex">
+                                        <p class="mb-0 mr-2">:</p>
+                                        <textarea class="form-control" name="alamat_perusahaan">{{ $data->alamat_perusahaan }}</textarea>
+                                    </div>
+                                </div>  
+                                <div class="form-group row align-items-baseline">
+                                    <label class="col-4 col-form-label">Kategori perusahaan</label>
+                                    <div class="col-7 d-flex">
+                                        <p class="mb-0 mr-2">:</p>
+                                        <input class="form-control form-control-sm" type="text" name="kategori_perusahaan" value="{{ $data->kategori_perusahaan }}" required>
+                                    </div>
+                                </div>  
+                            </div>
+                        @elseif($data->tipe == "customer priority")
+                            <div class="col-lg-6">
+                                <div class="form-group row align-items-baseline">
+                                    <label class="col-4 col-form-label">Nama toko</label>
+                                    <div class="col-7 d-flex">
+                                        <p class="mb-0 mr-2">:</p>
+                                        <input class="form-control form-control-sm" type="text" name="nama_toko" value="{{ $data->nama_toko }}" required>
+                                    </div>
+                                </div>  
+                                <div class="form-group row align-items-baseline">
+                                    <label class="col-4 col-form-label">Produk</label>
+                                    <div class="col-7 d-flex">
+                                        <p class="mb-0 mr-2">:</p>
+                                        <input class="form-control form-control-sm" type="text" name="jenis_produk_toko" value="{{ $data->jenis_produk_toko }}" required>
+                                    </div>
+                                </div>  
+                                <div class="form-group row align-items-baseline">
+                                    <label class="col-4 col-form-label">Alamat toko</label>
+                                    <div class="col-7 d-flex">
+                                        <p class="mb-0 mr-2">:</p>
+                                        <textarea class="form-control" name="alamat_toko">{{ $data->alamat_toko }}</textarea>
+                                    </div>
+                                </div>        
+                            </div>
+                        @endif
                     </div>
+                    <button class="col-auto btn btn-primary btn-sm mr-2" type="submit"><i class="fa-solid fa-floppy-disk"></i> Simpan perubahan</button>
                 </form>
 
+                <hr>
+
                 {{-- List Outlet --}}
-                    <div class="d-flex justify-content-between mb-3">
-                        <h5 class="font-weight-bold mb-0">Daftar Outlet dari Mitra {{ strtoupper($data->nama_mitra) }}</h5>
-                        <a href="{{ URL::to("integrasisystem/mitra/tambahoutlet/$data->id") }}" class="btn btn-primary btn-sm"><i class="fa-solid fa-plus"></i> Tambah Outlet</a>
+                    <div class="mb-3">
+                        <h5>Daftar outlet mitra {{ strtoupper($data->nama_mitra) }}</h5>
+                        <a href="{{ URL::to("integrasisystem/mitra/tambahoutlet/$data->id") }}" class="btn btn-secondary btn-sm"><i class="fa-solid fa-plus"></i> Tambah outlet</a>
                     </div>
                     <div id="accordion">
                         @if($listoutlet->count() > 0 )
@@ -180,7 +165,7 @@
                                 <div class="card mb-3">
                                     <div class="card-header p-0">
                                         <button class="btn d-flex justify-content-between p-3 w-100" data-toggle="collapse" data-target="#collapseOne{{ $outlet->id }}">
-                                            <p class="mb-0">ID Outlet : {{ $outlet->kode_agen }}</p>
+                                            <p class="mb-0">Id outlet : {{ $outlet->kode_agen }}</p>
                                             <p class="mb-0">{{ strtoupper($outlet->tipe) }}</p>
                                             <div class="mb-0 align-items-center d-flex">
                                                 <i class="fa-solid fa-circle fa-xs mr-1 {{ ($outlet->status === "active") ? 'text-success' : 'text-danger'  }}"></i> 
@@ -197,14 +182,14 @@
                                                 <input type="hidden" name="id_mitra" value="{{ $outlet->id_mitra }}">
                                                 <div class="row">
                                                     <div class="col-lg-6">
-                                                        <div class="form-group row mb-0">
+                                                        <div class="form-group row">
                                                             <label class="col-4 col-form-label">Kode Agen</label>
                                                             <div class="col-8 d-flex">
                                                                 <p class="mb-0 mr-2">:</p>
                                                                 <input type="text" class="form-control form-control-sm" name="kode_agen" value="{{ $outlet->kode_agen }}" required>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group row mb-0">
+                                                        <div class="form-group row">
                                                             <label class="col-4 col-form-label">Tipe</label>
                                                             <div class="col-8 d-flex">
                                                                 <p class="mb-0 mr-2">:</p>
@@ -216,39 +201,39 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group row mb-2">
+                                                        <div class="form-group row">
                                                             <label class="col-4 col-form-label">Alamat</label>
                                                             <div class="col-8 d-flex">
                                                                 <p class="mb-0 mr-2">:</p>
-                                                                <textarea class="form-control" name="alamat" required>{{ $outlet->alamat }}</textarea>
+                                                                <textarea class="form-control form-control-sm" name="alamat" required>{{ $outlet->alamat }}</textarea>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group row mb-2">
+                                                        <div class="form-group row">
                                                             <label class="col-4 col-form-label">Customer Service</label>
                                                             <div class="col-8 d-flex">
                                                                 <p class="mb-0 mr-2">:</p>
-                                                                <input type="text" class="form-control" name="nama_cs" value="{{ $outlet->nama_cs }}" required>
+                                                                <input type="text" class="form-control form-control-sm" name="nama_cs" value="{{ $outlet->nama_cs }}" required>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group row mb-2">
+                                                        <div class="form-group row">
                                                             <label class="col-4 col-form-label">Kecamatan</label>
                                                             <div class="col-8 d-flex">
                                                                 <p class="mb-0 mr-2">:</p>
-                                                                <select class="form-control" name="id_kecamatan" required> 
+                                                                <select class="form-control form-control-sm" name="id_kecamatan" required> 
                                                                     <option value="{{ $outlet->id_kecamatan }}" selected>{{ $outlet->id_kecamatan }}</option>
                                                                 </select>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6">
-                                                        <div class="form-group row mb-0">
+                                                        <div class="form-group row">
                                                             <label class="col-4 col-form-label">Kontak Agen</label>
                                                             <div class="col-8 d-flex">
                                                                 <p class="mb-0 mr-2">:</p>
                                                                 <input type="text" class="form-control form-control-sm" name="nomor_kontak" value="{{ $outlet->nomor_kontak }}" required>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group row mb-0">
+                                                        <div class="form-group row">
                                                             <label class="col-4 col-form-label">Lokasi</label>
                                                             <div class="col-8 d-flex">
                                                                 <p class="mb-0 mr-2">:</p>
@@ -262,7 +247,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group row mb-0">
+                                                        <div class="form-group row">
                                                             <label class="col-4 col-form-label">Status Bangunan</label>
                                                             <div class="col-8 d-flex">
                                                                 <p class="mb-0 mr-2">:</p>
@@ -273,7 +258,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group row mb-0">
+                                                        <div class="form-group row">
                                                             <label class="col-4 col-form-label">Jenis Bangunan</label>
                                                             <div class="col-8 d-flex">
                                                                 <p class="mb-0 mr-2">:</p>
@@ -285,7 +270,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
-                                                        <div class="form-group row mb-0">
+                                                        <div class="form-group row">
                                                             <label class="col-4 col-form-label">Status</label>
                                                             <div class="col-8 d-flex">
                                                                 <p class="mb-0 mr-2">:</p>

@@ -24,7 +24,7 @@
                 @endfor
             </div>
             {{-- CONTENT --}}
-                <h6 class="mb-3"><b>Kelola Akun</b></h6>
+                <h6><i class="fa-solid fa-house"></i> / Integrasi System / <span class="text-primary">Kelola akun</span></h6>
                 <hr>
 
                 @if (session('success'))
@@ -36,47 +36,41 @@
                     </div>
                 @endif
 
-                <a href="{{ URL::to('integrasisystem/kelolaakun/tambah') }}" class="btn btn-primary mb-3">+ Tambah Akun</a>
+                <a href="{{ URL::to('integrasisystem/kelolaakun/tambah') }}" class="btn btn-secondary btn-sm mb-2">+ Tambah akun</a>
                 <table class="table table-bordered table-hover shadow rounded" id="table">
                     <thead>
-                        <tr>
-                            <th><p class="text-center mb-0">ID</p></th>
-                            <th><p class="text-center mb-0">OUTLET</p></th>
-                            <th><p class="text-center mb-0">NAMA</p></th>
-                            <th><p class="text-center mb-0">USERNAME</p></th>
-                            <th><p class="text-center mb-0">TIPE</p></th>
-                            <th class="bg-white border shadow" style="position: sticky; right: 0; z-index: 2; max-width: 50px;">
-                                <p class="text-center mb-0"><i class="fa-solid fa-gear"></i></p>
-                            </th>
+                        <tr class="bg-secondary text-light">
+                            <th class="border shadow" style="position: sticky; left: 0; z-index: 2; max-width: 50px;"><i class="fa-solid fa-gear"></i></th>
+                            <th style="white-space: nowrap;"><small>Id</small></th>
+                            <th style="white-space: nowrap;"><small>Kode Outlet</small></th>
+                            <th style="white-space: nowrap;"><small>Nama</small></th>
+                            <th style="white-space: nowrap;"><small>Username</small></th>
+                            <th style="white-space: nowrap;"><small>Tipe</small></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ( $listuser as $data )
-                            <tr class="text-center">
-                                <td class="align-middle"><p class="mb-0">{{ $data->id }}</p></td>
-                                <td class="align-middle"><p class="mb-0">{{ $data->outlet->kode_agen }}</p></td>
-                                <td class="align-middle"><p class="mb-0">{{ $data->nama }}</p></td>
-                                <td class="align-middle"><p class="mb-0">{{ $data->username }}</p></td>
-                                <td class="align-middle"><p class="mb-0">{{ $data->role }}</p></td>
-                                <td class="align-middle bg-white border shadow" style="position: sticky; right: 0; z-index: 2;">
-                                    <a href="" class="btn btn-sm border mb-1">
-                                        <i class="fa-solid fa-pen-to-square text-primary"></i>
+                        @foreach ( $listuser as $data )
+                            <tr>
+                                <td class="bg-white border shadow d-flex" style="position: sticky; left: 0; z-index: 2;">
+                                    <a href="#" class="btn btn-sm btn-primary mr-1">
+                                        <i class="fa-solid fa-pen-to-square"></i>
                                     </a>
                                     <form action="{{ URL::to('integrasisystem/kelolaakun/hapus') }}" method="post" onSubmit="if(!confirm('yakin ingin menghapus Akun?')){return false;}">
                                         @method('delete')
                                         @csrf
                                         <input type="hidden" name="id" value="{{ $data->id }}">
-                                        <button href="" class="btn btn-sm border">
-                                            <i class="fa-solid fa-trash text-danger"></i>
+                                        <button href="" class="btn btn-sm btn-danger">
+                                            <i class="fa-solid fa-trash"></i>
                                         </button>
                                     </form>
                                 </td>
+                                <td class="td-truncate"><small>{{ $data->id }}</small></td>
+                                <td class="td-truncate"><small>{{ $data->outlet->kode_agen }}</small></td>
+                                <td class="td-truncate"><small>{{ $data->nama }}</small></td>
+                                <td class="td-truncate"><small>{{ $data->username }}</small></td>
+                                <td class="td-truncate"><small>{{ $data->role }}</small></td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center"><small>Not Found</small></td>
-                            </tr>
-                        @endforelse
+                        @endforeach
                     </tbody>
                 </table>
             {{-- END CONTENT --}}
@@ -97,7 +91,8 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            var table = $('#table').DataTable({
+            // Datatable
+            $('#table').DataTable({
                 lengthMenu:[[10,25,50,-1], [10,25,50, "All"]]
             });
         });
